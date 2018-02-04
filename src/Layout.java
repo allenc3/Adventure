@@ -38,6 +38,7 @@ public class Layout {
      * Custom equals to method to compare two Layout objects.
      * @param another another Layout object
      * @return true if two Layout objects are equal, false otherwise.
+     * @throws IllegalArgumentException if input is null
      */
     public boolean equals(Layout another){
         if(another == null) {

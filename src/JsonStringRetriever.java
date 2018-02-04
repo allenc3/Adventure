@@ -8,6 +8,8 @@ import java.net.URL;
 
 /**
  * Makes API requests, retrieves JSON file according to provided url, and returns it as a string.
+ * Citation (class below derived from Professor Evans in-class demo):
+ * https://github.com/zillesc/WashingtonPost
  */
 public class JsonStringRetriever {
 
@@ -15,14 +17,19 @@ public class JsonStringRetriever {
      * HTTP response status code: 200 means OK(the request succeeded)
      */
     private static final int STATUS_OK = 200;
+
+    /**
+     * Url to be parsed.
+     */
     public static String url = "https://courses.engr.illinois.edu/cs126/adventure/siebel.json";
+
 
 
     /**
      * Checks validity of url, prints error message if an exception was thrown, and terminates program.
      * @param url the url to be checked.
      */
-    public static void checkUrl(String url) {
+    public static boolean urlIsValid(String url) {
         if(url == null){
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
@@ -30,19 +37,19 @@ public class JsonStringRetriever {
             convertUrlToString(url);
         } catch (UnirestException e) {
             System.out.println("Network not responding");
-            System.exit(1);
+            return false;
         } catch (MalformedURLException e) {
             System.out.println("Bad URL: " + url);
-            System.exit(1);
+            return false;
         }
+        return true;
     }
 
     /**
-     * Citation: Code provided by Professor Evans during demonstration FINISH CITATION!!!
-     * Makes API request according to provided url and returns the string form of the josn file.
+     * Makes API request according to provided url and returns the string form of the json file.
      * @param url the url that provides the json file.
      * @return the string form of the json file.
-     * @throws UnirestException
+     * @throws UnirestException if network is not responding.
      * @throws MalformedURLException if url is invalid.
      */
     public static String convertUrlToString(String url) throws UnirestException, MalformedURLException {
@@ -62,7 +69,9 @@ public class JsonStringRetriever {
         if (jsonAsString.getStatus() == STATUS_OK) {
             return jsonAsString.getBody();
         }
-        // Returns null if other problems occur.
-        return null;
+        else{
+            System.out.println(jsonAsString.getStatus());
+            throw new IllegalArgumentException(ErrorConstants.FAULTY_URL);
+        }
     }
 }

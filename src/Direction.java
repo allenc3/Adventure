@@ -28,6 +28,7 @@ public class Direction {
      * Custom equals to method that compares two Direction objects
      * @param another another Direction object
      * @return true if two Direction objects are equal, false otherwise.
+     * @throws IllegalArgumentException if input is null
      */
     public boolean equals(Direction another){
         if(another == null) {
@@ -45,6 +46,7 @@ public class Direction {
      * @param arr1 first Direction array
      * @param arr2 second Direction array
      * @return true if the two array contain equal Direction objects, false otherwise.
+     * @throws IllegalArgumentException if input is null
      */
     @SuppressWarnings("Duplicates")
     public static boolean arrayEquals(Direction[] arr1, Direction[] arr2){
