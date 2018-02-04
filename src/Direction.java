@@ -26,24 +26,32 @@ public class Direction {
 
     /**
      * Custom equals to method that compares two Direction objects
-     * @param other
-     * @return
+     * @param another another Direction object
+     * @return true if two Direction objects are equal, false otherwise.
      */
-    public boolean equals(Direction other){
-        if(this.directionName.equals(other.directionName) && this.room.equals(other.room)){
+    public boolean equals(Direction another){
+        if(another == null) {
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+
+        if(this.directionName.equals(another.directionName) && this.room.equals(another.room)){
             return true;
         }
         return false;
     }
 
     /**
-     *
-     * @param arr1
-     * @param arr2
-     * @return
+     * Compares if two arrays of Direction objects are equal.
+     * @param arr1 first Direction array
+     * @param arr2 second Direction array
+     * @return true if the two array contain equal Direction objects, false otherwise.
      */
     @SuppressWarnings("Duplicates")
     public static boolean arrayEquals(Direction[] arr1, Direction[] arr2){
+        if(arr1 == null || arr2 == null) {
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+
         if(arr1.length == arr2.length){
             for (int i = 0; i < arr1.length; i++) {
                 if(!arr1[i].equals(arr2[i])){
@@ -54,8 +62,5 @@ public class Direction {
         }
         return false;
     }
-
-
-
 }
 

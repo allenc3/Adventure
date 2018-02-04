@@ -41,11 +41,15 @@ public class Room {
 
 
     /**
-     * Custom equals to method to comapre two Room objects
-     * @param another
-     * @return
+     * Custom equals to method to compare two Room objects
+     * @param another another Room object
+     * @return true if two Room objects are equal, false otherwise.
      */
      public boolean equals(Room another){
+         if(another == null) {
+             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+         }
+         
          if(this.name.equals(another.name) && this.description.equals(another.description)
                  && Arrays.deepEquals(this.getItems(), another.getItems())
                  && Direction.arrayEquals(this.getDirections(), another.getDirections())) {
@@ -56,13 +60,17 @@ public class Room {
 
 
     /**
-     *
-     * @param arr1
-     * @param arr2
-     * @return
+     * Compares if two arrays of Room objects are equal.
+     * @param arr1 first Room array
+     * @param arr2 second Room array
+     * @return true if the two array contain equal Room objects, false otherwise.
      */
     @SuppressWarnings("Duplicates")
     public static boolean arrayEquals(Room[] arr1, Room[] arr2){
+        if(arr1 == null || arr2 == null) {
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+
         if(arr1.length == arr2.length){
             for (int i = 0; i < arr1.length; i++) {
                 if(!arr1[i].equals(arr2[i])){

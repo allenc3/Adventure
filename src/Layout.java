@@ -36,10 +36,14 @@ public class Layout {
 
     /**
      * Custom equals to method to compare two Layout objects.
-     * @param another
-     * @return
+     * @param another another Layout object
+     * @return true if two Layout objects are equal, false otherwise.
      */
     public boolean equals(Layout another){
+        if(another == null) {
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+
         if(this.startingRoom.equals(another.startingRoom)
                 && this.endingRoom.equals(another.endingRoom)
                 && Room.arrayEquals(this.getRooms(), another.getRooms())){
