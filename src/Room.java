@@ -1,5 +1,6 @@
 import java.util.Arrays;
 
+
 /**
  * Defines a room object.
  */
@@ -11,6 +12,7 @@ public class Room {
     private String description;
     private String[] items;
     private Direction[] directions;
+
 
     /**
      * @return name of the room
@@ -25,12 +27,21 @@ public class Room {
     public String getDescription() {
         return description;
     }
+
      /**
-      * @return a string array of the items in the room
+      * @return a string arraylist of the items in the room
       */
      public String[] getItems() {
          return items;
      }
+
+    /**
+     * Setter to change items in items array
+     * @param items the items array to be changed to.
+     */
+    public void setItems(String[] items) {
+        this.items = items;
+    }
 
      /**
       * @return a direction array that consists of the possible directions one may proceed to
@@ -38,7 +49,6 @@ public class Room {
      public Direction[] getDirections() {
          return directions;
      }
-
 
     /**
      * Custom equals to method to compare two Room objects

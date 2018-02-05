@@ -1,6 +1,9 @@
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -12,7 +15,9 @@ public class RoomTest {
 
     @Before
     public void setUp() throws Exception{
+
         Gson gson = new Gson();
+
         adventure = gson.fromJson(JsonStringRetriever
                 .convertUrlToString(JsonStringRetriever.url), Layout.class);
         roomArrForTest = gson.fromJson("[\n" +
@@ -155,7 +160,7 @@ public class RoomTest {
 
     @Test
     public void roomItems(){
-        assertArrayEquals(new String[]{"pizza", "swag"},adventure.getRooms()[2].getItems());
+        assertArrayEquals(roomArrForTest[1].getItems(), adventure.getRooms()[1].getItems());
     }
 
     @Test
