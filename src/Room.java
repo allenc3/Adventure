@@ -1,3 +1,6 @@
+import com.sun.deploy.util.ArrayUtil;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -37,10 +40,22 @@ public class Room {
 
     /**
      * Setter to change items in items array
-     * @param items the items array to be changed to.
+     * @param indexToBeRemoved the index of the item to be removed.
      */
-    public void setItems(String[] items) {
-        this.items = items;
+    public void removeItem(int indexToBeRemoved) {
+        ArrayList<String> itemArraylist = new ArrayList<String>(Arrays.asList(items));
+        itemArraylist.remove(indexToBeRemoved);
+        String[] arrWithItemRemoved = new String[itemArraylist.size()];
+        arrWithItemRemoved = itemArraylist.toArray(arrWithItemRemoved);
+        this.items = arrWithItemRemoved;
+    }
+
+    public void addItem(String itemToBeAdded) {
+        ArrayList<String> itemArraylist = new ArrayList<String>(Arrays.asList(items));
+        itemArraylist.add(itemToBeAdded);
+        String[] arrWithItemAdded = new String[itemArraylist.size()];
+        arrWithItemAdded = itemArraylist.toArray(arrWithItemAdded);
+        this.items = arrWithItemAdded;
     }
 
      /**
@@ -92,6 +107,25 @@ public class Room {
             return true;
         }
         return false;
+    }
+
+    public Direction findNextDirection(String inputDirection){
+        inputDirection = inputDirection.toLowerCase().trim();
+        for(Direction direction: directions){
+            if(direction.getDirectionName().equals(inputDirection)){
+                return direction;
+            }
+        }
+        return null;
+    }
+
+    public int findItemIndex(String inputItem) {
+        for (int i = 0; i < items.length; i++) {
+            if (items[i].equals(inputItem)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
 

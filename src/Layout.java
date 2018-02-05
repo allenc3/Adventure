@@ -52,4 +52,14 @@ public class Layout {
         }
         return false;
     }
+
+    public Room findNextRoom(String nextRoomName){
+        nextRoomName = nextRoomName.toLowerCase();
+        for(Room room: rooms){
+            if(room.getName().toLowerCase().equals(nextRoomName)){
+                return room;
+            }
+        }
+        return null;
+    }
 }
