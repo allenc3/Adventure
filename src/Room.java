@@ -127,6 +127,52 @@ public class Room {
         }
         return -1;
     }
+
+    public void printItemsInRoom(){
+        if(this.getItems().length == 0){
+            System.out.println("This room contains nothing!");
+        } else {
+            System.out.print("This room contains: ");
+
+            // Case when items = 1
+            if(this.getItems().length == 1){
+                System.out.println(this.getItems()[0]);
+            }
+            // Case when items >= 2
+            else {
+                for (int i = 0; i < this.getItems().length; i++) {
+                    if (i == this.getItems().length - 1) {
+                        System.out.println("and " + this.getItems()[i]);
+                    } else{
+                        System.out.print(this.getItems()[i] + ", ");
+                    }
+                }
+            }
+        }
+    }
+
+    public void printDirectionsToGo(){
+        if(this.getDirections().length == 0){
+            System.out.println("You can't go anywhere!");
+        } else {
+            System.out.print("From here, you can go: ");
+
+            // Case when items = 1
+            if(this.getDirections().length == 1){
+                System.out.println(this.getDirections()[0].getDirectionName());
+            }
+            // Case when items >= 2
+            else {
+                for (int i = 0; i < this.getDirections().length; i++) {
+                    if (i == this.getDirections().length - 1) {
+                        System.out.println("and " + this.getDirections()[i].getDirectionName());
+                    } else{
+                        System.out.print(this.getDirections()[i] + ", ");
+                    }
+                }
+            }
+        }
+    }
 }
 
 
