@@ -3,6 +3,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 
@@ -42,6 +43,11 @@ public class JsonStringRetriever {
             System.out.println("Bad URL: " + url);
             return false;
         }
+        // "https://" throws a URISyntaxException
+        catch (IllegalArgumentException e) {
+            System.out.println("Bad URL: " + url);
+            return false;
+        }
         return true;
     }
 
@@ -70,7 +76,6 @@ public class JsonStringRetriever {
             return jsonAsString.getBody();
         }
         else{
-            System.out.println(jsonAsString.getStatus());
             throw new IllegalArgumentException(ErrorConstants.FAULTY_URL);
         }
     }
