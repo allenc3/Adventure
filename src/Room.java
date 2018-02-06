@@ -46,33 +46,48 @@ public class Room {
         this.items = items;
     }
 
+    /**
+     * @return a direction array that consists of the possible directions one may proceed to
+     */
+    public Direction[] getDirections() {
+        return directions;
+    }
+
 
     /**
-     * Setter to change items in items array
+     * Removes item from items array.
      * @param indexToBeRemoved the index of the item to be removed.
      */
     public void removeItem(int indexToBeRemoved) {
-        ArrayList<String> itemArraylist = new ArrayList<String>(Arrays.asList(items));
-        itemArraylist.remove(indexToBeRemoved);
-        String[] arrWithItemRemoved = new String[itemArraylist.size()];
-        arrWithItemRemoved = itemArraylist.toArray(arrWithItemRemoved);
+        // Converts array to arraylist
+        ArrayList<String> itemArrayList = new ArrayList<String>(Arrays.asList(items));
+
+        // Removes item
+        itemArrayList.remove(indexToBeRemoved);
+
+        // Converts arraylist back to array and assigns the item array to it.
+        String[] arrWithItemRemoved = new String[itemArrayList.size()];
+        arrWithItemRemoved = itemArrayList.toArray(arrWithItemRemoved);
         this.items = arrWithItemRemoved;
     }
 
+    /**
+     * Adds item to items array.
+     * @param itemToBeAdded the string of the item to be added.
+     */
     public void addItem(String itemToBeAdded) {
-        ArrayList<String> itemArraylist = new ArrayList<String>(Arrays.asList(items));
-        itemArraylist.add(itemToBeAdded);
-        String[] arrWithItemAdded = new String[itemArraylist.size()];
-        arrWithItemAdded = itemArraylist.toArray(arrWithItemAdded);
+        // Converts array to arraylist
+        ArrayList<String> itemArrayList = new ArrayList<String>(Arrays.asList(items));
+
+        // Adds item
+        itemArrayList.add(itemToBeAdded);
+
+        // Converts arraylist back to array and assigns the item array to it
+        String[] arrWithItemAdded = new String[itemArrayList.size()];
+        arrWithItemAdded = itemArrayList.toArray(arrWithItemAdded);
         this.items = arrWithItemAdded;
     }
 
-     /**
-      * @return a direction array that consists of the possible directions one may proceed to
-      */
-     public Direction[] getDirections() {
-         return directions;
-     }
 
     /**
      * Custom equals to method to compare two Room objects
@@ -119,6 +134,11 @@ public class Room {
     }
 
 
+    /**
+     * Finds if a direction exists in the Direction array.
+     * @param inputDirection the direction inputted by user
+     * @return the direction object if it is found, null otherwise.
+     */
     public Direction findNextDirection(String inputDirection){
         inputDirection = inputDirection.toLowerCase().trim();
         for(Direction direction: directions){
@@ -129,6 +149,11 @@ public class Room {
         return null;
     }
 
+    /**
+     * Finds the index of a item in the item array
+     * @param inputItem the item to be searched for
+     * @return the index of the item if it is found, -1 otherwise.
+     */
     public int findItemIndex(String inputItem) {
         for (int i = 0; i < items.length; i++) {
 
@@ -139,11 +164,17 @@ public class Room {
         return -1;
     }
 
+    /**S
+     * Prints all the items in the room object.
+     */
     public void printItemsInRoom(){
+        // If item array is not initialized, prints following message.
         if(this.getItems() == null){
             System.out.println("This room contains nothing!");
             return;
         }
+
+        // Case if items is empty
         if(this.getItems().length == 0){
             System.out.println("This room contains nothing!");
         } else {
@@ -159,7 +190,6 @@ public class Room {
                 System.out.println(this.getItems()[0] + " and " + this.getItems()[1]);
             }
 
-
             // Case when items >= 3
             else {
                 for (int i = 0; i < this.getItems().length; i++) {
@@ -173,6 +203,9 @@ public class Room {
         }
     }
 
+    /**
+     * Prints all direction names in the Direction array.
+     */
     public void printDirectionsToGo(){
         if(this.getDirections().length == 0){
             System.out.println("You can't go anywhere!");
@@ -183,7 +216,13 @@ public class Room {
             if(this.getDirections().length == 1){
                 System.out.println(this.getDirections()[0].getDirectionName());
             }
-            // Case when items >= 2
+
+            // Case when items = 2
+            else if(this.getDirections().length == 2){
+                System.out.println(this.getDirections()[0].getDirectionName() + " and " + this.getDirections()[1].getDirectionName());
+            }
+
+            // Case when items >= 3
             else {
                 for (int i = 0; i < this.getDirections().length; i++) {
                     if (i == this.getDirections().length - 1) {
@@ -195,6 +234,7 @@ public class Room {
             }
         }
     }
+
 }
 
 

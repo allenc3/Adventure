@@ -53,6 +53,11 @@ public class Layout {
         return false;
     }
 
+    /**
+     * Method to find next room based on the name of a room.
+     * @param nextRoomName room to be found
+     * @return the room if it is found, null otherwise.
+     */
     public Room findNextRoom(String nextRoomName){
         nextRoomName = nextRoomName.toLowerCase();
         for(Room room: rooms){
@@ -62,4 +67,5 @@ public class Layout {
         }
         return null;
     }
+
 }
