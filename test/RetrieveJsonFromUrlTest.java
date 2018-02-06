@@ -55,7 +55,8 @@ public class RetrieveJsonFromUrlTest {
         // Missing j in json
         String malformedErrorUrl = "https://courses.engr.illinois.edu/cs126/adventure/siebel.son";
         RetrieveJsonFromUrl.urlIsValid(malformedErrorUrl);
-        assertEquals("Bad URL: " + malformedErrorUrl + System.getProperty("line.separator"),
+        assertEquals("Error: 404\r\n" + "Bad URL: " +
+                        malformedErrorUrl + System.getProperty("line.separator"),
                 outContent.toString());
     }
 

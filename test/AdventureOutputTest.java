@@ -1,11 +1,11 @@
 import com.google.gson.Gson;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+
 
 import static org.junit.Assert.*;
 
@@ -16,10 +16,10 @@ public class AdventureOutputTest {
 
 
 
+
     @Before
     public void setUp() throws Exception{
         Gson gson = new Gson();
-
         adventure = gson.fromJson(RetrieveJsonFromUrl.convertUrlToString(RetrieveJsonFromUrl.url),
                 Layout.class);
         System.setOut(new PrintStream(outContent));
@@ -85,4 +85,5 @@ public class AdventureOutputTest {
             assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
         }
     }
+
 }

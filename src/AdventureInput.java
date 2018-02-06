@@ -116,13 +116,14 @@ public class AdventureInput {
         String userInputLowerCaseTrimmed = userInput.toLowerCase().trim();
         // Get the direction folllowing the word "go"
         String direction = userInputLowerCaseTrimmed.substring(2).trim();
+        String originalDirection = userInput.substring(2).trim();
 
         Room nextRoom;
 
         // Case if the direction is not found.
         Direction nextDirection;
         if(currentRoom.findNextDirection(direction) == null){
-            System.out.println("I can't go " + direction);
+            System.out.println("I can't go " + originalDirection);
             return currentRoom;
         }
 
