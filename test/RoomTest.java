@@ -1,8 +1,11 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -12,11 +15,13 @@ public class RoomTest {
 
     private static Layout adventure;
     private static Room[] roomArrForTest;
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     @Before
     public void setUp() throws Exception{
 
         Gson gson = new Gson();
+        System.setOut(new PrintStream(outContent));
 
         adventure = gson.fromJson(JsonStringRetriever
                 .convertUrlToString(JsonStringRetriever.url), Layout.class);
@@ -141,6 +146,11 @@ public class RoomTest {
                 "  ]", Room[].class);
     }
 
+    @After
+    public void restore(){
+        System.setOut(System.out);
+    }
+
     @Test
     public void roomName(){
         assertEquals("MatthewsStreet",adventure.getRooms()[0].getName());
@@ -154,14 +164,63 @@ public class RoomTest {
     }
 
     @Test
+    public void roomItems(){
+        assertArrayEquals(roomArrForTest[1].getItems(), adventure.getRooms()[1].getItems());
+    }
+
+    @Test
+    public void roomSetItems(){
+        roomArrForTest[0].setItems(new String[]{"hi", "bye"});
+        assertArrayEquals(new String[]{"hi", "bye"}, roomArrForTest[0].getItems());
+    }
+
+    @Test
+    public void roomSetItemsNull(){
+        try{
+            roomArrForTest[0].setItems(null);
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+    @Test
     public void roomDirection(){
         assertTrue(Direction.arrayEquals(roomArrForTest[1].getDirections(),adventure.getRooms()[1].getDirections()));
     }
 
     @Test
-    public void roomItems(){
-        assertArrayEquals(roomArrForTest[1].getItems(), adventure.getRooms()[1].getItems());
+    public void roomRemoveItem(){
+        roomArrForTest[0].removeItem(0);
+        assertArrayEquals(new String[0], roomArrForTest[0].getItems());
     }
+
+    @Test
+    public void roomRemoveItemNegativeIndex(){
+        try{
+            roomArrForTest[0].removeItem(-1);
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals(ErrorConstants.NEGATIVE_INDEX, e.getMessage());
+        }
+    }
+
+    @Test
+    public void roomAddItem(){
+        roomArrForTest[0].addItem("Allen");
+        assertArrayEquals(new String[]{"coin", "Allen"}, roomArrForTest[0].getItems());
+    }
+
+    @Test
+    public void roomAddItemNull(){
+        try{
+            roomArrForTest[0].addItem(null);
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
 
     @Test
     public void roomEquals(){
@@ -169,8 +228,118 @@ public class RoomTest {
     }
 
     @Test
+    public void roomEqualsNull(){
+        try{
+            roomArrForTest[0].equals(null);
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+    @Test
     public void roomArrayEquals(){
         assertTrue(Room.arrayEquals(roomArrForTest, adventure.getRooms()));
     }
 
+    @Test
+    public void roomArrayEqualsFirstArrNull(){
+        try{
+            Room.arrayEquals(roomArrForTest, null);
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+    @Test
+    public void roomArrayEqualsSecondArrNull(){
+        try{
+            Room.arrayEquals(null, roomArrForTest);
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+    @Test
+    public void roomFindNextDirectionSuccess(){
+        Direction test = roomArrForTest[0].findNextDirection("east");
+        assertEquals(roomArrForTest[0].getDirections()[0], test);
+    }
+
+    @Test
+    public void roomFindNextDirectionFail(){
+        Direction test = roomArrForTest[0].findNextDirection("northsoutheastwest");
+        assertEquals(null, test);
+    }
+
+    @Test
+    public void roomFindNextDirectionNull(){
+        try{
+            roomArrForTest[0].findNextDirection(null);
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+    @Test
+    public void roomFindItemIndexSuccess(){
+        int test = roomArrForTest[0].findItemIndex("coin");
+        assertEquals(0, test);
+    }
+
+    @Test
+    public void roomFindItemIndexFail(){
+        int test = roomArrForTest[0].findItemIndex("notcoin");
+        assertEquals(-1, test);
+    }
+
+    @Test
+    public void roomFindItemIndexNull(){
+        try{
+            roomArrForTest[0].findItemIndex(null);
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+    @Test
+    public void roomPrintOneItems(){
+        roomArrForTest[0].printItemsInRoom();
+        assertEquals("This room contains: coin" + System.getProperty("line.separator"),
+                outContent.toString());
+    }
+
+    @Test
+    public void roomPrintMoreItems(){
+        roomArrForTest[1].printItemsInRoom();
+        assertEquals("This room contains: sweatshirt and key" + System.getProperty("line.separator"),
+                outContent.toString());
+    }
+
+    @Test
+    public void roomPrintNoItems(){
+        roomArrForTest[0].removeItem(0);
+        roomArrForTest[0].printItemsInRoom();
+        assertEquals("This room contains nothing!" + System.getProperty("line.separator"),
+                outContent.toString());
+    }
+
+    @Test
+    public void roomPrintOneDirectionToGo(){
+        roomArrForTest[0].printDirectionsToGo();
+        assertEquals("From here, you can go: East" + System.getProperty("line.separator"),
+                outContent.toString());
+    }
+
+    @Test
+    public void roomPrintMoreDirectionToGo(){
+        roomArrForTest[1].printDirectionsToGo();
+        assertEquals("From here, you can go: West, Northeast, North, and East" + System.getProperty("line.separator"),
+                outContent.toString());
+    }
+    
 }

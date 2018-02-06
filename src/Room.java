@@ -40,9 +40,13 @@ public class Room {
 
     /**
      * Sets an item array since it might not be initialized.
-     * @param items
+     * @param items the item array to be added
+     * @throws IllegalArgumentException if items is null
      */
     public void setItems(String[] items) {
+        if(items == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
         this.items = items;
     }
 
@@ -57,8 +61,13 @@ public class Room {
     /**
      * Removes item from items array.
      * @param indexToBeRemoved the index of the item to be removed.
+     * @throws IllegalArgumentException if index if negative
      */
     public void removeItem(int indexToBeRemoved) {
+        if(indexToBeRemoved < 0){
+            throw new IllegalArgumentException(ErrorConstants.NEGATIVE_INDEX);
+        }
+
         // Converts array to arraylist
         ArrayList<String> itemArrayList = new ArrayList<String>(Arrays.asList(items));
 
@@ -74,8 +83,14 @@ public class Room {
     /**
      * Adds item to items array.
      * @param itemToBeAdded the string of the item to be added.
+     * @throws IllegalArgumentException if itemToBeAdded is null
      */
     public void addItem(String itemToBeAdded) {
+
+        if(itemToBeAdded == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+
         // Converts array to arraylist
         ArrayList<String> itemArrayList = new ArrayList<String>(Arrays.asList(items));
 
@@ -114,7 +129,7 @@ public class Room {
      * @param arr1 first Room array
      * @param arr2 second Room array
      * @return true if the two array contain equal Room objects, false otherwise.
-     * @throws IllegalArgumentException if input is null
+     * @throws IllegalArgumentException if either arr 1 or arr 2 is null
      */
     @SuppressWarnings("Duplicates")
     public static boolean arrayEquals(Room[] arr1, Room[] arr2){
@@ -138,8 +153,13 @@ public class Room {
      * Finds if a direction exists in the Direction array.
      * @param inputDirection the direction inputted by user
      * @return the direction object if it is found, null otherwise.
+     * @throws IllegalArgumentException if inputDirection is null
      */
     public Direction findNextDirection(String inputDirection){
+        if(inputDirection == null) {
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+
         inputDirection = inputDirection.toLowerCase().trim();
         for(Direction direction: directions){
             if(direction.getDirectionName().toLowerCase().equals(inputDirection)){
@@ -153,8 +173,13 @@ public class Room {
      * Finds the index of a item in the item array
      * @param inputItem the item to be searched for
      * @return the index of the item if it is found, -1 otherwise.
+     * @throws IllegalArgumentException if inputItem is null
      */
     public int findItemIndex(String inputItem) {
+        if(inputItem == null) {
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+
         for (int i = 0; i < items.length; i++) {
 
             if (items[i].toLowerCase().equals(inputItem)) {
