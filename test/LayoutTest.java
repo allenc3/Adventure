@@ -149,9 +149,30 @@ public class LayoutTest {
         assertEquals("Siebel1314",adventure.getEndingRoom());
     }
 
+//    @Test
+//    public void layoutRooms(){
+//        assertTrue(adventure.equals(layoutObjForTest));
+//    }
+
     @Test
-    public void layoutRooms(){
-        assertTrue(adventure.equals(layoutObjForTest));
+    public void layoutFindNextRoomSuccess(){
+        assertTrue(adventure.getRooms()[1].equals(layoutObjForTest.findNextRoom("SiebelEntry")));
     }
+
+    @Test
+    public void layoutFindNextRoomFail(){
+        assertEquals(null, layoutObjForTest.findNextRoom("ISR"));
+    }
+
+    @Test
+    public void layoutFindNextRoomNull(){
+        try{
+            layoutObjForTest.findNextRoom(null);
+        } catch (IllegalArgumentException e){
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+
 
 }

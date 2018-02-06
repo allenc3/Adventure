@@ -44,8 +44,38 @@ public class DirectionTest {
     }
 
     @Test
+    public void directionEqualsNull(){
+        try{
+            directionArrForTest[0].equals(null);
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+    @Test
     public void directionArrayEquals(){
         assertTrue(Direction.arrayEquals(adventure.getRooms()[3].getDirections(), directionArrForTest));
+    }
+
+    @Test
+    public void directionArraysEqualsArr1Null(){
+        try{
+            Direction.arrayEquals(null, directionArrForTest);
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+    @Test
+    public void directionArraysEqualsArr2Null(){
+        try{
+            Direction.arrayEquals(directionArrForTest, null);
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
     }
 
 }

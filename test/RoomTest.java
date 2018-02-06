@@ -341,5 +341,5 @@ public class RoomTest {
         assertEquals("From here, you can go: West, Northeast, North, and East" + System.getProperty("line.separator"),
                 outContent.toString());
     }
-    
+
 }

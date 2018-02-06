@@ -27,6 +27,12 @@ public class JsonStringRetrieverTest {
     }
 
     @Test
+    public void validUrl(){
+        String url = "https://courses.engr.illinois.edu/cs126/adventure/siebel.json";
+        assertTrue(JsonStringRetriever.urlIsValid(url));
+    }
+
+    @Test
     public void unirestException(){
         // no u in courses
         String unirestErrorUrl = "https://corses.engr.illinois.edu/cs126/adventure/siebel.json";
@@ -63,6 +69,7 @@ public class JsonStringRetrieverTest {
             assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
         }
     }
+
 
 
     /**

@@ -34,31 +34,35 @@ public class Layout {
         return rooms;
     }
 
-    /**
-     * Custom equals to method to compare two Layout objects.
-     * @param another another Layout object
-     * @return true if two Layout objects are equal, false otherwise.
-     * @throws IllegalArgumentException if input is null
-     */
-    public boolean equals(Layout another){
-        if(another == null) {
-            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
-        }
-
-        if(this.startingRoom.equals(another.startingRoom)
-                && this.endingRoom.equals(another.endingRoom)
-                && Room.arrayEquals(this.getRooms(), another.getRooms())){
-            return true;
-        }
-        return false;
-    }
+//    /**
+//     * Custom equals to method to compare two Layout objects.
+//     * @param another another Layout object
+//     * @return true if two Layout objects are equal, false otherwise.
+//     * @throws IllegalArgumentException if input is null
+//     */
+//    public boolean equals(Layout another){
+//        if(another == null) {
+//            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+//        }
+//
+//        if(this.startingRoom.equals(another.startingRoom)
+//                && this.endingRoom.equals(another.endingRoom)
+//                && Room.arrayEquals(this.getRooms(), another.getRooms())){
+//            return true;
+//        }
+//        return false;
+//    }
 
     /**
      * Method to find next room based on the name of a room.
      * @param nextRoomName room to be found
      * @return the room if it is found, null otherwise.
+     * @throws IllegalArgumentException if nextRoomName is null
      */
     public Room findNextRoom(String nextRoomName){
+        if(nextRoomName == null) {
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
         nextRoomName = nextRoomName.toLowerCase();
         for(Room room: rooms){
             if(room.getName().toLowerCase().equals(nextRoomName)){
