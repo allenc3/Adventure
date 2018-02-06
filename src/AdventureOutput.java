@@ -21,7 +21,7 @@ public class AdventureOutput {
 
         // 2). If room is starting room, print statement below.
         if(!started){
-            System.out.println("Your journey beings here.");
+            System.out.println("Your journey begins here.");
         }
 
         // 3). If room is the ending room, print statement below, and terminate program.

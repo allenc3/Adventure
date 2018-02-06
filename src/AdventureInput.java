@@ -5,17 +5,96 @@ import java.util.ArrayList;
  */
 public class AdventureInput {
 
-
     /**
      * Determines if user command is in the form of "go aDirection"
      * @param userInput input by user
      * @return true if user wants to "go aDirection", false otherwise.
+     * @throws IllegalArgumentException if userInput is null
      */
     public static boolean goInADirectionCommand(String userInput){
+        if(userInput == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
         userInput = userInput.toLowerCase().trim();
         // String has to be at least 3 characters("go ")
         if(userInput.length() > 3) {
-            if (userInput.substring(0, 3).equals("go ")) {
+            if (userInput.substring(0, 3).matches("go\\s+")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Determines if user command is in the form of "take anItem"
+     * @param userInput input by user
+     * @return true if user command is "take anItem", false otherwise.
+     * @throws IllegalArgumentException if userInput is null
+     */
+    public static boolean takeItemCommand(String userInput){
+        if(userInput == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+        userInput = userInput.toLowerCase().trim();
+        if(userInput.length() > 5) {
+            if (userInput.substring(0, 5).matches("take\\s+")){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Determines if user command is in the form of "drop anItem"
+     * @param userInput input by user
+     * @return true if user command is in the form of "drop anItem", false otherwise.
+     * @throws IllegalArgumentException if userInput is null
+     */
+    public static boolean dropItemCommand(String userInput){
+        if(userInput == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+        userInput = userInput.toLowerCase().trim();
+        if(userInput.length() > 5) {
+            if (userInput.substring(0, 5).matches("drop\\s+")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Determines if the user command is in the form of "list"
+     * @param userInput input by user
+     * @return true if user command is in the form of "list", false otherwise.
+     * @throws IllegalArgumentException if userInput is null
+     */
+    public static boolean listCommand(String userInput){
+        if(userInput == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+        userInput = userInput.toLowerCase().trim();
+        if(userInput.length() == 4) {
+            if (userInput.equals("list")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Determines if user command is in the form of "exit" or "quit"
+     * @param userInput input by user
+     * @return true if user command is in the form of "exit" or "quit"
+     * @throws IllegalArgumentException if userInput is null
+     */
+    public static boolean exitCommand(String userInput){
+        if(userInput == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+        userInput = userInput.toLowerCase().trim();
+        if(userInput.length() == 4) {
+            if (userInput.equals("quit") || userInput.equals("exit")) {
                 return true;
             }
         }
@@ -28,8 +107,12 @@ public class AdventureInput {
      * @param currentRoom the room the player in in now
      * @param userInput the direction the player inputted
      * @return the next room if found, otherwise null.
+     * @throws IllegalArgumentException if any of the three inputs is null
      */
     public static Room determineNextRoom(Layout adventure, Room currentRoom, String userInput){
+        if(userInput == null || adventure == null || currentRoom == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
         String userInputLowerCaseTrimmed = userInput.toLowerCase().trim();
         // Get the direction folllowing the word "go"
         String direction = userInputLowerCaseTrimmed.substring(2).trim();
@@ -53,26 +136,14 @@ public class AdventureInput {
     }
 
     /**
-     * Determines if user command is in the form of "take anItem"
-     * @param userInput input by user
-     * @return true if user command is "take anItem", false otherwise.
-     */
-    public static boolean takeItemCommand(String userInput){
-        userInput = userInput.toLowerCase().trim();
-        if(userInput.length() > 5) {
-            if (userInput.substring(0, 5).equals("take ")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Takes item from room and adds it to user's inventory.
      * @param currentRoom the room the user is in
      * @param userInput the item the user wants to take
      */
     public static void takeItem(Room currentRoom, String userInput, ArrayList<String> userInventory){
+        if(currentRoom == null || userInput == null || userInventory == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
         String userInputLowerCaseTrimmed = userInput.toLowerCase().trim();
         String itemName = userInputLowerCaseTrimmed.substring(5).trim();
         // Name to return if can't find item.
@@ -97,33 +168,28 @@ public class AdventureInput {
 
 
     /**
-     * Determines if user command is in the form of "drop anItem"
-     * @param userInput input by user
-     * @return true if user command is in the form of "drop anItem", false otherwise.
-     */
-    public static boolean dropItemCommand(String userInput){
-        userInput = userInput.toLowerCase().trim();
-        if(userInput.length() > 5) {
-            if (userInput.substring(0, 5).equals("drop ")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Drops item in room, remove item from user's inventory.
      * @param currentRoom the room the user is in
      * @param dropItem the item the user wants to drop
      * @param userInventory the arraylist of current items the user has
+     * @throws IllegalArgumentException if either of the 3 parameters is null
      */
     public static void dropItem(Room currentRoom, String dropItem, ArrayList<String> userInventory){
+        if(currentRoom == null || dropItem == null || userInventory == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
         String userInputLowerCaseTrimmed = dropItem.toLowerCase().trim();
         String itemName = userInputLowerCaseTrimmed.substring(5).trim();
         // Item name to return if item is not found.
         String originalItemName = dropItem.substring(5).trim();
 
-        if(!userInventory.contains(itemName)){
+        int indexOfItem = -1;
+        for (int i = 0; i < userInventory.size(); i++) {
+            if(itemName.equals(userInventory.get(i).toLowerCase())){
+                indexOfItem = i;
+            }
+        }
+        if(indexOfItem == -1){
             System.out.println("I can't drop " + originalItemName);
             return;
         }
@@ -133,31 +199,20 @@ public class AdventureInput {
             currentRoom.setItems(new String[0]);
         }
 
-        int indexOfItem = userInventory.indexOf(itemName);
         currentRoom.addItem(userInventory.get(indexOfItem));
         userInventory.remove(indexOfItem);
     }
 
-    /**
-     * Determines if the user command is in the form of "list"
-     * @param userInput input by user
-     * @return true if user command is in the form of "list", false otherwise.
-     */
-    public static boolean listCommand(String userInput){
-        userInput = userInput.toLowerCase().trim();
-        if(userInput.length() == 4) {
-            if (userInput.equals("list")) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     /**
      * Prints the list of items the user currently has.
      * @param userInventory the arraylist of items the user has.
+     * @throws IllegalArgumentException if userInventory is null
      */
     public static void printList(ArrayList<String> userInventory){
+        if(userInventory == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
         System.out.print("You are carrying ");
         if(userInventory.size() == 0){
             System.out.println("nothing.");
@@ -177,26 +232,14 @@ public class AdventureInput {
     }
 
     /**
-     * Determines if user command is in the form of "exit" or "quit"
-     * @param userInput input by user
-     * @return
-     */
-    public static boolean exitCommand(String userInput){
-        userInput = userInput.toLowerCase().trim();
-        if(userInput.length() == 4) {
-            if (userInput.equals("quit") || userInput.equals("exit")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    /**
      * If input is invalid, prints message in the form of "I don't understand 'userInput'"
      * @param userInput input by user
+     * @throws IllegalArgumentException if userInput is null
      */
     public static void responseToInvalidInput(String userInput){
+        if(userInput == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
         System.out.println("I don't understand '" + userInput + "'");
     }
 
