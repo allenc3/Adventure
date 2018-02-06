@@ -39,6 +39,15 @@ public class Room {
      }
 
     /**
+     * Sets an item array since it might not be initialized.
+     * @param items
+     */
+    public void setItems(String[] items) {
+        this.items = items;
+    }
+
+
+    /**
      * Setter to change items in items array
      * @param indexToBeRemoved the index of the item to be removed.
      */
@@ -109,10 +118,11 @@ public class Room {
         return false;
     }
 
+
     public Direction findNextDirection(String inputDirection){
         inputDirection = inputDirection.toLowerCase().trim();
         for(Direction direction: directions){
-            if(direction.getDirectionName().equals(inputDirection)){
+            if(direction.getDirectionName().toLowerCase().equals(inputDirection)){
                 return direction;
             }
         }
@@ -121,7 +131,8 @@ public class Room {
 
     public int findItemIndex(String inputItem) {
         for (int i = 0; i < items.length; i++) {
-            if (items[i].equals(inputItem)) {
+
+            if (items[i].toLowerCase().equals(inputItem)) {
                 return i;
             }
         }
@@ -129,6 +140,10 @@ public class Room {
     }
 
     public void printItemsInRoom(){
+        if(this.getItems() == null){
+            System.out.println("This room contains nothing!");
+            return;
+        }
         if(this.getItems().length == 0){
             System.out.println("This room contains nothing!");
         } else {
@@ -138,7 +153,14 @@ public class Room {
             if(this.getItems().length == 1){
                 System.out.println(this.getItems()[0]);
             }
-            // Case when items >= 2
+
+            // Case when items = 2
+            else if(this.getItems().length == 2) {
+                System.out.println(this.getItems()[0] + " and " + this.getItems()[1]);
+            }
+
+
+            // Case when items >= 3
             else {
                 for (int i = 0; i < this.getItems().length; i++) {
                     if (i == this.getItems().length - 1) {
@@ -167,7 +189,7 @@ public class Room {
                     if (i == this.getDirections().length - 1) {
                         System.out.println("and " + this.getDirections()[i].getDirectionName());
                     } else{
-                        System.out.print(this.getDirections()[i] + ", ");
+                        System.out.print(this.getDirections()[i].getDirectionName() + ", ");
                     }
                 }
             }

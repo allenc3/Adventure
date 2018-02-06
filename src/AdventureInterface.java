@@ -1,6 +1,5 @@
 import com.example.Adventure;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 import java.net.MalformedURLException;
@@ -43,18 +42,37 @@ public class AdventureInterface {
             while(!exit){
 
                 if(!started){
-                    AdventureOutput.proceedWithAdventure(currentRoom, started, reachEnd);
+                    AdventureOutput.proceedWithAdventure(currentRoom, started, adventure.getEndingRoom());
                     started = true;
                 } else {
-                    reachEnd = AdventureOutput.proceedWithAdventure(currentRoom, started, reachEnd);
+                    AdventureOutput.proceedWithAdventure(currentRoom, started, adventure.getEndingRoom());
                 }
                 Scanner scn = new Scanner(System.in);
                 String userInput = scn.nextLine();
+//                System.out.println(userInput.length());
+
+                // If user types go aDirection
+                if(AdventureInput.goInADirectionCommand(userInput)){
+                    Room checkForNull = AdventureInput.determineNextRoom(adventure, currentRoom, userInput);
+                    if(checkForNull != null){
+                        currentRoom = checkForNull;
+                    }
+                } else if(AdventureInput.takeItemCommand(userInput)){
+                    currentItems.add(AdventureInput.takeItem(currentRoom, userInput));
+                } else if(AdventureInput.dropItemCommand(userInput)){
+                    AdventureInput.dropItem(currentRoom, userInput, currentItems);
+                } else if(AdventureInput.exitCommand(userInput)){
+                    exit = true;
+                } else if(AdventureInput.listCommand(userInput)){
+                    AdventureInput.printList(currentItems);
+                }
+                else{
+                    AdventureInput.responseToInvalidInput(userInput);
+                }
 
             }
         }
-
-
-
     }
+
+
 

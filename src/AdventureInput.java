@@ -6,23 +6,6 @@ import java.util.ArrayList;
 public class AdventureInput {
 
 
-    public void determineAction(){
-
-    }
-    /**
-     * Determines if user inputted "exit" or "quit"
-     * @param userInput the string inputted by the user
-     * @return true if userInput indicates exit. False otherwise
-     */
-    public boolean determineExit(String userInput) {
-        String userInputLowerCaseTrimmed = userInput.toLowerCase().trim();
-        if(userInputLowerCaseTrimmed.equals("quit") || userInputLowerCaseTrimmed.equals("exit")){
-            return true;
-        }
-        return false;
-    }
-
-
     /**
      * Determines the next room the user is proceeding to.
      * @param adventure the entire adventure
@@ -30,16 +13,16 @@ public class AdventureInput {
      * @param inputDirection the direction the player inputted
      * @return the next room if found, otherwise null.
      */
-    public Room determineNextRoom(Layout adventure, Room currentRoom, String inputDirection){
+    public static Room determineNextRoom(Layout adventure, Room currentRoom, String inputDirection){
         String userInputLowerCaseTrimmed = inputDirection.toLowerCase().trim();
         String direction = userInputLowerCaseTrimmed.substring(2).trim();
         Room nextRoom;
         Direction nextDirection;
-        nextDirection = currentRoom.findNextDirection(direction);
-        if(nextDirection == null){
-            System.out.println("I can't go " + inputDirection);
+        if(currentRoom.findNextDirection(direction) == null){
+            System.out.println("I can't go " + direction);
             return null;
         } else {
+            nextDirection = currentRoom.findNextDirection(direction);
             nextRoom = adventure.findNextRoom(nextDirection.getRoom());
         }
         return nextRoom;
@@ -51,16 +34,21 @@ public class AdventureInput {
      * @param inputItem the item the user wants to take
      * @return the item the user took, null otherwise.
      */
-    public String takeItem(Room currentRoom, String inputItem){
+    public static String takeItem(Room currentRoom, String inputItem){
         String userInputLowerCaseTrimmed = inputItem.toLowerCase().trim();
+        String itemName = userInputLowerCaseTrimmed.substring(5).trim();
+        String originalItemName = inputItem.substring(5).trim();
         String item;
-        int itemIndex = currentRoom.findItemIndex(inputItem);
+        if(currentRoom.getItems() == null){
+            currentRoom.setItems(new String[0]);
+        }
+        int itemIndex = currentRoom.findItemIndex(itemName);
         if(itemIndex != -1) {
             item = currentRoom.getItems()[itemIndex];
             currentRoom.removeItem(itemIndex);
             return item;
         }
-        System.out.println("I can't take " + inputItem);
+        System.out.println("I can't take " + originalItemName);
         return null;
     }
 
@@ -70,20 +58,20 @@ public class AdventureInput {
      * @param dropItem the item the user wants to drop
      * @param currentItems the arraylist of current items the user has
      */
-    public void dropItem(Room currentRoom, String dropItem, ArrayList<String> currentItems){
+    public static void dropItem(Room currentRoom, String dropItem, ArrayList<String> currentItems){
         String userInputLowerCaseTrimmed = dropItem.toLowerCase().trim();
-        int indexOfItem = -1;
-        for (int i = 0; i < currentItems.size(); i++) {
-            if(userInputLowerCaseTrimmed.equals(currentItems.get(i).toLowerCase().trim())){
-                indexOfItem = i;
-                break;
-            }
-        }
+        String itemName = userInputLowerCaseTrimmed.substring(5).trim();
+        String originalItemName = dropItem.substring(5).trim();
 
-        if(indexOfItem == -1){
-            System.out.println("I can't drop " + dropItem);
+        if(!currentItems.contains(itemName)){
+            System.out.println("I can't drop " + originalItemName);
             return;
         }
+
+        if(currentRoom.getItems() == null){
+            currentRoom.setItems(new String[0]);
+        }
+        int indexOfItem = currentItems.indexOf(itemName);
         currentRoom.addItem(currentItems.get(indexOfItem));
         currentItems.remove(indexOfItem);
     }
@@ -92,12 +80,14 @@ public class AdventureInput {
      * Prints the list of items the user currently has.
      * @param currentItems the arraylist of items the user has.
      */
-    public void printList(ArrayList<String> currentItems){
+    public static void printList(ArrayList<String> currentItems){
         System.out.print("You are carrying ");
         if(currentItems.size() == 0){
             System.out.println("nothing.");
         } else if(currentItems.size() == 1){
             System.out.println(currentItems.get(0));
+        } else if(currentItems.size() == 2) {
+            System.out.println(currentItems.get(0) + " and " + currentItems.get(1));
         } else{
             for (int i = 0; i < currentItems.size(); i++) {
                 if(i == currentItems.size() - 1){
@@ -109,7 +99,80 @@ public class AdventureInput {
         }
     }
 
-    
+    /**
+     * Determines if user command is in the form of "go aDirection"
+     * @param userInput
+     * @return
+     */
+    public static boolean goInADirectionCommand(String userInput){
+        userInput = userInput.toLowerCase().trim();
+        if(userInput.length() > 3) {
+            if (userInput.substring(0, 3).equals("go ")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param userInput
+     * @return
+     */
+    public static boolean takeItemCommand(String userInput){
+        userInput = userInput.toLowerCase().trim();
+        if(userInput.length() > 5) {
+            if (userInput.substring(0, 5).equals("take ")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param userInput
+     * @return
+     */
+    public static boolean dropItemCommand(String userInput){
+        userInput = userInput.toLowerCase().trim();
+        if(userInput.length() > 5) {
+            if (userInput.substring(0, 5).equals("drop ")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param userInput
+     * @return
+     */
+    public static boolean exitCommand(String userInput){
+        userInput = userInput.toLowerCase().trim();
+        if(userInput.length() == 4) {
+            if (userInput.equals("quit") || userInput.equals("exit")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean listCommand(String userInput){
+        userInput = userInput.toLowerCase().trim();
+        if(userInput.length() == 4) {
+            if (userInput.equals("list")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void responseToInvalidInput(String userInput){
+        System.out.println("I don't understand '" + userInput + "'");
+    }
+
 
 
 }

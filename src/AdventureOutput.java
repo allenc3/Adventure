@@ -14,9 +14,8 @@ public class AdventureOutput {
      * @param started if the adventure has started
      * @param reachEnd if the adventure has reached its end
      */
-    public static boolean proceedWithAdventure(Room aRoom, boolean started, boolean reachEnd){
+    public static void proceedWithAdventure(Room aRoom, boolean started, String endingRoom){
 
-        boolean adventureEnded = false;
         // 1). Print Description
         System.out.println(aRoom.getDescription());
 
@@ -26,9 +25,9 @@ public class AdventureOutput {
         }
 
         // 3). If room is the ending room, print statement below.
-        if(reachEnd){
-            System.out.println("You have reached your final destination");
-            adventureEnded = true;
+        if(aRoom.getName().equals(endingRoom)){
+            System.out.println("You have reached your final destination!");
+            System.exit(1);
         }
 
         // 4). Print items in room.
@@ -37,6 +36,5 @@ public class AdventureOutput {
         // 5). Print directions player can go
         aRoom.printDirectionsToGo();
 
-        return adventureEnded;
     }
 }
