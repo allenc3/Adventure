@@ -12,7 +12,7 @@ public class LayoutTest {
     @Before
     public void setUp() throws Exception{
         Gson gson = new Gson();
-        adventure = gson.fromJson(JsonStringRetriever.convertUrlToString(JsonStringRetriever.url),
+        adventure = gson.fromJson(RetrieveJsonFromUrl.convertUrlToString(RetrieveJsonFromUrl.url),
                 Layout.class);
         layoutObjForTest = gson.fromJson("{\n" +
                 "  \"startingRoom\": \"MatthewsStreet\",\n" +

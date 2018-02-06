@@ -1,12 +1,10 @@
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -23,8 +21,8 @@ public class RoomTest {
         Gson gson = new Gson();
         System.setOut(new PrintStream(outContent));
 
-        adventure = gson.fromJson(JsonStringRetriever
-                .convertUrlToString(JsonStringRetriever.url), Layout.class);
+        adventure = gson.fromJson(RetrieveJsonFromUrl
+                .convertUrlToString(RetrieveJsonFromUrl.url), Layout.class);
         roomArrForTest = gson.fromJson("[\n" +
                 "    {\n" +
                 "      \"name\": \"MatthewsStreet\",\n" +

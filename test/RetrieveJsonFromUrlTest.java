@@ -9,7 +9,7 @@ import java.net.MalformedURLException;
 
 import static org.junit.Assert.*;
 
-public class JsonStringRetrieverTest {
+public class RetrieveJsonFromUrlTest {
 
     /**
      * Code below derived from:
@@ -29,14 +29,14 @@ public class JsonStringRetrieverTest {
     @Test
     public void validUrl(){
         String url = "https://courses.engr.illinois.edu/cs126/adventure/siebel.json";
-        assertTrue(JsonStringRetriever.urlIsValid(url));
+        assertTrue(RetrieveJsonFromUrl.urlIsValid(url));
     }
 
     @Test
     public void unirestException(){
         // no u in courses
         String unirestErrorUrl = "https://corses.engr.illinois.edu/cs126/adventure/siebel.json";
-        JsonStringRetriever.urlIsValid(unirestErrorUrl);
+        RetrieveJsonFromUrl.urlIsValid(unirestErrorUrl);
         assertEquals("Network not responding" + System.getProperty("line.separator"),
                 outContent.toString());
     }
@@ -45,7 +45,7 @@ public class JsonStringRetrieverTest {
     public void malformedUrlException(){
         // Missing h in http
         String malformedErrorUrl = "ttps://courses.engr.illinois.edu/cs126/adventure/siebel.json";
-        JsonStringRetriever.urlIsValid(malformedErrorUrl);
+        RetrieveJsonFromUrl.urlIsValid(malformedErrorUrl);
         assertEquals("Bad URL: " + malformedErrorUrl + System.getProperty("line.separator"),
                 outContent.toString());
     }
@@ -54,7 +54,7 @@ public class JsonStringRetrieverTest {
     public void faultyUrl(){
         // Missing j in json
         String malformedErrorUrl = "https://courses.engr.illinois.edu/cs126/adventure/siebel.son";
-        JsonStringRetriever.urlIsValid(malformedErrorUrl);
+        RetrieveJsonFromUrl.urlIsValid(malformedErrorUrl);
         assertEquals("Bad URL: " + malformedErrorUrl + System.getProperty("line.separator"),
                 outContent.toString());
     }
@@ -63,7 +63,7 @@ public class JsonStringRetrieverTest {
     @Test
     public void nullUrl(){
         try{
-            JsonStringRetriever.urlIsValid(null);
+            RetrieveJsonFromUrl.urlIsValid(null);
             fail();
         } catch (IllegalArgumentException e){
             assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
@@ -202,7 +202,7 @@ public class JsonStringRetrieverTest {
                         "    }\n" +
                         "  ]\n" +
                         "}".replaceAll("\n", "").replaceAll("\r", ""),
-                JsonStringRetriever.convertUrlToString(JsonStringRetriever.url).
+                RetrieveJsonFromUrl.convertUrlToString(RetrieveJsonFromUrl.url).
                         replaceAll("\r", ""));
     }
 }

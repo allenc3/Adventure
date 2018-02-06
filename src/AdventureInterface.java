@@ -1,4 +1,3 @@
-import com.example.Adventure;
 import com.google.gson.Gson;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
@@ -8,38 +7,28 @@ import java.util.Scanner;
 
 public class AdventureInterface {
 
-    //https://courses.engr.illinois.edu/cs126/adventure/siebel.json
+    private static String ASSIGNMENT_URL = "https://courses.engr.illinois.edu" +
+            "/cs126/adventure/siebel.json";
 
     public static void main(String[] args) throws UnirestException, MalformedURLException{
 
         /**
          * Asks for url and checks if it is valid.
          */
-        String url = promptForUrl(args[0]);
+//        String url = promptForUrl(args[0]);
+        boolean urlAccepted = RetrieveJsonFromUrl.urlIsValid(ASSIGNMENT_URL);
+        if(urlAccepted) {
+            /**
+             * Starts parsing json file
+             */
+            Gson gson = new Gson();
+            Layout adventure = gson.fromJson(RetrieveJsonFromUrl.convertUrlToString(ASSIGNMENT_URL), Layout.class);
 
-        /**
-         * Starts parsing json file
-         */
-        Gson gson = new Gson();
-        Layout adventure = gson.fromJson(JsonStringRetriever.convertUrlToString(url), Layout.class);
-
-        /**
-         * Starts the adventure game!
-         */
-        adventureGame(adventure);
-
-    }
-
-    /**
-     * Repeatedly asks user for valid url.
-     * @return the vaid url.
-     */
-    public static String promptForUrl(String url){
-
-        if(!JsonStringRetriever.urlIsValid(url)) {
-            System.exit(0);
+            /**
+             * Starts the adventure game!
+             */
+            adventureGame(adventure);
         }
-        return url;
     }
 
     /**
@@ -51,7 +40,6 @@ public class AdventureInterface {
         // The starting room
         Room currentRoom = adventure.findNextRoom(adventure.getStartingRoom());
 
-        // Initializes inventory
         ArrayList<String> userInventory = new ArrayList<String>();
 
         // Accounts for the "Your journey begins here" statement
@@ -59,8 +47,11 @@ public class AdventureInterface {
         AdventureOutput.proceedWithAdventure(currentRoom, started, adventure.getEndingRoom());
         started = true;
 
+        // If exit is true, terminate program.
+        boolean exit = false;
+
         // Loops on until exit
-        while (true) {
+        while (!exit) {
 
             // Deals with the command "list", as the details of the room
             // does not have have to be restated.
@@ -73,12 +64,11 @@ public class AdventureInterface {
 
                 // 1). If user inputs "go aDirection"
                 if (AdventureInput.goInADirectionCommand(userInput)) {
-                    // Prevents null pointer exception
-                    Room checkForNull = AdventureInput.determineNextRoom(adventure,
+
+                    // Returns next room if found, current room if otherwise.
+                    currentRoom = AdventureInput.determineNextRoom(adventure,
                             currentRoom, userInput);
-                    if (checkForNull != null) {
-                        currentRoom = checkForNull;
-                    }
+
 
                     // Exits loop to print details of next room.
                     inputIsListCommand = false;
@@ -98,7 +88,8 @@ public class AdventureInterface {
 
                 // 4). If user inputs "exit" or "quit"
                 else if (AdventureInput.exitCommand(userInput)) {
-                    System.exit(0);
+                    exit = true;
+                    inputIsListCommand = false;
                 }
 
                 // 5). If user inputs "list"
@@ -113,9 +104,18 @@ public class AdventureInterface {
                 }
 
             }
+
             // Prints out details of the next room.
-            AdventureOutput.proceedWithAdventure(currentRoom, started, adventure.getEndingRoom());
+            if(!exit){
+                boolean continueAdventure = AdventureOutput.proceedWithAdventure(currentRoom,
+                        started, adventure.getEndingRoom());
+                if(!continueAdventure){
+                    exit = true;
+                }
+            }
         }
+
+
     }
 }
 

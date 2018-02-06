@@ -2,7 +2,6 @@ import com.google.gson.Gson;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.theories.suppliers.TestedOn;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -21,7 +20,7 @@ public class AdventureInputTest {
         Gson gson = new Gson();
         System.setOut(new PrintStream(outContent));
 
-        adventure = gson.fromJson(JsonStringRetriever.convertUrlToString(JsonStringRetriever.url),
+        adventure = gson.fromJson(RetrieveJsonFromUrl.convertUrlToString(RetrieveJsonFromUrl.url),
                 Layout.class);
         layoutObjForTest = gson.fromJson("{\n" +
                 "  \"startingRoom\": \"MatthewsStreet\",\n" +
@@ -152,6 +151,7 @@ public class AdventureInputTest {
         System.setOut(System.out);
     }
 
+    // Command is implemented in a similar way
     @Test
     public void goInADirectionCommandNormal(){
         assertTrue(AdventureInput.goInADirectionCommand("go east"));
@@ -190,6 +190,11 @@ public class AdventureInputTest {
     @Test
     public void goInADirectionCommandInvalid(){
         assertFalse(AdventureInput.goInADirectionCommand("randomStuff"));
+    }
+
+    @Test
+    public void goInADirectionCommandEmpty(){
+        assertFalse(AdventureInput.goInADirectionCommand(""));
     }
 
     @Test
@@ -410,8 +415,8 @@ public class AdventureInputTest {
         tempInventory.add("Allen");
         tempInventory.add("Eric");
         AdventureInput.printList(tempInventory);
-        assertEquals("You are carrying Allen and Eric" + System.getProperty("line.separator"),
-                outContent.toString());
+        assertEquals("You are carrying Allen and Eric" +
+                        System.getProperty("line.separator"), outContent.toString());
 
     }
 
@@ -440,5 +445,9 @@ public class AdventureInputTest {
         assertEquals("I don't understand '   '"+
                 System.getProperty("line.separator"), outContent.toString());
     }
+
+
+
+
 
 }

@@ -12,18 +12,14 @@ import java.net.URL;
  * Citation (class below derived from Professor Evans in-class demo):
  * https://github.com/zillesc/WashingtonPost
  */
-public class JsonStringRetriever {
+public class RetrieveJsonFromUrl {
 
     /**
      * HTTP response status code: 200 means OK(the request succeeded)
      */
     private static final int STATUS_OK = 200;
 
-    /**
-     * Url to be parsed.
-     */
     public static String url = "https://courses.engr.illinois.edu/cs126/adventure/siebel.json";
-
 
 
     /**
@@ -75,7 +71,9 @@ public class JsonStringRetriever {
         if (jsonAsString.getStatus() == STATUS_OK) {
             return jsonAsString.getBody();
         }
+
         else{
+            System.out.println("Error: " + jsonAsString.getStatus());
             throw new IllegalArgumentException(ErrorConstants.FAULTY_URL);
         }
     }

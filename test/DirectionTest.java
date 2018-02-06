@@ -1,5 +1,4 @@
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,8 +12,8 @@ public class DirectionTest {
     @Before
     public void setUp() throws Exception{
         Gson gson = new Gson();
-        adventure = gson.fromJson(JsonStringRetriever.
-                convertUrlToString(JsonStringRetriever.url), Layout.class);
+        adventure = gson.fromJson(RetrieveJsonFromUrl.
+                convertUrlToString(RetrieveJsonFromUrl.url), Layout.class);
 
         directionArrForTest = gson.fromJson("[\n" +
                 "        {\n" +

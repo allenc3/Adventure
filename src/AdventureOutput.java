@@ -13,8 +13,13 @@ public class AdventureOutput {
      * @param aRoom the room to be traveled to
      * @param started if the adventure has started
      * @param endingRoom the ending room
+     * @throws IllegalArgumentException if aRoom or endingRoom is null
      */
-    public static void proceedWithAdventure(Room aRoom, boolean started, String endingRoom){
+    public static boolean proceedWithAdventure(Room aRoom, boolean started, String endingRoom){
+
+        if(aRoom == null || endingRoom == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
 
         // 1). Print Description of the room
         System.out.println(aRoom.getDescription());
@@ -27,7 +32,7 @@ public class AdventureOutput {
         // 3). If room is the ending room, print statement below, and terminate program.
         if(aRoom.getName().equals(endingRoom)){
             System.out.println("You have reached your final destination!");
-            System.exit(0);
+            return false;
         }
 
         // 4). Print items in room.
@@ -36,5 +41,6 @@ public class AdventureOutput {
         // 5). Print directions player can go
         aRoom.printDirectionsToGo();
 
+        return true;
     }
 }

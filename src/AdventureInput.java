@@ -123,7 +123,7 @@ public class AdventureInput {
         Direction nextDirection;
         if(currentRoom.findNextDirection(direction) == null){
             System.out.println("I can't go " + direction);
-            return null;
+            return currentRoom;
         }
 
         // If next direction is found, proceed to finding next room
