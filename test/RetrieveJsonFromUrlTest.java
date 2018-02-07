@@ -202,7 +202,8 @@ public class RetrieveJsonFromUrlTest {
                         "      ]\n" +
                         "    }\n" +
                         "  ]\n" +
-                        "}".replaceAll("\n", "").replaceAll("\r", ""),
+                        "}".replaceAll("\n", "").
+                                replaceAll("\r", ""),
                 RetrieveJsonFromUrl.convertUrlToString(RetrieveJsonFromUrl.url).
                         replaceAll("\r", ""));
     }
