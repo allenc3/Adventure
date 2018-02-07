@@ -1,5 +1,6 @@
 import com.google.gson.Gson;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.sun.org.apache.xpath.internal.SourceTree;
 
 import java.net.MalformedURLException;
 
@@ -36,7 +37,11 @@ public class AdventureInterface {
                     System.out.println("The layout JSON is not valid. The endingRoom " +
                             "cannot be reached from the\n" +
                             "startingRoom.\n");
-                } else {
+                } else if(!Layout.validateFloorPlan(adventure)){
+                    System.out.println("Rooms are not connected! Faulty floor plan.");
+                }
+
+                else {
                     AdventureOutput.startAdventureGame(adventure);
                 }
             }

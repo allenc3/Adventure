@@ -150,7 +150,9 @@ public class Layout {
                         getDirections()[j].getRoom());
                 boolean roomsConnect = false;
                 // Check if the connected room has the CURRENT room in the room array
+
                 for (int k = 0; k < nextRoom.getDirections().length; k++) {
+
                     if(nextRoom.getDirections()[k].getRoom().equals(adventure.
                             getRooms()[i].getName())){
                         roomsConnect = true;
