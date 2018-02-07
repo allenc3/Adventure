@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -72,4 +73,66 @@ public class Layout {
         return null;
     }
 
+    /**
+     * Adds the name of the all rooms that are reachable from the starting room in the arraylist
+     * @param reachableRooms arraylist of reachable rooms
+     * @param adventure the layout to be validated
+     * @param startingRoom the starting room object
+     * @throws IllegalArgumentException if adventure or reachableRooms is null
+     */
+    public static void roomConnectedToStartingRoom(ArrayList<String> reachableRooms,
+                                                   Layout adventure, Room startingRoom){
+        if(reachableRooms == null || adventure == null) {
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+        // If next room cannot be found(null), then terminate.
+        if(startingRoom == null){
+            return;
+        }
+
+        // Adds the first room encountered
+        reachableRooms.add(startingRoom.getName());
+
+        // Recurse through all possible rooms connected to the starting room. Skips if the room has
+        // been traversed before, else add it in arraylist.
+        for (int i = 0; i < startingRoom.getDirections().length; i++) {
+            if(!reachableRooms.contains(startingRoom.getDirections()[i].getRoom())){
+                roomConnectedToStartingRoom(reachableRooms, adventure,
+                        adventure.findNextRoom(startingRoom.getDirections()[i].getRoom()));
+
+            }
+        }
+    }
+
+    /**
+     * Determines if ending room is reachable from starting room.
+     * @param adventure the layout to be validated
+     * @return true if ending room can be reached, false otherwise.
+     * @throws IllegalArgumentException if adventure is null
+     */
+    public static boolean endingRoomReachable(Layout adventure){
+        if(adventure == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+
+        // Initializes starting room.
+        Room startingRoom = null;
+        for (int i = 0; i < adventure.getRooms().length; i++) {
+            if(adventure.getRooms()[i].getName().equals(adventure.getStartingRoom())){
+                startingRoom = adventure.getRooms()[i];
+            }
+        }
+
+        ArrayList<String> reachableRooms = new ArrayList<String>();
+        roomConnectedToStartingRoom(reachableRooms, adventure, startingRoom);
+
+        // Checks if the ending room is in the arraylist of reachableRooms.
+        //If not, then ending room is not reachable.
+        for(String roomName: reachableRooms){
+            if(roomName.equals(adventure.getEndingRoom())){
+                return true;
+            }
+        }
+        return false;
+    }
 }

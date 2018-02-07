@@ -9,32 +9,56 @@ public class AdventureInterface {
 
     public static void main(String[] args) throws UnirestException, MalformedURLException{
 
-        if(checkArgs(args)) {
+        //
+        if(checkArgsInput(args)) {
+            String urlOrPath = args[0];
 
-            String url = args[0];
+            // Read by filepath
+            String fileContents = ReadData.readFilePath(urlOrPath);
 
-            // Checks url validity
-            boolean urlAccepted = RetrieveJsonFromUrl.urlIsValid(url);
+            // If filepath reading fails, read by url
+            if(fileContents == null && RetrieveJsonFromUrl.urlIsValid(urlOrPath)){
+                fileContents = RetrieveJsonFromUrl.convertUrlToString(urlOrPath);
+            }
 
-            if(urlAccepted) {
-                // Starts parsing json file.
+            // If both filepath and url reading fails, print both fails.
+            if(fileContents == null){
+                System.out.println("Couldn't find file: " + urlOrPath);
+            }
+
+            // Success, initiate start of game.
+            if(fileContents != null) {
                 Gson gson = new Gson();
-                Layout adventure = gson.fromJson(RetrieveJsonFromUrl.
-                                convertUrlToString(url), Layout.class);
+                Layout adventure = gson.fromJson(fileContents, Layout.class);
 
-                AdventureOutput.startAdventureGame(adventure);
+
+                if (!Layout.endingRoomReachable(adventure)) {
+                    System.out.println("The layout JSON is not valid. The endingRoom " +
+                            "cannot be reached from the\n" +
+                            "startingRoom.\n");
+                } else {
+                    AdventureOutput.startAdventureGame(adventure);
+                }
             }
         }
+
     }
 
-    public static boolean checkArgs(String[] array){
+    /**
+     * Checks if any arguments were passed into main method
+     * @param array string array
+     * @return true if there were arguments, false otherwise.
+     */
+    public static boolean checkArgsInput(String[] array){
         if(array.length == 0){
             System.out.println("No arguments entered!");
             return false;
         }
         return true;
     }
+
 }
+
 
 
 

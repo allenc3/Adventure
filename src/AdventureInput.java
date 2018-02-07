@@ -116,7 +116,7 @@ public class AdventureInput {
         String userInputLowerCaseTrimmed = userInput.toLowerCase().trim();
         // Get the direction folllowing the word "go"
         String direction = userInputLowerCaseTrimmed.substring(2).trim();
-        String originalDirection = userInput.substring(2).trim();
+        String originalDirection = userInput.trim().substring(2).trim();
 
         Room nextRoom;
 
@@ -148,7 +148,7 @@ public class AdventureInput {
         String userInputLowerCaseTrimmed = userInput.toLowerCase().trim();
         String itemName = userInputLowerCaseTrimmed.substring(5).trim();
         // Name to return if can't find item.
-        String originalItemName = userInput.substring(5).trim();
+        String originalItemName = userInput.trim().substring(5).trim();
         String item;
 
         // Items may not be initialized.
@@ -182,7 +182,7 @@ public class AdventureInput {
         String userInputLowerCaseTrimmed = dropItem.toLowerCase().trim();
         String itemName = userInputLowerCaseTrimmed.substring(5).trim();
         // Item name to return if item is not found.
-        String originalItemName = dropItem.substring(5).trim();
+        String originalItemName = dropItem.trim().substring(5).trim();
 
         int indexOfItem = -1;
         for (int i = 0; i < userInventory.size(); i++) {

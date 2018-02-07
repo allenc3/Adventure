@@ -54,7 +54,8 @@ public class DirectionTest {
 
     @Test
     public void directionArrayEquals(){
-        assertTrue(Direction.arrayEquals(adventure.getRooms()[3].getDirections(), directionArrForTest));
+        assertTrue(Direction.arrayEquals(adventure.getRooms()[3].
+                getDirections(), directionArrForTest));
     }
 
     @Test

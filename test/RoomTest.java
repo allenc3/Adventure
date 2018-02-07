@@ -151,7 +151,8 @@ public class RoomTest {
 
     @Test
     public void roomName(){
-        assertEquals("MatthewsStreet",adventure.getRooms()[0].getName());
+        assertEquals("MatthewsStreet",
+                adventure.getRooms()[0].getName());
     }
 
     @Test
@@ -184,7 +185,8 @@ public class RoomTest {
 
     @Test
     public void roomDirection(){
-        assertTrue(Direction.arrayEquals(roomArrForTest[1].getDirections(),adventure.getRooms()[1].getDirections()));
+        assertTrue(Direction.arrayEquals(roomArrForTest[1].getDirections(),
+                adventure.getRooms()[1].getDirections()));
     }
 
     @Test
@@ -314,7 +316,8 @@ public class RoomTest {
     @Test
     public void roomPrintMoreItems(){
         roomArrForTest[1].printItemsInRoom();
-        assertEquals("This room contains: sweatshirt and key" + System.getProperty("line.separator"),
+        assertEquals("This room contains: sweatshirt and key" +
+                        System.getProperty("line.separator"),
                 outContent.toString());
     }
 
@@ -336,7 +339,8 @@ public class RoomTest {
     @Test
     public void roomPrintMoreDirectionToGo(){
         roomArrForTest[1].printDirectionsToGo();
-        assertEquals("From here, you can go: West, Northeast, North, and East" + System.getProperty("line.separator"),
+        assertEquals("From here, you can go: West, Northeast, North, and East" +
+                        System.getProperty("line.separator"),
                 outContent.toString());
     }
 

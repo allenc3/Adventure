@@ -151,7 +151,7 @@ public class AdventureInputTest {
         System.setOut(System.out);
     }
 
-    // Command is implemented in a similar way
+    // takeItem, dropItem, list, and exit is implemented in a similar way
     @Test
     public void goInADirectionCommandNormal(){
         assertTrue(AdventureInput.goInADirectionCommand("go east"));
@@ -186,6 +186,7 @@ public class AdventureInputTest {
     public void goInADirectionCommandStringTooSmall(){
         assertFalse(AdventureInput.goInADirectionCommand("go"));
     }
+
 
     @Test
     public void goInADirectionCommandInvalid(){
@@ -324,6 +325,22 @@ public class AdventureInputTest {
                 outContent.toString());
     }
 
+    @Test
+    public void determineNextRoomFailOriginalString(){
+        Room nextRoom = AdventureInput.determineNextRoom(adventure, adventure.getRooms()[0],
+                "go WESTYYYYYYYYYY");
+        assertEquals("I can't go WESTYYYYYYYYYY" + System.getProperty("line.separator"),
+                outContent.toString());
+    }
+
+    @Test
+    public void determineNextRoomFailSpaceBetweenInput(){
+        Room nextRoom = AdventureInput.determineNextRoom(adventure, adventure.getRooms()[0],
+                "go WESTYYYY   YYYYYY");
+        assertEquals("I can't go WESTYYYY   YYYYYY" + System.getProperty("line.separator"),
+                outContent.toString());
+    }
+
     // Take items null test implemented in a similar way.
     @Test
     public void determineNextRoomLayoutNull(){
@@ -367,8 +384,8 @@ public class AdventureInputTest {
     @Test
     public void takeItemFail(){
         ArrayList<String> tempInventory = new ArrayList<String>();
-        AdventureInput.takeItem(adventure.getRooms()[0], "take random", tempInventory);
-        assertEquals("I can't take random" + System.getProperty("line.separator"),
+        AdventureInput.takeItem(adventure.getRooms()[0], "take RANDOM", tempInventory);
+        assertEquals("I can't take RANDOM" + System.getProperty("line.separator"),
                 outContent.toString());
     }
 
