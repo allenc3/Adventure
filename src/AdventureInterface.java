@@ -31,7 +31,7 @@ public class AdventureInterface {
                 Gson gson = new Gson();
                 Layout adventure = gson.fromJson(fileContents, Layout.class);
 
-
+                // False if ending room is not reachable
                 if (!Layout.endingRoomReachable(adventure)) {
                     System.out.println("The layout JSON is not valid. The endingRoom " +
                             "cannot be reached from the\n" +
