@@ -141,8 +141,8 @@ public class AdventureInput {
      * @param currentRoom the room the user is in
      * @param userInput the item the user wants to take
      */
-    public static void takeItem(Room currentRoom, String userInput, ArrayList<String> userInventory){
-        if(currentRoom == null || userInput == null || userInventory == null){
+    public static void takeItem(Room currentRoom, String userInput, ArrayList<String> inventory){
+        if(currentRoom == null || userInput == null || inventory == null){
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
         String userInputLowerCaseTrimmed = userInput.toLowerCase().trim();
@@ -161,7 +161,7 @@ public class AdventureInput {
         if(itemIndex != -1) {
             item = currentRoom.getItems()[itemIndex];
             currentRoom.removeItem(itemIndex);
-            userInventory.add(item);
+            inventory.add(item);
             return;
         }
         System.out.println("I can't take " + originalItemName);

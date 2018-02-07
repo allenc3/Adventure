@@ -33,7 +33,8 @@ public class AdventureInterfaceTest {
                 "    },\n" +
                 "    {\n" +
                 "      \"name\": \"SiebelEntry\",\n" +
-                "      \"description\": \"You are in the west entry of Siebel Center.  You can see the elevator, the ACM office, and hallways to the north and east.\",\n" +
+                "      \"description\": \"You are in the west entry of Siebel Center.  You can " +
+                "see the elevator, the ACM office, and hallways to the north and east.\",\n" +
                 "\t  \"items\": [\"sweatshirt\", \"key\"],\n" +
                 "      \"directions\": [\n" +
                 "        {\n" +
@@ -56,7 +57,8 @@ public class AdventureInterfaceTest {
                 "    },\n" +
                 "    {\n" +
                 "      \"name\": \"AcmOffice\",\n" +
-                "      \"description\": \"You are in the ACM office.  There are lots of friendly ACM people.\",\n" +
+                "      \"description\": \"You are in the ACM office.  " +
+                "There are lots of friendly ACM people.\",\n" +
                 "      \"items\": [\"pizza\", \"swag\"],\n" +
                 "      \"directions\": [\n" +
                 "        {\n" +
@@ -67,7 +69,8 @@ public class AdventureInterfaceTest {
                 "    },\n" +
                 "    {\n" +
                 "      \"name\": \"SiebelNorthHallway\",\n" +
-                "      \"description\": \"You are in the north hallway.  You can see Siebel 1112 and the door toward NCSA.\",\n" +
+                "      \"description\": \"You are in the north hallway.  " +
+                "You can see Siebel 1112 and the door toward NCSA.\",\n" +
                 "      \"directions\": [\n" +
                 "        {\n" +
                 "          \"directionName\": \"South\",\n" +
@@ -81,7 +84,8 @@ public class AdventureInterfaceTest {
                 "    },\n" +
                 "    {\n" +
                 "      \"name\": \"Siebel1112\",\n" +
-                "      \"description\": \"You are in Siebel 1112.  There is space for two code reviews in this room.\",\n" +
+                "      \"description\": \"You are in Siebel 1112.  " +
+                "There is space for two code reviews in this room.\",\n" +
                 "      \"items\": [\"USB-C connector\", \"grading rubric\"],\n" +
                 "      \"directions\": [\n" +
                 "        {\n" +
@@ -92,7 +96,8 @@ public class AdventureInterfaceTest {
                 "    },\n" +
                 "    {\n" +
                 "      \"name\": \"SiebelEastHallway\",\n" +
-                "      \"description\": \"You are in the east hallway.  You can see Einstein Bros' Bagels and a stairway.\",\n" +
+                "      \"description\": \"You are in the east hallway. " +
+                " You can see Einstein Bros' Bagels and a stairway.\",\n" +
                 "      \"items\": [\"bagel\", \"coffee\"],\n" +
                 "      \"directions\": [\n" +
                 "        {\n" +
@@ -111,7 +116,8 @@ public class AdventureInterfaceTest {
                 "    },\n" +
                 "    {\n" +
                 "      \"name\": \"Siebel1314\",\n" +
-                "      \"description\": \"You are in Siebel 1314.  There are happy CS 126 students doing a code review.\",\n" +
+                "      \"description\": \"You are in Siebel 1314.  " +
+                "There are happy CS 126 students doing a code review.\",\n" +
                 "      \"directions\": [\n" +
                 "        {\n" +
                 "          \"directionName\": \"North\",\n" +
@@ -121,7 +127,8 @@ public class AdventureInterfaceTest {
                 "    },\n" +
                 "    {\n" +
                 "      \"name\": \"SiebelBasement\",\n" +
-                "      \"description\": \"You are in the basement of Siebel.  You see tables with students working and door to computer labs.\",\n" +
+                "      \"description\": \"You are in the basement of Siebel.  " +
+                "You see tables with students working and door to computer labs.\",\n" +
                 "      \"items\": [\"pencil\"],\n" +
                 "      \"directions\": [\n" +
                 "        {\n" +

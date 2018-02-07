@@ -45,7 +45,7 @@ public class AdventureInterface {
     }
 
     /**
-     * Checks if any arguments were passed into main method
+     * Checks if any arguments were passed into main method. Input will not be null.
      * @param array string array
      * @return true if there were arguments, false otherwise.
      */

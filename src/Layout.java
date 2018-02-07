@@ -135,4 +135,33 @@ public class Layout {
         }
         return false;
     }
+
+    /**
+     * All rooms should connect to each other.
+     * @param adventure map to be validated
+     * @return true if rooms are connected, false otherwise.
+     */
+    public static boolean validateFloorPlan(Layout adventure){
+        // Loops through all rooms
+        for (int i = 0; i < adventure.getRooms().length; i++) {
+            // Gets a connected room
+            for (int j = 0; j < adventure.getRooms()[i].getDirections().length; j++) {
+                Room nextRoom = adventure.findNextRoom(adventure.getRooms()[i].
+                        getDirections()[j].getRoom());
+                boolean roomsConnect = false;
+                // Check if the connected room has the CURRENT room in the room array
+                for (int k = 0; k < nextRoom.getDirections().length; k++) {
+                    if(nextRoom.getDirections()[k].getRoom().equals(adventure.
+                            getRooms()[i].getName())){
+                        roomsConnect = true;
+                    }
+                }
+                // If not, rooms do not connect.
+                if(!roomsConnect){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

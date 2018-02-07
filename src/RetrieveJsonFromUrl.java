@@ -23,7 +23,7 @@ public class RetrieveJsonFromUrl {
 
 
     /**
-     * Checks validity of url, prints error message if an exception was thrown, and terminates program.
+     * Checks validity of url, prints error message if an exception was thrown.
      * @param url the url to be checked.
      */
     public static boolean urlIsValid(String url) {
@@ -54,7 +54,8 @@ public class RetrieveJsonFromUrl {
      * @throws UnirestException if network is not responding.
      * @throws MalformedURLException if url is invalid.
      */
-    public static String convertUrlToString(String url) throws UnirestException, MalformedURLException {
+    public static String convertUrlToString(String url) throws UnirestException,
+            MalformedURLException {
 
         if(url == null){
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
@@ -67,7 +68,7 @@ public class RetrieveJsonFromUrl {
 
         jsonAsString = Unirest.get(url).asString();
 
-        // Check to see if the request was successful; if so, convert the payload JSON into Java objects
+        // Check to see if the request was successful
         if (jsonAsString.getStatus() == STATUS_OK) {
             return jsonAsString.getBody();
         }

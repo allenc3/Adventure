@@ -244,7 +244,8 @@ public class Room {
 
             // Case when items = 2
             else if(this.getDirections().length == 2){
-                System.out.println(this.getDirections()[0].getDirectionName() + " and " + this.getDirections()[1].getDirectionName());
+                System.out.println(this.getDirections()[0].getDirectionName() +
+                        " and " + this.getDirections()[1].getDirectionName());
             }
 
             // Case when items >= 3

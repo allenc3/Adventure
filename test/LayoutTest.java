@@ -13,12 +13,13 @@ public class LayoutTest {
     private static Layout adventure;
     private static Layout layoutObjForTest;
     private static Layout notReachable;
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private static Layout failAdventure;
+
 
     @Before
     public void setUp() throws Exception{
         Gson gson = new Gson();
-        System.setOut(new PrintStream(outContent));
+
         adventure = gson.fromJson(RetrieveJsonFromUrl.convertUrlToString(RetrieveJsonFromUrl.url),
                 Layout.class);
         layoutObjForTest = gson.fromJson("{\n" +
@@ -268,14 +269,14 @@ public class LayoutTest {
                 "    }\n" +
                 "  ]\n" +
                 "}", Layout.class);
-    }
-    @After
-    public void restore(){
-        System.setOut(System.out);
+        failAdventure = gson.fromJson(RetrieveJsonFromUrl.convertUrlToString(
+                "https://courses.engr.illinois.edu/cs126/adventure/circular.json"),
+                Layout.class);
     }
 
     @Test
     public void layoutStartingRoom(){
+
         assertEquals("MatthewsStreet",adventure.getStartingRoom());
     }
 
@@ -308,6 +309,16 @@ public class LayoutTest {
     @Test
     public void endingRoomReachableTest(){
         assertFalse(Layout.endingRoomReachable(notReachable));
+    }
+
+    @Test
+    public void validateFloorPlan(){
+        assertTrue(Layout.validateFloorPlan(adventure));
+    }
+
+    @Test
+    public void validateFloorPlanFail(){
+        assertFalse(Layout.validateFloorPlan(failAdventure));
     }
 
 }

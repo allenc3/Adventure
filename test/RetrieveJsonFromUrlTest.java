@@ -74,7 +74,7 @@ public class RetrieveJsonFromUrlTest {
 
 
     /**
-     * Difference only in line separator(CRLF windows, LF unix, CR mac) so had to use replaceall method.
+     * Difference only in line separator(CRLF windows, LF unix, CR mac) so used replaceAll method.
      */
     @Test
     public void stringRetrieverTest() throws MalformedURLException, UnirestException{
