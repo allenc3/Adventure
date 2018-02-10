@@ -43,20 +43,19 @@ public class Direction {
 
     /**
      * Compares if two arrays of Direction objects are equal.
-     * @param arr1 first Direction array
-     * @param arr2 second Direction array
+     * @param directionArr1 first Direction array
+     * @param directionArr2 second Direction array
      * @return true if the two array contain equal Direction objects, false otherwise.
      * @throws IllegalArgumentException if input is null
      */
     @SuppressWarnings("Duplicates")
-    public static boolean arrayEquals(Direction[] arr1, Direction[] arr2){
-        if(arr1 == null || arr2 == null) {
+    public static boolean arrayEquals(Direction[] directionArr1, Direction[] directionArr2){
+        if(directionArr1 == null || directionArr2 == null) {
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
-
-        if(arr1.length == arr2.length){
-            for (int i = 0; i < arr1.length; i++) {
-                if(!arr1[i].equals(arr2[i])){
+        if(directionArr1.length == directionArr2.length){
+            for (int i = 0; i < directionArr1.length; i++) {
+                if(!directionArr1[i].equals(directionArr2[i])){
                     return false;
                 }
             }

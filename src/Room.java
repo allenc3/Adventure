@@ -1,4 +1,3 @@
-import com.sun.deploy.util.ArrayUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +12,7 @@ public class Room {
      */
     private String name;
     private String description;
-    private String[] items;
+    private ArrayList<String> items;
     private Direction[] directions;
 
 
@@ -34,21 +33,9 @@ public class Room {
      /**
       * @return a string arraylist of the items in the room
       */
-     public String[] getItems() {
+     public ArrayList<String> getItems() {
          return items;
      }
-
-    /**
-     * Sets an item array since it might not be initialized.
-     * @param items the item array to be added
-     * @throws IllegalArgumentException if items is null
-     */
-    public void setItems(String[] items) {
-        if(items == null){
-            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
-        }
-        this.items = items;
-    }
 
     /**
      * @return a direction array that consists of the possible directions one may proceed to
@@ -57,52 +44,55 @@ public class Room {
         return directions;
     }
 
-
     /**
-     * Removes item from items array.
-     * @param indexToBeRemoved the index of the item to be removed.
-     * @throws IllegalArgumentException if index if negative
+     * Sets an item arraylist since it might not be initialized.
+     * @throws IllegalArgumentException if items is null
      */
-    public void removeItem(int indexToBeRemoved) {
-        if(indexToBeRemoved < 0){
-            throw new IllegalArgumentException(ErrorConstants.NEGATIVE_INDEX);
-        }
-
-        // Converts array to arraylist
-        ArrayList<String> itemArrayList = new ArrayList<String>(Arrays.asList(items));
-
-        // Removes item
-        itemArrayList.remove(indexToBeRemoved);
-
-        // Converts arraylist back to array and assigns the item array to it.
-        String[] arrWithItemRemoved = new String[itemArrayList.size()];
-        arrWithItemRemoved = itemArrayList.toArray(arrWithItemRemoved);
-        this.items = arrWithItemRemoved;
+    public void setItems() {
+        this.items = new ArrayList<>();
     }
 
     /**
-     * Adds item to items array.
-     * @param itemToBeAdded the string of the item to be added.
-     * @throws IllegalArgumentException if itemToBeAdded is null
+     * Removes an item from the items arraylist
+     * @throws IllegalArgumentException if items is null
      */
-    public void addItem(String itemToBeAdded) {
+    public void removeItems(int indexToBeRemoved) {
+        if(indexToBeRemoved < 0 || indexToBeRemoved > this.items.size() - 1){
+            throw new IllegalArgumentException(ErrorConstants.INDEX_OUT_OF_RANGE);
+        }
+        this.items.remove(indexToBeRemoved);
+    }
 
-        if(itemToBeAdded == null){
+    /**
+     * Removes an item from the items arraylist
+     * @throws IllegalArgumentException if items is null
+     */
+    public void addItems(String item) {
+        if(item == null){
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
-
-        // Converts array to arraylist
-        ArrayList<String> itemArrayList = new ArrayList<String>(Arrays.asList(items));
-
-        // Adds item
-        itemArrayList.add(itemToBeAdded);
-
-        // Converts arraylist back to array and assigns the item array to it
-        String[] arrWithItemAdded = new String[itemArrayList.size()];
-        arrWithItemAdded = itemArrayList.toArray(arrWithItemAdded);
-        this.items = arrWithItemAdded;
+        this.items.add(item);
     }
 
+    /**
+     * Custom compare method to determine if two arrays of items are equal
+     * @param another set of string item arraylist
+     * @return true if first and second set are equal, false otherwise
+     */
+    public boolean itemsEquals(ArrayList<String> another){
+        if(another == null) {
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+        if(this.getItems().size() == another.size()) {
+            for (int i = 0; i < another.size(); i++) {
+                if(!another.contains(this.getItems().get(i))){
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Custom equals to method to compare two Room objects
@@ -114,32 +104,34 @@ public class Room {
          if(another == null) {
              throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
          }
-
-         if(this.name.equals(another.name) && this.description.equals(another.description)
-                 && Arrays.deepEquals(this.getItems(), another.getItems())
-                 && Direction.arrayEquals(this.getDirections(), another.getDirections())) {
-             return true;
+         if(another.getItems() == null){
+             another.setItems();
          }
-         return false;
+         if(this.getItems() == null){
+             this.setItems();
+         }
+         return this.name.equals(another.name) && this.description.equals(another.description)
+                 && this.itemsEquals(another.getItems())
+                 && Direction.arrayEquals(this.getDirections(), another.getDirections());
      }
 
 
     /**
      * Compares if two arrays of Room objects are equal.
-     * @param arr1 first Room array
-     * @param arr2 second Room array
+     * @param roomArr1 first Room array
+     * @param roomArr2 second Room array
      * @return true if the two array contain equal Room objects, false otherwise.
      * @throws IllegalArgumentException if either arr 1 or arr 2 is null
      */
     @SuppressWarnings("Duplicates")
-    public static boolean arrayEquals(Room[] arr1, Room[] arr2){
-        if(arr1 == null || arr2 == null) {
+    public static boolean arrayEquals(Room[] roomArr1, Room[] roomArr2){
+        if(roomArr1 == null || roomArr2 == null) {
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
 
-        if(arr1.length == arr2.length){
-            for (int i = 0; i < arr1.length; i++) {
-                if(!arr1[i].equals(arr2[i])){
+        if(roomArr1.length == roomArr2.length){
+            for (int i = 0; i < roomArr1.length; i++) {
+                if(!roomArr1[i].equals(roomArr2[i])){
                     return false;
                 }
             }
@@ -155,14 +147,14 @@ public class Room {
      * @return the direction object if it is found, null otherwise.
      * @throws IllegalArgumentException if inputDirection is null
      */
-    public Direction findNextDirection(String inputDirection){
+    public Direction findDirection(String inputDirection){
         if(inputDirection == null) {
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
 
-        inputDirection = inputDirection.toLowerCase().trim();
+        inputDirection = inputDirection.trim();
         for(Direction direction: directions){
-            if(direction.getDirectionName().toLowerCase().equals(inputDirection)){
+            if(direction.getDirectionName().equalsIgnoreCase(inputDirection)){
                 return direction;
             }
         }
@@ -180,9 +172,8 @@ public class Room {
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
 
-        for (int i = 0; i < items.length; i++) {
-
-            if (items[i].toLowerCase().equals(inputItem)) {
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).equalsIgnoreCase(inputItem)) {
                 return i;
             }
         }
@@ -200,28 +191,28 @@ public class Room {
         }
 
         // Case if items is empty
-        if(this.getItems().length == 0){
+        if(this.getItems().size() == 0){
             System.out.println("This room contains nothing!");
         } else {
             System.out.print("This room contains: ");
 
             // Case when items = 1
-            if(this.getItems().length == 1){
-                System.out.println(this.getItems()[0]);
+            if(this.getItems().size() == 1){
+                System.out.println(this.getItems().get(0));
             }
 
             // Case when items = 2
-            else if(this.getItems().length == 2) {
-                System.out.println(this.getItems()[0] + " and " + this.getItems()[1]);
+            else if(this.getItems().size() == 2) {
+                System.out.println(this.getItems().get(0) + " and " + this.getItems().get(1));
             }
 
             // Case when items >= 3
             else {
-                for (int i = 0; i < this.getItems().length; i++) {
-                    if (i == this.getItems().length - 1) {
-                        System.out.println("and " + this.getItems()[i]);
+                for (int i = 0; i < this.getItems().size(); i++) {
+                    if (i == this.getItems().size() - 1) {
+                        System.out.println("and " + this.getItems().get(i));
                     } else{
-                        System.out.print(this.getItems()[i] + ", ");
+                        System.out.print(this.getItems().get(i) + ", ");
                     }
                 }
             }

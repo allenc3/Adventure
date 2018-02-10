@@ -1,30 +1,22 @@
-import com.google.gson.Gson;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.PrintStream;
 
 import static org.junit.Assert.*;
 
 public class DirectionTest {
 
-    private static Layout adventure;
-    private static Direction[] directionArrForTest;
+    private Layout adventure;
+    private Direction[] directionArrForTest;
+    TestingStrings test;
 
     @Before
-    public void setUp() throws Exception{
-        Gson gson = new Gson();
-        adventure = gson.fromJson(RetrieveJsonFromUrl.
-                convertUrlToString(RetrieveJsonFromUrl.url), Layout.class);
-
-        directionArrForTest = gson.fromJson("[\n" +
-                "        {\n" +
-                "          \"directionName\": \"South\",\n" +
-                "          \"room\": \"SiebelEntry\"\n" +
-                "        }, \n" +
-                "        {\n" +
-                "          \"directionName\": \"NorthEast\",\n" +
-                "          \"room\": \"Siebel1112\"\n" +
-                "        }\n" +
-                "      ]", Direction[].class);
+    public void setUp() {
+        test = new TestingStrings();
+        adventure = test.getAdventure();
+        directionArrForTest = test.getDirectionArrForTest();
     }
 
     @Test
@@ -59,7 +51,7 @@ public class DirectionTest {
     }
 
     @Test
-    public void directionArraysEqualsArr1Null(){
+    public void arraysEqualsArr1Null(){
         try{
             Direction.arrayEquals(null, directionArrForTest);
             fail();
@@ -69,7 +61,7 @@ public class DirectionTest {
     }
 
     @Test
-    public void directionArraysEqualsArr2Null(){
+    public void arraysEqualsArr2Null(){
         try{
             Direction.arrayEquals(directionArrForTest, null);
             fail();

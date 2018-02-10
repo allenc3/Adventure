@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Layout object that includes Room and Direction objects.
@@ -35,54 +34,48 @@ public class Layout {
         return rooms;
     }
 
-//    /**
-//     * Custom equals to method to compare two Layout objects.
-//     * @param another another Layout object
-//     * @return true if two Layout objects are equal, false otherwise.
-//     * @throws IllegalArgumentException if input is null
-//     */
-//    public boolean equals(Layout another){
-//        if(another == null) {
-//            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
-//        }
-//
-//        if(this.startingRoom.equals(another.startingRoom)
-//                && this.endingRoom.equals(another.endingRoom)
-//                && Room.arrayEquals(this.getRooms(), another.getRooms())){
-//            return true;
-//        }
-//        return false;
-//    }
+    /**
+     * Custom equals for layout object
+     * @param another layout object
+     * @return true if two layout objects are equal, false otherwise
+     */
+    public boolean equals(Layout another){
+        if (another == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+        return this.getStartingRoom().equals(another.getStartingRoom()) &&
+                this.getEndingRoom().equals(another.getEndingRoom()) &&
+                Room.arrayEquals(this.getRooms(), another.getRooms());
+    }
 
     /**
      * Method to find next room based on the name of a room.
-     * @param nextRoomName room to be found
+     * @param roomName room to be found
      * @return the room if it is found, null otherwise.
      * @throws IllegalArgumentException if nextRoomName is null
      */
-    public Room findNextRoom(String nextRoomName){
-        if(nextRoomName == null) {
+    public Room findRoomByRoomName(String roomName){
+        if(roomName == null) {
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
-        nextRoomName = nextRoomName.toLowerCase();
+        roomName = roomName.toLowerCase();
         for(Room room: rooms){
-            if(room.getName().toLowerCase().equals(nextRoomName)){
+            if(room.getName().toLowerCase().equals(roomName)){
                 return room;
             }
         }
         return null;
     }
 
+
     /**
      * Adds the name of the all rooms that are reachable from the starting room in the arraylist
      * @param reachableRooms arraylist of reachable rooms
-     * @param adventure the layout to be validated
      * @param startingRoom the starting room object
      * @throws IllegalArgumentException if adventure or reachableRooms is null
      */
-    public static void roomConnectedToStartingRoom(ArrayList<String> reachableRooms,
-                                                   Layout adventure, Room startingRoom){
-        if(reachableRooms == null || adventure == null) {
+    private void roomConnectedToStartingRoom(ArrayList<String> reachableRooms, Room startingRoom){
+        if(reachableRooms == null) {
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
         // If next room cannot be found(null), then terminate.
@@ -97,8 +90,8 @@ public class Layout {
         // been traversed before, else add it in arraylist.
         for (int i = 0; i < startingRoom.getDirections().length; i++) {
             if(!reachableRooms.contains(startingRoom.getDirections()[i].getRoom())){
-                roomConnectedToStartingRoom(reachableRooms, adventure,
-                        adventure.findNextRoom(startingRoom.getDirections()[i].getRoom()));
+                roomConnectedToStartingRoom(reachableRooms,
+                        this.findRoomByRoomName(startingRoom.getDirections()[i].getRoom()));
 
             }
         }
@@ -106,30 +99,20 @@ public class Layout {
 
     /**
      * Determines if ending room is reachable from starting room.
-     * @param adventure the layout to be validated
      * @return true if ending room can be reached, false otherwise.
      * @throws IllegalArgumentException if adventure is null
      */
-    public static boolean endingRoomReachable(Layout adventure){
-        if(adventure == null){
-            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
-        }
-
+    public boolean isEndingRoomReachable(){
         // Initializes starting room.
-        Room startingRoom = null;
-        for (int i = 0; i < adventure.getRooms().length; i++) {
-            if(adventure.getRooms()[i].getName().equals(adventure.getStartingRoom())){
-                startingRoom = adventure.getRooms()[i];
-            }
-        }
+        Room startingRoom = this.findRoomByRoomName(getStartingRoom());
 
-        ArrayList<String> reachableRooms = new ArrayList<String>();
-        roomConnectedToStartingRoom(reachableRooms, adventure, startingRoom);
+        ArrayList<String> reachableRooms = new ArrayList<>();
+        roomConnectedToStartingRoom(reachableRooms, startingRoom);
 
         // Checks if the ending room is in the arraylist of reachableRooms.
         //If not, then ending room is not reachable.
         for(String roomName: reachableRooms){
-            if(roomName.equals(adventure.getEndingRoom())){
+            if(roomName.equals(getEndingRoom())){
                 return true;
             }
         }
@@ -138,23 +121,21 @@ public class Layout {
 
     /**
      * All rooms should connect to each other.
-     * @param adventure map to be validated
      * @return true if rooms are connected, false otherwise.
      */
-    public static boolean validateFloorPlan(Layout adventure){
+    public boolean isFloorPlanValid(){
         // Loops through all rooms
-        for (int i = 0; i < adventure.getRooms().length; i++) {
+        for (int i = 0; i < rooms.length; i++) {
             // Gets a connected room
-            for (int j = 0; j < adventure.getRooms()[i].getDirections().length; j++) {
-                Room nextRoom = adventure.findNextRoom(adventure.getRooms()[i].
-                        getDirections()[j].getRoom());
+            for (int j = 0; j < rooms[i].getDirections().length; j++) {
+                Room nextRoom = findRoomByRoomName(rooms[i].getDirections()[j].getRoom());
                 boolean roomsConnect = false;
-                // Check if the connected room has the CURRENT room in the room array
 
+                // Check if the connected room has the CURRENT room in the room array
                 for (int k = 0; k < nextRoom.getDirections().length; k++) {
 
-                    if(nextRoom.getDirections()[k].getRoom().equals(adventure.
-                            getRooms()[i].getName())){
+                    String originalRoom = getRooms()[i].getName();
+                    if(nextRoom.getDirections()[k].getRoom().equals(originalRoom)){
                         roomsConnect = true;
                     }
                 }

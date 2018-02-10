@@ -1,0 +1,116 @@
+{
+  "startingRoom": "ISR Lobby",
+  "endingRoom": "Townsend",
+  "rooms": [
+    {
+      "name": "Lounge A",
+      "description": "You are in lounge A, an open lounge that is rather cold.",
+      "items": ["notebook", "pencilbox"],
+      "directions": [
+        {
+          "directionName": "North",
+          "room": "Lounge B"
+        },
+	{
+          "directionName": "South",
+          "room": "ISR Lobby"
+        }
+      ]
+    },
+    {
+      "name": "ISR Lobby",
+      "description": "You ran into the ISR lobby, cold and shivering. What a FREEZING day, you think to yourself.",
+	  "items": ["small chair"],
+      "directions": [
+        {
+          "directionName": "North",
+          "room": "Lounge A"
+        },
+        {
+          "directionName": "East",
+          "room": "Townsend"
+        },
+        {
+          "directionName": "West",
+          "room": "Wardall"
+        }
+      ]
+    },
+    {
+      "name": "Lounge B",
+      "description": "You are in lounge B, a nice and quiet study place.",
+      "items": ["textbook", "someone else's laptop"],
+      "directions": [
+        {
+          "directionName": "South",
+          "room": "Lounge A"
+        },
+	{
+          "directionName": "North",
+          "room": "Lounge C"
+        }
+      ]
+    },
+    {
+      "name": "Lounge C",
+      "description": "You are in lounge C, where beautiful(?) piano music is often heard.",
+      "directions": [
+        {
+          "directionName": "South",
+          "room": "Lounge B"
+        }, 
+        {
+          "directionName": "North",
+          "room": "Dining Hall"
+        },
+	{
+          "directionName": "Northwest",
+          "room": "Chomps"
+        }
+      ]
+    },
+    {
+      "name": "Dining Hall",
+      "description": "You are in the dining hall. THE BEST DINING HALL ON CAMPUS. ISR #1",
+      "items": ["GREAT FOOD", "HEALTHY SNACKS", "HUNGRY PEOPLE"],
+      "directions": [
+        {
+          "directionName": "South",
+          "room": "Lounge C"
+        }
+      ]
+    },
+    {
+      "name": "Chomps",
+      "description": "You are in chomps. Heaven.",
+      "items": ["bagel", "soda", "burgers", "clerk"],
+      "directions": [
+        {
+          "directionName": "Southeast",
+          "room": "Lounge C"
+        }
+      ]
+    },
+    {
+      "name": "Wardall",
+      "description": "I don't live here. Townsend#1",
+      "items": ["nothing"],
+      "directions": [
+        {
+          "directionName": "East",
+          "room": "ISR Lobby"
+        }
+      ]
+    },
+    {
+      "name": "Townsend",
+      "description": "You are in Townsend. Yay. Cool place. Don't stalk me though",
+      "directions": [
+        {
+          "directionName": "West",
+          "room": "ISR Lobby"
+        }
+      ]
+    }
+  ]
+}

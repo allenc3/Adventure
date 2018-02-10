@@ -1,7 +1,7 @@
 import java.io.IOException;
 import java.nio.file.*;
 
-public class ReadData {
+public class ReadDataFromFilePath {
     /**
      * Citation: Function derived from "coursegrades" assignment.
      * Reads the json file from the given relative path.
@@ -35,7 +35,6 @@ public class ReadData {
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
 
-        String jsonAsString;
         try{
             return new String(Files.readAllBytes(Paths.get(path)));
         } catch (IOException e) {
