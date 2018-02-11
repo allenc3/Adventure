@@ -1,3 +1,5 @@
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Defines a monster object
  */
@@ -7,9 +9,13 @@ public class Monster {
      * Variables initialized according to monster's properties
      */
     private String name;
-    private Double attack;
-    private Double defense;
-    private Double health;
+    private double attack;
+    private double defense;
+    private double health;
+    private transient double originalHealth;
+
+
+
 
     /**
      * @return the name of the monster
@@ -21,22 +27,43 @@ public class Monster {
     /**
      * @return the monster's attack damage
      */
-    public Double getAttack() {
+    public double getAttack() {
         return attack;
     }
 
     /**
      * @return the monster's defense
      */
-    public Double getDefense() {
+    public double getDefense() {
         return defense;
     }
 
     /**
      * @return the health of the monster
      */
-    public Double getHealth() {
+    public double getHealth() {
         return health;
+    }
+
+    /**
+     * Original health will only be initialized when take damage is called. Default value is 0.0
+     * @return original health of the monster.
+     */
+    public double getOriginalHealth() {
+        return originalHealth;
+    }
+
+    /**
+     * @param damage the damage taken
+     */
+    public void takeDamage(double damage) {
+        if(originalHealth == 0) {
+            this.originalHealth += this.health;
+        }
+        if(damage < 0){
+            damage = 0;
+        }
+        this.health -= damage;
     }
 
     /**

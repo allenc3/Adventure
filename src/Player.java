@@ -10,10 +10,12 @@ public class Player {
      */
     private String name;
     private ArrayList<Item> items;
-    private Double attack;
-    private Double defense;
-    private Double health;
+    private double attack;
+    private double defense;
+    private double health;
+    private transient double originalHealth;
     private int level;
+    private transient int experience = 0;
 
     /**
      * @return name of player
@@ -32,21 +34,21 @@ public class Player {
     /**
      * @return player's attack
      */
-    public Double getAttack() {
+    public double getAttack() {
         return attack;
     }
 
     /**
      * @return player's defense
      */
-    public Double getDefense() {
+    public double getDefense() {
         return defense;
     }
 
     /**
      * @return player's health
      */
-    public Double getHealth() {
+    public double getHealth() {
         return health;
     }
 
@@ -56,6 +58,18 @@ public class Player {
     public int getLevel() {
         return level;
     }
+
+    /**
+     * @return original health of player
+     */
+    public double getOriginalHealth(){
+        return originalHealth;
+    }
+
+    public void addExperience(int experience){
+
+    }
+
 
     /**
      * Adds item in player inventory
@@ -112,6 +126,37 @@ public class Player {
                 }
             }
         }
+    }
+
+    /**
+     * Players health decreases according to damage
+     * @param damage
+     */
+    public void takeDamage(double damage){
+        if(originalHealth == 0) {
+            originalHealth = health;
+        }
+        if(damage < 0) {
+            damage = 0;
+        }
+        health -= damage;
+    }
+
+    /**
+     * Finds an item in the player's inventory
+     * @param inputItem the item to be found
+     * @return the item if found, null otherwise.
+     */
+    public Item findItem(String inputItem){
+        if(inputItem == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+        for(Item item: items) {
+            if(item.getName().equalsIgnoreCase(inputItem)){
+                return item;
+            }
+        }
+        return null;
     }
 
 }

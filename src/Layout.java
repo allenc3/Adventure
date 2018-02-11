@@ -163,4 +163,16 @@ public class Layout {
         }
         return true;
     }
+
+    /**
+     * Removes monster from monster arraylist
+     * @param monster to be removed
+     * @throws IllegalArgumentException if monster is null
+     */
+    public void removeMonster(Monster monster){
+        if(monster == null) {
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+        this.monsters.remove(monster);
+    }
 }

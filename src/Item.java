@@ -6,7 +6,7 @@ public class Item {
      * Variables initialized according to item's properties
      */
     private String name;
-    private Double damage;
+    private double damage;
 
     /**
      * @return the name of the item
@@ -18,7 +18,7 @@ public class Item {
     /**
      * @return the damage of the item
      */
-    public Double getDamage() {
+    public double getDamage() {
         return damage;
     }
 
@@ -28,8 +28,8 @@ public class Item {
      * @param damage item damage
      * @throws IllegalArgumentException if name or damage is null
      */
-    public Item(String name, Double damage){
-        if(name == null || damage == null){
+    public Item(String name, double damage){
+        if(name == null){
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
         this.name = name;

@@ -247,7 +247,7 @@ public class AdventureGameTest {
     @Test
     public void takeItemSuccess(){
         ArrayList<Item> tempInventory = new ArrayList<>();
-        game.takeItem(adventure.getRooms()[0], "take sword", tempInventory);
+        game.takeItem(adventure.getRooms()[0], "take sword", adventure.getPlayer());
         assertTrue(tempInventory.get(0).getName().equalsIgnoreCase("sword"));
         assertTrue(adventure.getRooms()[0].getItems().size() == 0);
     }
@@ -255,7 +255,7 @@ public class AdventureGameTest {
     @Test
     public void takeItemFail(){
         ArrayList<Item> tempInventory = new ArrayList<>();
-        game.takeItem(adventure.getRooms()[0], "take RANDOM", tempInventory);
+        game.takeItem(adventure.getRooms()[0], "take RANDOM", adventure.getPlayer());
         assertEquals("I can't take RANDOM" + System.getProperty("line.separator"),
                 outContent.toString());
     }
@@ -266,7 +266,7 @@ public class AdventureGameTest {
         ArrayList<Item> tempInventory = new ArrayList<>();
         Item Allen = new Item("Allen", 30.0);
         tempInventory.add(Allen);
-        game.dropItem(adventure.getRooms()[0], "drop Allen", tempInventory);
+        game.dropItem(adventure.getRooms()[0], "drop Allen", adventure.getPlayer());
         assertTrue(adventure.getRooms()[0].getItems().get(1).getName().equals("Allen"));
         assertTrue(tempInventory.size() == 0);
     }
@@ -274,7 +274,7 @@ public class AdventureGameTest {
     @Test
     public void dropItemFail(){
         ArrayList<Item> tempInventory = new ArrayList<>();
-        game.dropItem(adventure.getRooms()[0], "drop random", tempInventory);
+        game.dropItem(adventure.getRooms()[0], "drop random", adventure.getPlayer());
         assertEquals("I can't drop random" + System.getProperty("line.separator"),
                 outContent.toString());
     }
@@ -284,7 +284,7 @@ public class AdventureGameTest {
         ArrayList<Item> tempInventory = new ArrayList<>();
         Item Allen = new Item("Allen", 30.0);
         tempInventory.add(Allen);
-        game.printList(tempInventory);
+        adventure.getPlayer().addItem(Allen);
         assertEquals("You are carrying Allen" + System.getProperty("line.separator"),
                 outContent.toString());
 
@@ -293,7 +293,7 @@ public class AdventureGameTest {
     @Test
     public void printEmptyList(){
         ArrayList<Item> tempInventory = new ArrayList<>();
-        game.printList(tempInventory);
+        adventure.getPlayer().printList();
         assertEquals("You are carrying nothing." + System.getProperty("line.separator"),
                 outContent.toString());
 
@@ -307,7 +307,9 @@ public class AdventureGameTest {
         Item Eric = new Item("Eric", 1.0);
         tempInventory.add(Allen);
         tempInventory.add(Eric);
-        game.printList(tempInventory);
+        adventure.getPlayer().addItem(Allen);
+        adventure.getPlayer().addItem(Eric);
+        adventure.getPlayer().printList();
         assertEquals("You are carrying Allen and Eric" +
                         System.getProperty("line.separator"), outContent.toString());
 
@@ -315,14 +317,13 @@ public class AdventureGameTest {
 
     @Test
     public void printThreeItemsList(){
-        ArrayList<Item> tempInventory = new ArrayList<>();
         Item Allen = new Item("Allen", 30.0);
         Item Eric = new Item("Eric", 1.0);
         Item Paul = new Item("Paul", 0.5);
-        tempInventory.add(Allen);
-        tempInventory.add(Eric);
-        tempInventory.add(Paul);
-        game.printList(tempInventory);
+        adventure.getPlayer().addItem(Allen);
+        adventure.getPlayer().addItem(Eric);
+        adventure.getPlayer().printList();
+        adventure.getPlayer().addItem(Paul);
         assertEquals("You are carrying Allen, Eric, and Paul" +
                         System.getProperty("line.separator"), outContent.toString());
 

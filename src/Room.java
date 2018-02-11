@@ -335,6 +335,18 @@ public class Room {
         return false;
     }
 
+    /**
+     * Removes monster if it is dead
+     * @param monsterName name of monster
+     * @throws IllegalArgumentException nullInput if name is null
+     */
+    public void removeMonster(String monsterName){
+        if(monsterName == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+        monstersInRoom.remove(monsterName);
+    }
+
 
 
 }
