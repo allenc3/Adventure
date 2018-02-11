@@ -12,8 +12,9 @@ public class Room {
      */
     private String name;
     private String description;
-    private ArrayList<String> items;
     private Direction[] directions;
+    private ArrayList<Item> items;
+    private ArrayList<String> monstersInRoom;
 
 
     /**
@@ -33,7 +34,7 @@ public class Room {
      /**
       * @return a string arraylist of the items in the room
       */
-     public ArrayList<String> getItems() {
+     public ArrayList<Item> getItems() {
          return items;
      }
 
@@ -45,11 +46,31 @@ public class Room {
     }
 
     /**
+     * @return a arraylist of monsters in the room
+     */
+    public ArrayList<String> getMonstersInRoom() {
+        return monstersInRoom;
+    }
+
+    /**
      * Sets an item arraylist since it might not be initialized.
-     * @throws IllegalArgumentException if items is null
      */
     public void setItems() {
         this.items = new ArrayList<>();
+    }
+
+    /**
+     * Sets a monster arraylist since it might not be initialized.
+     */
+    public void setMonsters() {
+        this.monstersInRoom= new ArrayList<>();
+    }
+
+    /**
+     * Sets a directions array since it might not be initialized.
+     */
+    public void setDirections() {
+        this.monstersInRoom= new ArrayList<>();
     }
 
     /**
@@ -67,7 +88,7 @@ public class Room {
      * Removes an item from the items arraylist
      * @throws IllegalArgumentException if items is null
      */
-    public void addItems(String item) {
+    public void addItems(Item item) {
         if(item == null){
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
@@ -79,13 +100,19 @@ public class Room {
      * @param another set of string item arraylist
      * @return true if first and second set are equal, false otherwise
      */
-    public boolean itemsEquals(ArrayList<String> another){
+    public boolean itemsEquals(ArrayList<Item> another){
         if(another == null) {
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
         if(this.getItems().size() == another.size()) {
             for (int i = 0; i < another.size(); i++) {
-                if(!another.contains(this.getItems().get(i))){
+                boolean itemFound = false;
+                for(Item item : another) {
+                    if(items.get(i).equals(item)){
+                        itemFound = true;
+                    }
+                }
+                if(!itemFound){
                     return false;
                 }
             }
@@ -173,7 +200,7 @@ public class Room {
         }
 
         for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).equalsIgnoreCase(inputItem)) {
+            if (items.get(i).getName().equalsIgnoreCase(inputItem)) {
                 return i;
             }
         }
@@ -198,21 +225,22 @@ public class Room {
 
             // Case when items = 1
             if(this.getItems().size() == 1){
-                System.out.println(this.getItems().get(0));
+                System.out.println(this.getItems().get(0).getName());
             }
 
             // Case when items = 2
             else if(this.getItems().size() == 2) {
-                System.out.println(this.getItems().get(0) + " and " + this.getItems().get(1));
+                System.out.println(this.getItems().get(0).getName() + " and "
+                        + this.getItems().get(1).getName());
             }
 
             // Case when items >= 3
             else {
                 for (int i = 0; i < this.getItems().size(); i++) {
                     if (i == this.getItems().size() - 1) {
-                        System.out.println("and " + this.getItems().get(i));
+                        System.out.println("and " + this.getItems().get(i).getName());
                     } else{
-                        System.out.print(this.getItems().get(i) + ", ");
+                        System.out.print(this.getItems().get(i).getName() + ", ");
                     }
                 }
             }
@@ -251,6 +279,63 @@ public class Room {
             }
         }
     }
+
+    /**
+     * Prints all the monsters in the room.
+     */
+    public void printMonstersInRoom(){
+        if(this.monstersInRoom == null){
+            setMonsters();
+        }
+
+        // Case if monster arraylist is empty
+        if(this.getMonstersInRoom().size() == 0){
+            System.out.println("There are no monsters in the room!");
+        } else {
+            System.out.print("Monsters in this room: ");
+
+            // Case when items = 1
+            if(this.getMonstersInRoom().size() == 1){
+                System.out.println(this.getMonstersInRoom().get(0));
+            }
+
+            // Case when items = 2
+            else if(this.getMonstersInRoom().size() == 2) {
+                System.out.println(this.getItems().get(0) + " and "
+                        + this.getItems().get(1));
+            }
+
+            // Case when items >= 3
+            else {
+                for (int i = 0; i < this.getMonstersInRoom().size(); i++) {
+                    if (i == this.getMonstersInRoom().size() - 1) {
+                        System.out.println("and " + this.getItems().get(i));
+                    } else{
+                        System.out.print(this.getItems().get(i) + ", ");
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Determines if monster is in the room
+     * @param monsterName name of the monster
+     * @return true if monster is in room, false otherwise.
+     */
+    public boolean findMonster(String monsterName){
+        if(monsterName == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+        for(String monster: monstersInRoom){
+            if(monsterName.equalsIgnoreCase(monster)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
 }
 

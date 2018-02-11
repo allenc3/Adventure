@@ -45,7 +45,7 @@ public class AdventureInterfaceTest {
     @Test
     public void validUrlSuccess(){
         String[] args = {"siebel.json"};
-        assertEquals(test.getSiebelFileContents(), AdventureInterface.
+        assertEquals(test.getAdventureString(), AdventureInterface.
                 validUrlOrPath(args).replaceAll("\r", ""));
     }
 
@@ -95,7 +95,7 @@ public class AdventureInterfaceTest {
     @Test
     public void initializeLayout(){
         assertTrue(test.getAdventure().equals(
-                AdventureInterface.initializeLayout(test.getSiebelFileContents())));
+                AdventureInterface.initializeLayout(test.getAdventureString())));
     }
 
     @Test

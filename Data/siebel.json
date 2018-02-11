@@ -5,7 +5,12 @@
     {
       "name": "MatthewsStreet",
       "description": "You are on Matthews, outside the Siebel Center",
-      "items": ["coin"],
+      "items": [
+        {
+          "name": "Sword",
+          "damage": 3
+        }
+      ],
       "directions": [
         {
           "directionName": "East",
@@ -16,7 +21,12 @@
     {
       "name": "SiebelEntry",
       "description": "You are in the west entry of Siebel Center.  You can see the elevator, the ACM office, and hallways to the north and east.",
-	  "items": ["sweatshirt", "key"],
+      "items": [
+        {
+          "name": "Spear",
+          "damage": 5
+        }
+      ],
       "directions": [
         {
           "directionName": "West",
@@ -34,17 +44,30 @@
           "directionName": "East",
           "room": "SiebelEastHallway"
         }
+      ],
+      "monstersInRoom": [
+        "Hollow man",
+        "Skeleton"
       ]
     },
     {
       "name": "AcmOffice",
       "description": "You are in the ACM office.  There are lots of friendly ACM people.",
-      "items": ["pizza", "swag"],
+      "items": [
+        {
+          "name": "Halberd",
+          "damage": 6
+        }
+      ],
       "directions": [
         {
           "directionName": "South",
           "room": "SiebelEntry"
         }
+      ],
+      "monstersInRoom": [
+        "Skeleton",
+        "Wolf"
       ]
     },
     {
@@ -54,28 +77,44 @@
         {
           "directionName": "South",
           "room": "SiebelEntry"
-        }, 
+        },
         {
           "directionName": "NorthEast",
           "room": "Siebel1112"
         }
+      ],
+      "monstersInRoom": [
+        "Crystal Lizard"
       ]
     },
     {
       "name": "Siebel1112",
       "description": "You are in Siebel 1112.  There is space for two code reviews in this room.",
-      "items": ["USB-C connector", "grading rubric"],
+      "items": [
+        {
+          "name": "Wand",
+          "damage": 4
+        }
+      ],
       "directions": [
         {
           "directionName": "West",
           "room": "SiebelNorthHallway"
         }
+      ],
+      "monstersInRoom": [
+        "Winged Knight"
       ]
     },
     {
       "name": "SiebelEastHallway",
       "description": "You are in the east hallway.  You can see Einstein Bros' Bagels and a stairway.",
-      "items": ["bagel", "coffee"],
+      "items": [
+        {
+          "name": "Rock",
+          "damage": 2
+        }
+      ],
       "directions": [
         {
           "directionName": "West",
@@ -89,6 +128,10 @@
           "directionName": "Down",
           "room": "SiebelBasement"
         }
+      ],
+      "monstersInRoom": [
+        "Abyss Monster",
+        "Sword Master"
       ]
     },
     {
@@ -104,13 +147,97 @@
     {
       "name": "SiebelBasement",
       "description": "You are in the basement of Siebel.  You see tables with students working and door to computer labs.",
-      "items": ["pencil"],
+      "items": [
+        {
+          "name": "Greatsword",
+          "damage": 10
+        }
+      ],
       "directions": [
         {
           "directionName": "Up",
           "room": "SiebelEastHallway"
         }
+      ],
+      "monstersInRoom": [
+        "Dragon",
+        "Dark Spirit"
       ]
+    }
+  ],
+  "player": {
+    "name": "Allen",
+    "items": [
+      {
+        "name": "fist",
+        "damage": 1
+      }
+    ],
+    "attack": 10,
+    "defense": 10,
+    "health": 100,
+    "level": 1
+  },
+  "monsters": [
+    {
+      "name": "Hollow Man",
+      "attack": 5,
+      "defense": 0,
+      "health": 10
+    },
+    {
+      "name": "Crystal Lizard",
+      "attack": 10,
+      "defense": 10,
+      "health": 20
+    },
+    {
+      "name": "Abyss Monster",
+      "attack": 20,
+      "defense": 0,
+      "health": 25
+    },
+    {
+      "name": "Dark Spirit",
+      "attack": 15,
+      "defense": 5,
+      "health": 25
+    },
+    {
+      "name": "Skeleton",
+      "attack": 2,
+      "defense": 0,
+      "health": 5
+    },
+    {
+      "name": "Sword Master",
+      "attack": 30,
+      "defense": 0,
+      "health": 15
+    },
+    {
+      "name": "Winged Knight",
+      "attack": 10,
+      "defense": 0,
+      "health": 30
+    },
+    {
+      "name": "Wolf",
+      "attack": 10,
+      "defense": 0,
+      "health": 15
+    },
+    {
+      "name": "Giant",
+      "attack": 5,
+      "defense": 0,
+      "health": 50
+    },
+    {
+      "name": "Dragon",
+      "attack": 15,
+      "defense": 10,
+      "health": 60
     }
   ]
 }

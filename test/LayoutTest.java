@@ -18,7 +18,7 @@ public class LayoutTest {
         adventure = test.getAdventure();
         adventureForTest = test.getAdventureForTest();
         endingRoomUnreachable = test.getEndingRoomUnreachable();
-        roomsNotConnected = test.getRoomsNotConnected();
+//        roomsNotConnected = test.getRoomsNotConnected();
     }
 
 

@@ -77,7 +77,8 @@ public class RoomTest {
 
     @Test
     public void roomAddItems(){
-        roomArrForTest[0].addItems("allen");
+        Item Allen = new Item("Allen", 30.0);
+        roomArrForTest[0].addItems(Allen);
         assertEquals(2, roomArrForTest[0].getItems().size());
     }
 

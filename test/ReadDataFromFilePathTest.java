@@ -11,7 +11,7 @@ public class ReadDataFromFilePathTest {
     @Before
     public void setUp() {
         test = new TestingStrings();
-        siebelStringContents = test.getSiebelFileContents();
+        siebelStringContents = test.getAdventureString();
     }
 
     @Test

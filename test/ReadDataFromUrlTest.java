@@ -31,7 +31,7 @@ public class ReadDataFromUrlTest {
     @Test
     public void validUrl(){
         String url = "https://courses.engr.illinois.edu/cs126/adventure/siebel.json";
-        assertEquals(test.getSiebelFileContents(),
+        assertEquals(test.getAdventureString(),
                 ReadDataFromUrl.parseUrlToString(url).replaceAll("\r",""));
     }
 
@@ -81,7 +81,7 @@ public class ReadDataFromUrlTest {
      */
     @Test
     public void stringRetrieverTest() {
-        assertEquals(test.getSiebelFileContents(),
+        assertEquals(test.getAdventureString(),
                 ReadDataFromUrl.parseUrlToString(ReadDataFromUrl.url)
                         .replaceAll("\r",""));
     }

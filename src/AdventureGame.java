@@ -16,7 +16,7 @@ public class AdventureGame {
         String endingRoom = adventure.getEndingRoom();
         Room currentRoom = adventure.findRoomByRoomName(startingRoom);
 
-        ArrayList<String> userInventory = new ArrayList<>();
+        Player player = adventure.getPlayer();
 
         // If exit is true, terminate program.
         boolean exit = false;
@@ -50,13 +50,13 @@ public class AdventureGame {
 
                 // 2). If user inputs "take anItem"
                 else if (takeItemCommand(userInput)) {
-                    takeItem(currentRoom, userInput, userInventory);
+                    takeItem(currentRoom, userInput, player);
                     inputIsListCommand = false;
                 }
 
                 // 3). If user inputs "drop anItem"
                 else if (dropItemCommand(userInput)) {
-                    dropItem(currentRoom, userInput, userInventory);
+                    dropItem(currentRoom, userInput, player);
                     inputIsListCommand = false;
                 }
 
@@ -68,7 +68,11 @@ public class AdventureGame {
 
                 // 5). If user inputs "list"
                 else if (listCommand(userInput)) {
-                    printList(userInventory);
+                    player.printList();
+                }
+
+                else if (playerInfoCommand(userInput)) {
+                    player.printPlayerInfo();
                 }
 
                 // 6). If user inputs unknown command
@@ -90,7 +94,7 @@ public class AdventureGame {
      * @throws IllegalArgumentException if aRoom or endingRoom is null
      */
     public boolean proceedWithAdventure(Room aRoom, String startingRoom, String endingRoom) {
-        if(aRoom == null || endingRoom == null || startingRoom == null){
+        if (aRoom == null || endingRoom == null || startingRoom == null) {
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
 
@@ -98,12 +102,12 @@ public class AdventureGame {
         System.out.println(aRoom.getDescription());
 
         // 2). If room is starting room, print statement below.
-        if(aRoom.getName().equals(startingRoom)){
+        if (aRoom.getName().equals(startingRoom)) {
             System.out.println("Your journey begins here.");
         }
 
         // 3). If room is the ending room, print statement below, and terminate program.
-        if(aRoom.getName().equals(endingRoom)){
+        if (aRoom.getName().equals(endingRoom)) {
             System.out.println("You have reached your final destination!");
             return true;
         }
@@ -111,9 +115,13 @@ public class AdventureGame {
         // 4). Print items in room.
         aRoom.printItemsInRoom();
 
-        // 5). Print directions player can go
-        aRoom.printDirectionsToGo();
+        // 5). Print all the monsters in the room
+        aRoom.printMonstersInRoom();
 
+        // 6). Print directions player can go
+        if (aRoom.getMonstersInRoom().size() == 0) {
+            aRoom.printDirectionsToGo();
+        }
         return false;
     }
 
@@ -204,6 +212,38 @@ public class AdventureGame {
     }
 
     /**
+     * Determines if user command is in the form of "playerInfo"
+     * @param userInput input by user
+     * @return true if command is playerinfo, false otherwise
+     * @throws IllegalArgumentException if userInput is null
+     */
+    public boolean playerInfoCommand(String userInput){
+        if(userInput == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+        userInput = userInput.trim();
+        return userInput.equalsIgnoreCase("playerInfo");
+    }
+
+    /**
+     * Determines if user command is in the form of "duel aMonster"
+     * @param userInput input by user
+     * @return true if command is duel monster, false otherwise
+     * @throws IllegalArgumentException if userInput is null
+     */
+    public boolean duelMonsterCommand(String userInput){
+        if(userInput == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+        userInput = userInput.trim();
+        String[] input = userInput.split("\\s+", 2);
+        if(input.length == 2) {
+            return input[0].equalsIgnoreCase("duel");
+        }
+        return false;
+    }
+
+    /**
      * Determines the next room the user is proceeding to.
      * @param adventure the entire adventure
      * @param currentRoom the room the player in in now
@@ -240,9 +280,11 @@ public class AdventureGame {
      * Takes item from room and adds it to user's inventory.
      * @param currentRoom the room the user is in
      * @param userInput the item the user wants to take
+     * @param player the player
+     * @throws IllegalArgumentException null input if all three inputs are null
      */
-    public void takeItem(Room currentRoom, String userInput, ArrayList<String> inventory){
-        if(currentRoom == null || userInput == null || inventory == null){
+    public void takeItem(Room currentRoom, String userInput, Player player){
+        if(currentRoom == null || userInput == null || player == null){
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
         String userInputTrimmed = userInput.trim();
@@ -257,10 +299,11 @@ public class AdventureGame {
 
         // If item is found, return item.
         int itemIndex = currentRoom.findItemIndex(item);
+        Item itemObj;
         if(itemIndex != -1) {
-            item = currentRoom.getItems().get(itemIndex);
+            itemObj = currentRoom.getItems().get(itemIndex);
             currentRoom.removeItems(itemIndex);
-            inventory.add(item);
+            player.addItem(itemObj);
             return;
         }
         System.out.println("I can't take " + item);
@@ -271,11 +314,11 @@ public class AdventureGame {
      * Drops item in room, remove item from user's inventory.
      * @param currentRoom the room the user is in
      * @param userInput the item the user wants to drop
-     * @param userInventory the arraylist of current items the user has
+     * @param player the player
      * @throws IllegalArgumentException if either of the 3 parameters is null
      */
-    public void dropItem(Room currentRoom, String userInput, ArrayList<String> userInventory){
-        if(currentRoom == null || userInput== null || userInventory == null){
+    public void dropItem(Room currentRoom, String userInput, Player player){
+        if(currentRoom == null || userInput== null || player == null){
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
         String userInputTrimmed = userInput.trim();
@@ -284,8 +327,8 @@ public class AdventureGame {
         String item = input[1];
 
         int indexOfItem = -1;
-        for (int i = 0; i < userInventory.size(); i++) {
-            if(item.equalsIgnoreCase(userInventory.get(i))){
+        for (int i = 0; i < player.getItems().size(); i++) {
+            if(item.equalsIgnoreCase(player.getItems().get(i).getName())){
                 indexOfItem = i;
             }
         }
@@ -299,37 +342,35 @@ public class AdventureGame {
             currentRoom.setItems();
         }
 
-        currentRoom.addItems(userInventory.get(indexOfItem));
-        userInventory.remove(indexOfItem);
+        currentRoom.addItems(player.getItems().get(indexOfItem));
+        player.removeItem(indexOfItem);
     }
 
 
-    /**
-     * Prints the list of items the user currently has.
-     * @param userInventory the arraylist of items the user has.
-     * @throws IllegalArgumentException if userInventory is null
-     */
-    public void printList(ArrayList<String> userInventory){
-        if(userInventory == null){
+    public void duelMonster(Layout adventure, Room currentRoom, String userInput, Player player){
+        if(currentRoom == null || userInput== null || player == null){
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
-        System.out.print("You are carrying ");
-        if(userInventory.size() == 0){
-            System.out.println("nothing.");
-        } else if(userInventory.size() == 1){
-            System.out.println(userInventory.get(0));
-        } else if(userInventory.size() == 2) {
-            System.out.println(userInventory.get(0) + " and " + userInventory.get(1));
-        } else{
-            for (int i = 0; i < userInventory.size(); i++) {
-                if(i == userInventory.size() - 1){
-                    System.out.println("and " + userInventory.get(i));
-                } else {
-                    System.out.print(userInventory.get(i) + ", ");
+        String userInputTrimmed = userInput.trim();
+        // Get the direction following the word "take"
+        String[] input = userInputTrimmed.split("\\s+", 2);
+        String monster = input[1];
+
+        if(currentRoom.findMonster(monster)) {
+            for(Monster monsterObj: adventure.getMonsters()){
+                if(monster.equalsIgnoreCase(monsterObj.getName())){
+                    Duel(monsterObj);
                 }
             }
         }
     }
+
+    public void Duel(Monster monster){
+
+    }
+
+
+
 
     /**
      * If input is invalid, prints message in the form of "I don't understand 'userInput'"

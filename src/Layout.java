@@ -12,6 +12,8 @@ public class Layout {
     private String startingRoom;
     private String endingRoom;
     private Room[] rooms;
+    private Player player;
+    private ArrayList<Monster> monsters;
 
     /**
      * @return the ending room that will signify the end of the adventure.
@@ -32,6 +34,20 @@ public class Layout {
      */
     public Room[] getRooms() {
         return rooms;
+    }
+
+    /**
+     * @return player object
+     */
+    public Player getPlayer() {
+        return player;
+    }
+
+    /**
+     * @return arraylist of monsters
+     */
+    public ArrayList<Monster> getMonsters() {
+        return monsters;
     }
 
     /**
