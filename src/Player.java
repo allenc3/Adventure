@@ -66,10 +66,12 @@ public class Player {
         return originalHealth;
     }
 
-    public void addExperience(int experience){
-
+    /**
+     * @return the player's current experience
+     */
+    public int getExperience() {
+        return experience;
     }
-
 
     /**
      * Adds item in player inventory
@@ -157,6 +159,31 @@ public class Player {
             }
         }
         return null;
+    }
+
+    /**
+     * Player leveled up!
+     * All attributes increase
+     */
+    public void levelUp(){
+        level++;
+        attack *= 1.5;
+        defense *= 1.5;
+        health = originalHealth;
+        health *= 1.3;
+        originalHealth = health;
+    }
+
+    /**
+     * Adds experience if experience is not sufficient to level up.
+     * @param exp the exp to be added
+     * @throws IllegalArgumentException if exp is negative
+     */
+    public void addExp(int exp) {
+        if(exp < 0) {
+            throw new IllegalArgumentException(ErrorConstants.NEGATIVE_EXP);
+        }
+        experience += exp;
     }
 
 }
