@@ -12,7 +12,6 @@ public class AdventureInterface {
             String fileContents = validUrlOrPath(args);
 
             if(fileContents != null) {
-
                 Layout adventure = initializeLayout(fileContents);
 
                 if(layoutIsValid(adventure)) {

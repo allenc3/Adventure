@@ -16,10 +16,10 @@ public class ReadDataFromUrlTest {
      * https://stackoverflow.com/questions/1119385/junit-test-for-system-out-println
      */
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    TestingStrings test;
+    TestingData test;
     @Before
     public void setUp(){
-        test = new TestingStrings();
+        test = new TestingData();
         System.setOut(new PrintStream(outContent));
     }
 

@@ -2,19 +2,17 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.PrintStream;
-
 import static org.junit.Assert.*;
 
 public class DirectionTest {
 
     private Layout adventure;
     private Direction[] directionArrForTest;
-    TestingStrings test;
+    TestingData test;
 
     @Before
     public void setUp() {
-        test = new TestingStrings();
+        test = new TestingData();
         adventure = test.getAdventure();
         directionArrForTest = test.getDirectionArrForTest();
     }

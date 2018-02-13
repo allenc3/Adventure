@@ -90,7 +90,7 @@ public class Layout {
      * @param startingRoom the starting room object
      * @throws IllegalArgumentException if adventure or reachableRooms is null
      */
-    private void roomConnectedToStartingRoom(ArrayList<String> reachableRooms, Room startingRoom){
+    public void roomConnectedToStartingRoom(ArrayList<String> reachableRooms, Room startingRoom){
         if(reachableRooms == null) {
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }

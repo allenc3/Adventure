@@ -47,6 +47,4 @@ public class Item {
         }
         return name.equals(another.name) && damage == another.damage;
     }
-
-
 }

@@ -10,11 +10,11 @@ import static org.junit.Assert.*;
 public class AdventureInterfaceTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    TestingStrings test;
+    TestingData test;
 
     @Before
     public void setUp() {
-        test = new TestingStrings();
+        test = new TestingData();
         System.setOut(new PrintStream(outContent));
     }
 

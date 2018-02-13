@@ -76,6 +76,27 @@ public class Player {
     }
 
     /**
+     * Sets originalHealth
+     */
+    public void setOriginalHealth(){
+        if(originalHealth == 0) {
+            originalHealth = health;
+        }
+    }
+
+
+    /**
+     * Players health decreases according to damage
+     * @param damage
+     */
+    public void takeDamage(double damage){
+        if(damage < 0) {
+            damage = 0;
+        }
+        health -= damage;
+    }
+
+    /**
      * Adds item in player inventory
      * @param item item to be added
      */
@@ -95,64 +116,6 @@ public class Player {
             throw new IllegalArgumentException(ErrorConstants.INDEX_OUT_OF_RANGE);
         }
         this.items.remove(indexToRemove);
-    }
-
-
-    /**
-     * Prints out player info
-     */
-    public void printPlayerInfo(){
-        System.out.println("You are " + name);
-        System.out.println("Level: " + level);
-        System.out.println("Health: " + health);
-        System.out.println("Attack: " + attack);
-        System.out.println("Defense: " + defense);
-    }
-
-    /**
-     * Prints the list of items the user currently has.
-     * @throws IllegalArgumentException if userInventory is null
-     */
-    public void printList(){
-        if(items == null){
-            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
-        }
-        System.out.print("You are carrying ");
-        if(items.size() == 0){
-            System.out.print("nothing.");
-        } else if(items.size() == 1) {
-            System.out.print(items.get(0).getName());
-        } else if(items.size() == 2) {
-            System.out.print(items.get(0).getName() + " and " + items.get(1).getName());
-        } else {
-            for (int i = 0; i < items.size(); i++) {
-                if(i == items.size() - 1){
-                    System.out.print("and " + items.get(i).getName());
-                } else {
-                    System.out.print(items.get(i).getName() + ", ");
-                }
-            }
-        }
-    }
-
-    /**
-     * Players health decreases according to damage
-     * @param damage
-     */
-    public void takeDamage(double damage){
-        if(damage < 0) {
-            damage = 0;
-        }
-        health -= damage;
-    }
-
-    /**
-     * Sets originalHealth
-     */
-    public void setOriginalHealth(){
-        if(originalHealth == 0) {
-            originalHealth = health;
-        }
     }
 
     /**
@@ -206,4 +169,40 @@ public class Player {
         experience = exp;
     }
 
+    /**
+     * Prints out player info
+     */
+    public void printPlayerInfo(){
+        System.out.println("You are " + name);
+        System.out.println("Level: " + level);
+        System.out.println("Health: " + health);
+        System.out.println("Attack: " + attack);
+        System.out.println("Defense: " + defense);
+    }
+
+    /**
+     * Prints the list of items the user currently has.
+     * @throws IllegalArgumentException if userInventory is null
+     */
+    public void printList(){
+        if(items == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+        System.out.print("You are carrying ");
+        if(items.size() == 0){
+            System.out.print("nothing.");
+        } else if(items.size() == 1) {
+            System.out.print(items.get(0).getName());
+        } else if(items.size() == 2) {
+            System.out.print(items.get(0).getName() + " and " + items.get(1).getName());
+        } else {
+            for (int i = 0; i < items.size(); i++) {
+                if(i == items.size() - 1){
+                    System.out.print("and " + items.get(i).getName());
+                } else {
+                    System.out.print(items.get(i).getName() + ", ");
+                }
+            }
+        }
+    }
 }

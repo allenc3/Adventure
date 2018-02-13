@@ -350,6 +350,27 @@ public class Room {
             }
         }
     }
+
+    /**
+     * Initializes fields that are null to empty.
+     */
+    public void initializeForNull() {
+        if (items == null) {
+            items = new ArrayList<>();
+        }
+        if(monstersInRoom == null) {
+            monstersInRoom = new ArrayList<>();
+        }
+        if (name == null) {
+            name = "";
+        }
+        if(description == null) {
+            description = "";
+        }
+        if(directions == null) {
+            directions = new Direction[0];
+        }
+    }
 }
 
 

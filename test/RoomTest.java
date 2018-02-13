@@ -1,4 +1,3 @@
-import com.google.gson.Gson;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,12 +12,12 @@ public class RoomTest {
 
     private Layout adventure;
     private Room[] roomArrForTest;
-    TestingStrings test;
+    TestingData test;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     @Before
     public void setUp() {
-        test = new TestingStrings();
+        test = new TestingData();
         adventure = test.getAdventure();
         roomArrForTest = test.getRoomArrForTest();
         System.setOut(new PrintStream(outContent));

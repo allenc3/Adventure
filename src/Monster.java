@@ -13,10 +13,7 @@ public class Monster {
     private double defense;
     private double health;
     private transient double originalHealth;
-
-
-
-
+    
     /**
      * @return the name of the monster
      */
@@ -54,6 +51,21 @@ public class Monster {
     }
 
     /**
+     * Custom equals method to compare monsters
+     * @param another monster obj
+     * @return true if equal, false otherwise
+     * @throws IllegalArgumentException if input is null
+     */
+    public boolean equals(Monster another){
+        if(another == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+        return name.equals(another.name) && attack == another.attack
+                && defense == another.defense && health == another.health;
+    }
+
+
+    /**
      * @param damage the damage taken
      */
     public void takeDamage(double damage) {
@@ -64,19 +76,6 @@ public class Monster {
             damage = 0;
         }
         this.health -= damage;
-    }
-
-    /**
-     * Custom equals method to compare monsters
-     * @param another monster obj
-     * @return true if equal, false otherwise
-     */
-    public boolean equals(Monster another){
-        if(another == null){
-            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
-        }
-        return name.equals(another.name) && attack == another.attack
-                && defense == another.defense && health == another.health;
     }
 
 

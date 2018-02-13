@@ -14,11 +14,11 @@ public class AdventureGameTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private AdventureGame game;
     private Layout adventure;
-    TestingStrings test;
+    TestingData test;
 
     @Before
     public void setUp() {
-        test = new TestingStrings();
+        test = new TestingData();
         adventure = test.getAdventure();
         game = new AdventureGame();
         System.setOut(new PrintStream(outContent));
@@ -29,6 +29,17 @@ public class AdventureGameTest {
         System.setOut(System.out);
     }
 
+    @Test
+    public void startAdventureGameNull(){
+        try{
+            game.startAdventureGame(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+    // Test commands method
     // takeItem, dropItem, list, and exit is implemented in a similar way
     @Test
     public void goCommandNormal(){
@@ -188,36 +199,20 @@ public class AdventureGameTest {
         }
     }
 
-
     @Test
-    public void determineNextRoomSuccess(){
-        Room nextRoom = game.findNextRoom(adventure, adventure.getRooms()[0],
-                "go east");
-        assertTrue(adventure.getRooms()[1].equals(nextRoom));
+    public void playerInfoCommandSuccess(){
+        assertTrue(game.playerInfoCommand("playerInfo"));
     }
 
     @Test
-    public void determineNextRoomFail(){
-        game.findNextRoom(adventure, adventure.getRooms()[0],
-                "go west");
-        assertEquals("I can't go west" + System.getProperty("line.separator"),
-                outContent.toString());
+    public void playerInfoCommandFail(){
+        assertFalse(game.playerInfoCommand("player"));
     }
 
     @Test
-    public void determineNextRoomFailOutput(){
-        game.findNextRoom(adventure, adventure.getRooms()[0],
-                "go WESTYYYY   YYYYYY");
-        assertEquals("I can't go WESTYYYY   YYYYYY" + System.getProperty("line.separator"),
-                outContent.toString());
-    }
-
-    // Take items null test implemented in a similar way.
-    @Test
-    public void determineNextRoomLayoutNull(){
+    public void playerInfoNull(){
         try {
-            game.findNextRoom(null, adventure.getRooms()[0],
-                    "go SOUTH");
+            game.playerInfoCommand(null);
             fail();
         } catch (IllegalArgumentException e){
             assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
@@ -225,9 +220,19 @@ public class AdventureGameTest {
     }
 
     @Test
-    public void determineNextRoomNullRoom(){
+    public void duelCommandSuccess(){
+        assertTrue(game.duelMonsterCommand("duel me"));
+    }
+
+    @Test
+    public void duelCommandFail(){
+        assertFalse(game.duelMonsterCommand("duely"));
+    }
+
+    @Test
+    public void duelCommandNull(){
         try {
-            game.findNextRoom(adventure, null, "go SOUTH");
+            game.duelMonsterCommand(null);
             fail();
         } catch (IllegalArgumentException e){
             assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
@@ -235,9 +240,19 @@ public class AdventureGameTest {
     }
 
     @Test
-    public void determineNextRoomStringNull(){
+    public void printDescriptionSuccess(){
+        assertTrue(game.printDescriptionCommand("room description"));
+    }
+
+    @Test
+    public void printDescriptionFail(){
+        assertFalse(game.printDescriptionCommand("roomS description"));
+    }
+
+    @Test
+    public void printDescriptionCommandNull(){
         try {
-            game.findNextRoom(adventure, adventure.getRooms()[1], null);
+            game.printDescriptionCommand(null);
             fail();
         } catch (IllegalArgumentException e){
             assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
@@ -245,112 +260,33 @@ public class AdventureGameTest {
     }
 
     @Test
-    public void takeItemSuccess(){
-        ArrayList<Item> tempInventory = new ArrayList<>();
-        game.takeItem(adventure.getRooms()[0], "take sword", adventure.getPlayer());
-        assertTrue(tempInventory.get(0).getName().equalsIgnoreCase("sword"));
-        assertTrue(adventure.getRooms()[0].getItems().size() == 0);
-    }
-
-    @Test
-    public void takeItemFail(){
-        ArrayList<Item> tempInventory = new ArrayList<>();
-        game.takeItem(adventure.getRooms()[0], "take RANDOM", adventure.getPlayer());
-        assertEquals("I can't take RANDOM" + System.getProperty("line.separator"),
+    public void printActionsTrueInput(){
+        game.printPossibleActions(true);
+        assertEquals("ACTIONS: go aDirection, take anItem, drop anItem, "
+                        + "duel aMonster, list, playerInfo, room description, exit" +
+                        System.getProperty("line.separator"),
                 outContent.toString());
     }
 
     @Test
-    public void dropItemSuccess(){
-
-        ArrayList<Item> tempInventory = new ArrayList<>();
-        Item Allen = new Item("Allen", 30.0);
-        tempInventory.add(Allen);
-        game.dropItem(adventure.getRooms()[0], "drop Allen", adventure.getPlayer());
-        assertTrue(adventure.getRooms()[0].getItems().get(1).getName().equals("Allen"));
-        assertTrue(tempInventory.size() == 0);
-    }
-
-    @Test
-    public void dropItemFail(){
-        ArrayList<Item> tempInventory = new ArrayList<>();
-        game.dropItem(adventure.getRooms()[0], "drop random", adventure.getPlayer());
-        assertEquals("I can't drop random" + System.getProperty("line.separator"),
+    public void printActionsFalseInput(){
+        game.printPossibleActions(false);
+        assertEquals("ACTIONS: drop anItem, "
+                        + "duel aMonster, list, playerInfo, room description, exit" +
+                        System.getProperty("line.separator"),
                 outContent.toString());
     }
 
-    @Test
-    public void printOneItemsList(){
-        ArrayList<Item> tempInventory = new ArrayList<>();
-        Item Allen = new Item("Allen", 30.0);
-        tempInventory.add(Allen);
-        adventure.getPlayer().addItem(Allen);
-        assertEquals("You are carrying Allen" + System.getProperty("line.separator"),
-                outContent.toString());
-
-    }
-
-    @Test
-    public void printEmptyList(){
-        ArrayList<Item> tempInventory = new ArrayList<>();
-        adventure.getPlayer().printList();
-        assertEquals("You are carrying nothing." + System.getProperty("line.separator"),
-                outContent.toString());
-
-    }
-
-    @Test
-    public void printTwoItemsList(){
-        ArrayList<Item> tempInventory = new ArrayList<>();
-        Item Allen = new Item("Allen", 30.0);
-        tempInventory.add(Allen);
-        Item Eric = new Item("Eric", 1.0);
-        tempInventory.add(Allen);
-        tempInventory.add(Eric);
-        adventure.getPlayer().addItem(Allen);
-        adventure.getPlayer().addItem(Eric);
-        adventure.getPlayer().printList();
-        assertEquals("You are carrying Allen and Eric" +
-                        System.getProperty("line.separator"), outContent.toString());
-
-    }
-
-    @Test
-    public void printThreeItemsList(){
-        Item Allen = new Item("Allen", 30.0);
-        Item Eric = new Item("Eric", 1.0);
-        Item Paul = new Item("Paul", 0.5);
-        adventure.getPlayer().addItem(Allen);
-        adventure.getPlayer().addItem(Eric);
-        adventure.getPlayer().printList();
-        adventure.getPlayer().addItem(Paul);
-        assertEquals("You are carrying Allen, Eric, and Paul" +
-                        System.getProperty("line.separator"), outContent.toString());
-
-    }
-
-    @Test
-    public void responseToInvalidInput(){
-        game.responseToInvalidInput("CS126 is so fun!");
-        assertEquals("I don't understand 'CS126 is so fun!'"+
-                        System.getProperty("line.separator"), outContent.toString());
-    }
-
-    @Test
-    public void responseToInvalidInputSpace(){
-        game.responseToInvalidInput("   ");
-        assertEquals("I don't understand '   '"+
-                System.getProperty("line.separator"), outContent.toString());
-    }
-
-    // Testing outputs
+    // Testing action methods
+    // Test proceedWithAdventure method
     @Test
     public void testStartingRoom(){
         game.proceedWithAdventure(adventure.getRooms()[0], adventure.getStartingRoom(),
                 adventure.getEndingRoom());
         assertEquals("You are on Matthews, outside the Siebel Center\r\n" +
                         "Your journey begins here.\r\n" +
-                        "This room contains: coin\r\n" +
+                        "This room contains: Sword\r\n" +
+                        "There are no monsters in the room!\r\n" +
                         "From here, you can go: East\r\n",
                 outContent.toString());
     }
@@ -359,11 +295,10 @@ public class AdventureGameTest {
     public void testRandomRoom(){
         game.proceedWithAdventure(adventure.getRooms()[1], adventure.getStartingRoom(),
                 adventure.getEndingRoom());
-        assertEquals("You are in the west entry of Siebel Center.  " +
-                        "You can see the elevator, the ACM office, " +
-                        "and hallways to the north and east.\r\n" +
-                        "This room contains: sweatshirt and key\r\n" +
-                        "From here, you can go: West, Northeast, North, and East\r\n",
+        assertEquals("You are in the west entry of Siebel Center.  You can see the " +
+                        "elevator, the ACM office, and hallways to the north and east.\r\n" +
+                        "This room contains: Spear\r\n" +
+                        "Monsters in this room: Hollow man and Skeleton\r\n",
                 outContent.toString());
     }
 
@@ -395,6 +330,216 @@ public class AdventureGameTest {
                     null);
             fail();
         } catch (IllegalArgumentException e){
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+    @Test
+    public void proceedWithStartingRoomNull(){
+        try {
+            game.proceedWithAdventure(adventure.getRooms()[0], null,
+                    adventure.getEndingRoom());
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+    @Test
+    public void findNextRoomSuccess(){
+        Room nextRoom = game.findNextRoom(adventure, adventure.getRooms()[0],
+                "go east");
+        assertTrue(adventure.getRooms()[1].equals(nextRoom));
+    }
+
+    @Test
+    public void findNextRoomFail(){
+        game.findNextRoom(adventure, adventure.getRooms()[0],
+                "go west");
+        assertEquals("I can't go west" + System.getProperty("line.separator"),
+                outContent.toString());
+    }
+
+    @Test
+    public void findNextRoomFailOutput(){
+        game.findNextRoom(adventure, adventure.getRooms()[0],
+                "go WESTYYYY   YYYYYY");
+        assertEquals("I can't go WESTYYYY   YYYYYY" + System.getProperty("line.separator"),
+                outContent.toString());
+    }
+
+    // Take items null test implemented in a similar way.
+    @Test
+    public void findNextRoomLayoutNull(){
+        try {
+            game.findNextRoom(null, adventure.getRooms()[0],
+                    "go SOUTH");
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+    @Test
+    public void findNextRoomNullRoom(){
+        try {
+            game.findNextRoom(adventure, null, "go SOUTH");
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+    @Test
+    public void findNextRoomStringNull(){
+        try {
+            game.findNextRoom(adventure, adventure.getRooms()[1], null);
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+    @Test
+    public void takeItemSuccess(){
+        game.takeItem(adventure.getRooms()[0], "take sword", adventure.getPlayer());
+        assertEquals("Sword", adventure.getPlayer().getItems().get(1).getName());
+        assertTrue(adventure.getRooms()[0].getItems().size() == 0);
+    }
+
+    @Test
+    public void takeItemFail(){
+        game.takeItem(adventure.getRooms()[0], "take RANDOM", adventure.getPlayer());
+        assertEquals("I can't take RANDOM", outContent.toString());
+    }
+
+    @Test
+    public void takeItemMonstersInRoom(){
+        game.takeItem(adventure.getRooms()[1], "take spear", adventure.getPlayer());
+        assertEquals("There are still monsters here, I can’t take that."
+                , outContent.toString());
+    }
+
+    @Test
+    public void takeItemNull(){
+        try {
+            game.takeItem(null, "take RANDOM", adventure.getPlayer());
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+    @Test
+    public void dropItemSuccess(){
+
+        game.dropItem(adventure.getRooms()[0], "drop fist", adventure.getPlayer());
+        assertTrue(adventure.getRooms()[0].getItems().get(1).getName().equals("fist"));
+        assertTrue(adventure.getPlayer().getItems().size() == 0);
+    }
+
+    @Test
+    public void dropItemFail(){
+        game.dropItem(adventure.getRooms()[0], "drop random", adventure.getPlayer());
+        assertEquals("I can't drop random", outContent.toString());
+    }
+
+    @Test
+    public void dropItemNull(){
+        try {
+            game.dropItem(null, "drop me", adventure.getPlayer());
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+    @Test
+    public void duelMonsterFail(){
+        game.duelMonster(adventure, adventure.getRooms()[1],"duel hollow ma",
+                adventure.getPlayer());
+        assertEquals("I can't duel hollow ma\r\n\r\n", outContent.toString());
+    }
+
+    @Test
+    public void duelMonsterNull(){
+        try {
+            game.duelMonster(null, adventure.getRooms()[1], null, null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+
+//    @Test
+//    public void printOneItemsList(){
+//        ArrayList<Item> tempInventory = new ArrayList<>();
+//        Item Allen = new Item("Allen", 30.0);
+//        tempInventory.add(Allen);
+//        adventure.getPlayer().addItem(Allen);
+//        assertEquals("You are carrying Allen" + System.getProperty("line.separator"),
+//                outContent.toString());
+//
+//    }
+//
+//    @Test
+//    public void printEmptyList(){
+//        ArrayList<Item> tempInventory = new ArrayList<>();
+//        adventure.getPlayer().printList();
+//        assertEquals("You are carrying nothing." + System.getProperty("line.separator"),
+//                outContent.toString());
+//
+//    }
+//
+//    @Test
+//    public void printTwoItemsList(){
+//        ArrayList<Item> tempInventory = new ArrayList<>();
+//        Item Allen = new Item("Allen", 30.0);
+//        tempInventory.add(Allen);
+//        Item Eric = new Item("Eric", 1.0);
+//        tempInventory.add(Allen);
+//        tempInventory.add(Eric);
+//        adventure.getPlayer().addItem(Allen);
+//        adventure.getPlayer().addItem(Eric);
+//        adventure.getPlayer().printList();
+//        assertEquals("You are carrying Allen and Eric" +
+//                        System.getProperty("line.separator"), outContent.toString());
+//
+//    }
+//
+//    @Test
+//    public void printThreeItemsList(){
+//        Item Allen = new Item("Allen", 30.0);
+//        Item Eric = new Item("Eric", 1.0);
+//        Item Paul = new Item("Paul", 0.5);
+//        adventure.getPlayer().addItem(Allen);
+//        adventure.getPlayer().addItem(Eric);
+//        adventure.getPlayer().printList();
+//        adventure.getPlayer().addItem(Paul);
+//        assertEquals("You are carrying Allen, Eric, and Paul" +
+//                        System.getProperty("line.separator"), outContent.toString());
+//
+//    }
+
+    @Test
+    public void responseToInvalidInput(){
+        game.responseToInvalidInput("CS126 is so fun!");
+        assertEquals("I don't understand 'CS126 is so fun!'", outContent.toString());
+    }
+
+    @Test
+    public void responseToInvalidInputSpace(){
+        game.responseToInvalidInput("   ");
+        assertEquals("I don't understand '   '", outContent.toString());
+    }
+
+    @Test
+    public void responseToInvalidNull(){
+        try {
+            game.responseToInvalidInput(null);
+            fail();
+        } catch (IllegalArgumentException e) {
             assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
         }
     }

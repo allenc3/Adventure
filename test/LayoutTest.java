@@ -1,6 +1,7 @@
-import com.google.gson.Gson;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -10,15 +11,15 @@ public class LayoutTest {
     private Layout adventureForTest;
     private Layout endingRoomUnreachable;
     private Layout roomsNotConnected;
-    TestingStrings test;
+    TestingData test;
 
     @Before
     public void setUp() {
-        test = new TestingStrings();
+        test = new TestingData();
         adventure = test.getAdventure();
-        adventureForTest = test.getAdventureForTest();
+        adventureForTest = test.getAdventureCopiedString();
         endingRoomUnreachable = test.getEndingRoomUnreachable();
-//        roomsNotConnected = test.getRoomsNotConnected();
+        roomsNotConnected = test.getRoomsNotConnected();
     }
 
 
@@ -35,6 +36,16 @@ public class LayoutTest {
     @Test
     public void layoutRooms(){
         assertEquals(8, adventure.getRooms().length);
+    }
+
+    @Test
+    public void layoutPlayer(){
+        assertEquals("Allen", adventure.getPlayer().getName());
+    }
+
+    @Test
+    public void layoutMonsters(){
+        assertEquals(10, adventure.getMonsters().size());
     }
 
     @Test
@@ -73,6 +84,15 @@ public class LayoutTest {
         }
     }
 
+    @Test
+    public void roomConnectedToStarting(){
+        try{
+            adventure.roomConnectedToStartingRoom(null, adventure.getRooms()[0]);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
 
     @Test
     public void endingRoomReachableTest(){
@@ -87,6 +107,22 @@ public class LayoutTest {
     @Test
     public void validateFloorPlanFail(){
         assertFalse(roomsNotConnected.isFloorPlanValid());
+    }
+
+    @Test
+    public void removeMonster(){
+        adventure.removeMonster(adventure.getMonsters().get(0));
+        assertEquals(9, adventure.getMonsters().size());
+    }
+
+    @Test
+    public void removeMonsterNull(){
+        try{
+            adventure.removeMonster(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
     }
 
 }

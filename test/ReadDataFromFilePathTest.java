@@ -6,11 +6,11 @@ import static org.junit.Assert.*;
 public class ReadDataFromFilePathTest {
 
     private String siebelStringContents;
-    TestingStrings test;
+    TestingData test;
 
     @Before
     public void setUp() {
-        test = new TestingStrings();
+        test = new TestingData();
         siebelStringContents = test.getAdventureString();
     }
 

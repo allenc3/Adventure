@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+
 import java.util.Scanner;
 
 /**
@@ -9,8 +9,12 @@ public class AdventureGame {
     /**
      * Method to play adventure game!
      * @param adventure the layout object parsed from a json file. MAPS the adventure
+     * @throws IllegalArgumentException if input is null
      */
     public void startAdventureGame(Layout adventure) {
+        if(adventure == null) {
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
 
         String startingRoom = adventure.getStartingRoom();
         String endingRoom = adventure.getEndingRoom();
@@ -24,6 +28,7 @@ public class AdventureGame {
         // Loops on until exit
         while (!exit) {
 
+            currentRoom.initializeForNull();
             exit = proceedWithAdventure(currentRoom, startingRoom, endingRoom);
             if(exit){
                 break;
@@ -95,48 +100,7 @@ public class AdventureGame {
         }
     }
 
-
-    /**
-     * Method to travel from one room to another.
-     * @param aRoom the room to be traveled to
-     * @param startingRoom the starting room
-     * @param endingRoom the ending room
-     * @throws IllegalArgumentException if aRoom or endingRoom is null
-     */
-    public boolean proceedWithAdventure(Room aRoom, String startingRoom, String endingRoom) {
-        if (aRoom == null || endingRoom == null || startingRoom == null) {
-            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
-        }
-
-        // 1). Print Description of the room
-        System.out.println(aRoom.getDescription());
-
-        // 2). If room is starting room, print statement below.
-        if (aRoom.getName().equals(startingRoom)) {
-            System.out.println("Your journey begins here.");
-        }
-
-        // 3). If room is the ending room, print statement below, and terminate program.
-        if (aRoom.getName().equals(endingRoom)) {
-            System.out.println("You have reached your final destination!");
-            return true;
-        }
-
-        // 4). Print items in room.
-        aRoom.printItemsInRoom();
-
-        // 5). Print all the monsters in the room
-        aRoom.printMonstersInRoom();
-
-        // 6). Print directions player can go
-        if (aRoom.getMonstersInRoom().size() == 0) {
-            aRoom.printDirectionsToGo();
-        }
-        return false;
-    }
-
-
-
+    // Start with determining input methods
 
     /**
      * Determines if user command is in the form of "go aDirection"
@@ -271,6 +235,63 @@ public class AdventureGame {
         return false;
     }
 
+
+    // End of command methods
+    // Start of action methods.
+
+    /**
+     * Prints all actions that user can perform
+     * @param monstersInRoom if monster is in room
+     */
+    public void printPossibleActions(boolean monstersInRoom){
+        if(!monstersInRoom) {
+            System.out.println("ACTIONS: drop anItem, "
+                    + "duel aMonster, list, playerInfo, room description, exit");
+        } else {
+            System.out.println("ACTIONS: go aDirection, take anItem, drop anItem, "
+                    + "duel aMonster, list, playerInfo, room description, exit");
+        }
+    }
+
+    /**
+     * Method to travel from one room to another.
+     * @param aRoom the room to be traveled to
+     * @param startingRoom the starting room
+     * @param endingRoom the ending room
+     * @throws IllegalArgumentException if aRoom or endingRoom is null
+     */
+    public boolean proceedWithAdventure(Room aRoom, String startingRoom, String endingRoom) {
+        if (aRoom == null || endingRoom == null || startingRoom == null) {
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+
+        // 1). Print Description of the room
+        System.out.println(aRoom.getDescription());
+
+        // 2). If room is starting room, print statement below.
+        if (aRoom.getName().equals(startingRoom)) {
+            System.out.println("Your journey begins here.");
+        }
+
+        // 3). If room is the ending room, print statement below, and terminate program.
+        if (aRoom.getName().equals(endingRoom)) {
+            System.out.println("You have reached your final destination!");
+            return true;
+        }
+
+        // 4). Print items in room.
+        aRoom.printItemsInRoom();
+
+        // 5). Print all the monsters in the room
+        aRoom.printMonstersInRoom();
+
+        // 6). Print directions player can go
+        if (aRoom.getMonstersInRoom().size() == 0) {
+            aRoom.printDirectionsToGo();
+        }
+        return false;
+    }
+
     /**
      * Determines the next room the user is proceeding to.
      * @param adventure the entire adventure
@@ -315,6 +336,7 @@ public class AdventureGame {
         if(currentRoom == null || userInput == null || player == null){
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
+        currentRoom.initializeForNull();
         String userInputTrimmed = userInput.trim();
         // Get the direction following the word "take"
         String[] input = userInputTrimmed.split("\\s+", 2);
@@ -388,7 +410,7 @@ public class AdventureGame {
      * @param userInput the userInput
      * @param player the player
      */
-    public boolean duelMonster(Layout adventure, Room currentRoom, String userInput, Player player){
+    public void duelMonster(Layout adventure, Room currentRoom, String userInput, Player player){
         if(currentRoom == null || userInput== null || player == null){
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
@@ -401,14 +423,13 @@ public class AdventureGame {
             for (int i = 0; i < adventure.getMonsters().size(); i++) {
                 if(monster.equalsIgnoreCase(adventure.getMonsters().get(i).getName())){
                     Duel duel = new Duel();
-                    return duel.duelMonster(adventure, currentRoom, adventure.getMonsters().get(i));
+                    duel.duelMonster(adventure, currentRoom, adventure.getMonsters().get(i));
                 }
             }
         } else {
             System.out.println("I can't duel " + monster);
             System.out.println();
         }
-        return false;
     }
 
 
@@ -423,20 +444,5 @@ public class AdventureGame {
         }
         System.out.print("I don't understand '" + userInput + "'");
     }
-
-    /**
-     * Prints all actions that user can perform
-     * @param monstersInRoom if monster is in room
-     */
-    public void printPossibleActions(boolean monstersInRoom){
-        if(!monstersInRoom) {
-            System.out.println("ACTIONS: drop anItem, "
-                    + "duel aMonster, list, playerInfo, room description, exit");
-        } else {
-            System.out.println("ACTIONS: go aDirection, take anItem, drop anItem, "
-                    + "duel aMonster, list, playerInfo, room description, exit");
-        }
-    }
-
 
 }

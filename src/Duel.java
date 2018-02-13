@@ -8,10 +8,9 @@ public class Duel {
      * @param adventure the adventure
      * @param currentRoom the current room
      * @param monster the monster player is dueling with
-     * @return true if player defeats monster, false if player disengages.
      * @throws IllegalArgumentException if inputs are null
      */
-    public boolean duelMonster(Layout adventure, Room currentRoom, Monster monster){
+    public void duelMonster(Layout adventure, Room currentRoom, Monster monster){
         if(adventure == null){
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
@@ -20,8 +19,8 @@ public class Duel {
         System.out.println("Dueling with " + monster.getName() + "!");
 
         while(true){
-
             printPossibleActions();
+
             Scanner scn = new Scanner(System.in);
             String userInput = scn.nextLine();
             System.out.println();
@@ -32,7 +31,7 @@ public class Duel {
                 attackWithItem(player, monster, userInput);
             } else if(disengageCommand(userInput)) {
                 System.out.println("Disengaged.");
-                return false;
+                return;
             } else if(statusCommand(userInput)) {
                 printPlayerStatus(player, monster);
             } else if(listCommand(userInput)){
@@ -52,10 +51,12 @@ public class Duel {
                 System.out.println(monster.getName() + " defeated!");
                 System.out.println();
                 levelUp(player, monster);
-                return true;
+                return;
             }
         }
     }
+
+    // Start of command methods
 
     /**
      * Determines if the user command is in the form of "attack"
@@ -163,10 +164,22 @@ public class Duel {
                 || userInput.equalsIgnoreCase("exit"));
     }
 
+    // End of command methods.
+    // Start of action methods.
+
+    /**
+     * Prints possible actions in a duel.
+     */
+    public void printPossibleActions(){
+        System.out.println("ACTIONS: attack, attack with anItem, disengage, " +
+                "status, list, playerInfo, exit");
+    }
+
     /**
      * Player attacks monster while monster retaliates
      * @param player the player
      * @param monster the monster
+     * @throws IllegalArgumentException if inputs are null
      */
     public void attackMonster(Player player, Monster monster) {
         if(player == null || monster == null) {
@@ -190,6 +203,7 @@ public class Duel {
      * Player attacks monster with an item while monster retaliates
      * @param player the player
      * @param monster the monster
+     * @throws IllegalArgumentException if inputs are null
      */
     public void attackWithItem(Player player, Monster monster, String userInput) {
         if(player == null || monster == null || userInput == null) {
@@ -224,6 +238,7 @@ public class Duel {
      * Prints the health bar of the player and the monster
      * @param player the player
      * @param monster the monster
+     * @throws IllegalArgumentException if inputs are null
      */
     public void printPlayerStatus(Player player, Monster monster){
         if(player == null || monster == null) {
@@ -231,6 +246,18 @@ public class Duel {
         }
         printPlayerHealthBar(player);
         printMonsterHealthBar(monster);
+    }
+
+    /**
+     * If input is invalid, prints message in the form of "I don't understand 'userInput'"
+     * @param userInput input by user
+     * @throws IllegalArgumentException if userInput is null
+     */
+    public void responseToInvalidInput(String userInput){
+        if(userInput == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+        System.out.println("I don't understand '" + userInput + "'");
     }
 
     /**
@@ -242,6 +269,7 @@ public class Duel {
         if(player == null) {
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
+
         String healthBlock = "\u2B1B";
         String noHealthBlock = "\u2B1C";
         double originalHealth = player.getOriginalHealth();
@@ -347,7 +375,6 @@ public class Duel {
         if(levelUp) {
             player.printLevelUp();
         }
-
     }
 
     /**
@@ -372,18 +399,6 @@ public class Duel {
     }
 
     /**
-     * If input is invalid, prints message in the form of "I don't understand 'userInput'"
-     * @param userInput input by user
-     * @throws IllegalArgumentException if userInput is null
-     */
-    public void responseToInvalidInput(String userInput){
-        if(userInput == null){
-            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
-        }
-        System.out.println("I don't understand '" + userInput + "'");
-    }
-
-    /**
      * Checks if players health is or below 0
      * @param player the player
      * @param monster the monster
@@ -398,14 +413,4 @@ public class Duel {
             System.exit(1);
         }
     }
-
-    /**
-     * Prints possible actions in a duel.
-     */
-    public void printPossibleActions(){
-        System.out.println("ACTIONS: attack, attack with anItem, disengage, " +
-                "status, list, playerInfo, exit");
-    }
-
-
 }
