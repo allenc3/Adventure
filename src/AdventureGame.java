@@ -29,41 +29,41 @@ public class AdventureGame {
                 break;
             }
 
-            // Deals with the command "list", as the details of the room
-            // does not have have to be restated.
-            boolean inputIsListCommand = true;
-            while (inputIsListCommand) {
-
+            while (true) {
+                System.out.println();
+                printPossibleActions(currentRoom.getMonstersInRoom().size() == 0);
 
                 Scanner scn = new Scanner(System.in);
                 String userInput = scn.nextLine();
+                System.out.println();
 
                 // 1). If user inputs "go aDirection"
                 if (goInADirectionCommand(userInput)) {
 
-                    // Returns next room if found, current room if otherwise.
-                    currentRoom = findNextRoom(adventure, currentRoom, userInput);
-
-                    // Exits loop to print details of next room.
-                    inputIsListCommand = false;
+                    if(currentRoom.getMonstersInRoom().size() != 0){
+                        System.out.print("There are still monsters here, I can’t move.");
+                    }
+                    else {
+                        // Returns next room if found, current room if otherwise.
+                        currentRoom = findNextRoom(adventure, currentRoom, userInput);
+                        break;
+                    }
                 }
 
                 // 2). If user inputs "take anItem"
                 else if (takeItemCommand(userInput)) {
                     takeItem(currentRoom, userInput, player);
-                    inputIsListCommand = false;
                 }
 
                 // 3). If user inputs "drop anItem"
                 else if (dropItemCommand(userInput)) {
                     dropItem(currentRoom, userInput, player);
-                    inputIsListCommand = false;
                 }
 
                 // 4). If user inputs "exit" or "quit"
                 else if (exitCommand(userInput)) {
                     exit = true;
-                    inputIsListCommand = false;
+                    break;
                 }
 
                 // 5). If user inputs "list"
@@ -71,14 +71,24 @@ public class AdventureGame {
                     player.printList();
                 }
 
+                // 6). If user inputs "playerInfo"
                 else if (playerInfoCommand(userInput)) {
                     player.printPlayerInfo();
                 }
 
-                // 6). If user inputs unknown command
+                // 7). If user wants to duel a monster
+                else if(duelMonsterCommand(userInput)){
+                    duelMonster(adventure, currentRoom, userInput, player);
+                    proceedWithAdventure(currentRoom, startingRoom, endingRoom);
+                }
+
+                // 8). Decided to add room description since screen can get messy quickly
+                else if(printDescriptionCommand(userInput)) {
+                    proceedWithAdventure(currentRoom, startingRoom, endingRoom);
+                }
+                // 9). If user inputs unknown command
                 else {
                     responseToInvalidInput(userInput);
-                    inputIsListCommand = false;
                 }
             }
 
@@ -244,6 +254,24 @@ public class AdventureGame {
     }
 
     /**
+     * Prints room description
+     * @param userInput input by user
+     * @return true if user wants to print room description
+     */
+    public boolean printDescriptionCommand(String userInput){
+        if(userInput == null){
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+        userInput = userInput.trim();
+        String[] input = userInput.split("\\s+", 2);
+        if(input.length == 2) {
+            return input[0].equalsIgnoreCase("room") &&
+                    input[1].equalsIgnoreCase("description");
+        }
+        return false;
+    }
+
+    /**
      * Determines the next room the user is proceeding to.
      * @param adventure the entire adventure
      * @param currentRoom the room the player in in now
@@ -301,12 +329,18 @@ public class AdventureGame {
         int itemIndex = currentRoom.findItemIndex(item);
         Item itemObj;
         if(itemIndex != -1) {
+            if(currentRoom.getMonstersInRoom().size() != 0) {
+                System.out.print("There are still monsters here, I can’t take that.");
+                return;
+            }
             itemObj = currentRoom.getItems().get(itemIndex);
             currentRoom.removeItems(itemIndex);
             player.addItem(itemObj);
+            System.out.print(itemObj.getName() + " taken.");
             return;
         }
-        System.out.println("I can't take " + item);
+        System.out.print("I can't take " + item);
+        return;
     }
 
 
@@ -333,7 +367,7 @@ public class AdventureGame {
             }
         }
         if(indexOfItem == -1){
-            System.out.println("I can't drop " + item);
+            System.out.print("I can't drop " + item);
             return;
         }
 
@@ -344,10 +378,17 @@ public class AdventureGame {
 
         currentRoom.addItems(player.getItems().get(indexOfItem));
         player.removeItem(indexOfItem);
+        System.out.print(item + " dropped. ");
     }
 
-
-    public void duelMonster(Layout adventure, Room currentRoom, String userInput, Player player){
+    /**
+     * Method to duel with a monster.
+     * @param adventure the adventure
+     * @param currentRoom the current room
+     * @param userInput the userInput
+     * @param player the player
+     */
+    public boolean duelMonster(Layout adventure, Room currentRoom, String userInput, Player player){
         if(currentRoom == null || userInput== null || player == null){
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
@@ -357,19 +398,18 @@ public class AdventureGame {
         String monster = input[1];
 
         if(currentRoom.findMonster(monster)) {
-            for(Monster monsterObj: adventure.getMonsters()){
-                if(monster.equalsIgnoreCase(monsterObj.getName())){
-                    Duel(monsterObj);
+            for (int i = 0; i < adventure.getMonsters().size(); i++) {
+                if(monster.equalsIgnoreCase(adventure.getMonsters().get(i).getName())){
+                    Duel duel = new Duel();
+                    return duel.duelMonster(adventure, currentRoom, adventure.getMonsters().get(i));
                 }
             }
+        } else {
+            System.out.println("I can't duel " + monster);
+            System.out.println();
         }
+        return false;
     }
-
-    public void Duel(Monster monster){
-
-    }
-
-
 
 
     /**
@@ -381,7 +421,22 @@ public class AdventureGame {
         if(userInput == null){
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
-        System.out.println("I don't understand '" + userInput + "'");
+        System.out.print("I don't understand '" + userInput + "'");
     }
+
+    /**
+     * Prints all actions that user can perform
+     * @param monstersInRoom if monster is in room
+     */
+    public void printPossibleActions(boolean monstersInRoom){
+        if(!monstersInRoom) {
+            System.out.println("ACTIONS: drop anItem, "
+                    + "duel aMonster, list, playerInfo, room description, exit");
+        } else {
+            System.out.println("ACTIONS: go aDirection, take anItem, drop anItem, "
+                    + "duel aMonster, list, playerInfo, room description, exit");
+        }
+    }
+
 
 }

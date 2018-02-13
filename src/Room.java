@@ -301,17 +301,17 @@ public class Room {
 
             // Case when items = 2
             else if(this.getMonstersInRoom().size() == 2) {
-                System.out.println(this.getItems().get(0) + " and "
-                        + this.getItems().get(1));
+                System.out.println(this.getMonstersInRoom().get(0) + " and "
+                        + this.getMonstersInRoom().get(1));
             }
 
             // Case when items >= 3
             else {
                 for (int i = 0; i < this.getMonstersInRoom().size(); i++) {
                     if (i == this.getMonstersInRoom().size() - 1) {
-                        System.out.println("and " + this.getItems().get(i));
+                        System.out.println("and " + this.getMonstersInRoom().get(i));
                     } else{
-                        System.out.print(this.getItems().get(i) + ", ");
+                        System.out.print(this.getMonstersInRoom().get(i) + ", ");
                     }
                 }
             }
@@ -344,11 +344,12 @@ public class Room {
         if(monsterName == null){
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
-        monstersInRoom.remove(monsterName);
+        for (int i = 0; i < monstersInRoom.size(); i++) {
+            if(monsterName.equalsIgnoreCase(monstersInRoom.get(i))){
+                monstersInRoom.remove(i);
+            }
+        }
     }
-
-
-
 }
 
 

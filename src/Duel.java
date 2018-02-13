@@ -11,16 +11,20 @@ public class Duel {
      * @return true if player defeats monster, false if player disengages.
      * @throws IllegalArgumentException if inputs are null
      */
-    public boolean Duel(Layout adventure, Room currentRoom, Monster monster){
+    public boolean duelMonster(Layout adventure, Room currentRoom, Monster monster){
         if(adventure == null){
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
-
         Player player = adventure.getPlayer();
+        player.setOriginalHealth();
+        System.out.println("Dueling with " + monster.getName() + "!");
 
         while(true){
+
+            printPossibleActions();
             Scanner scn = new Scanner(System.in);
             String userInput = scn.nextLine();
+            System.out.println();
 
             if(attackCommand(userInput)){
                 attackMonster(player, monster);
@@ -33,8 +37,9 @@ public class Duel {
                 printPlayerStatus(player, monster);
             } else if(listCommand(userInput)){
                 player.printList();
+                System.out.println();
             } else if(playerInfoCommand(userInput)){
-                player.printList();
+                player.printPlayerInfo();
             } else if(exitCommand(userInput)){
                 System.exit(1);
             } else {
@@ -44,6 +49,8 @@ public class Duel {
             checkIfPlayerLost(player, monster);
             boolean duelWon = removeMonster(adventure, currentRoom, monster);
             if(duelWon){
+                System.out.println(monster.getName() + " defeated!");
+                System.out.println();
                 levelUp(player, monster);
                 return true;
             }
@@ -81,6 +88,7 @@ public class Duel {
             return input[0].equalsIgnoreCase("attack")
                     && input[1].equalsIgnoreCase("with");
         }
+
         return false;
     }
 
@@ -166,9 +174,15 @@ public class Duel {
         }
         double damageToMonster = player.getAttack() - monster.getDefense();
         monster.takeDamage(damageToMonster);
+
+        System.out.println(player.getName() + " attacks " + monster.getName() + " for "
+                + damageToMonster + " damage!");
+
         if(monster.getHealth() > 0) {
             double damageToPlayer = monster.getAttack() - player.getDefense();
             player.takeDamage(damageToPlayer);
+            System.out.println(monster.getName() + " attacks " + player.getName() + " for "
+                    + damageToPlayer + " damage!");
         }
     }
 
@@ -193,9 +207,16 @@ public class Duel {
 
         double damageToMonster = player.getAttack() + itemObj.getDamage() - monster.getDefense();
         monster.takeDamage(damageToMonster);
+
+        System.out.println(player.getName() + " attacks " + monster.getName() + " with " +
+                itemObj.getName() + " for " + damageToMonster + " damage!");
+
         if(monster.getHealth() > 0) {
             double damageToPlayer = monster.getAttack() - player.getDefense();
             player.takeDamage(damageToPlayer);
+
+            System.out.println(monster.getName() + " attacks " + player.getName() + " for "
+                    + damageToPlayer + " damage!");
         }
     }
 
@@ -287,8 +308,8 @@ public class Duel {
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
         if(monster.getHealth() <= 0) {
-            adventure.removeMonster(monster);
             currentRoom.removeMonster(monster.getName());
+            adventure.removeMonster(monster);
             return true;
         }
         return false;
@@ -304,22 +325,27 @@ public class Duel {
         if(monster == null || player == null) {
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
-        int exp = (int) Math.round(((monster.getAttack() + monster.getDefense()) /
-                2.0 + monster.getHealth())*20.0);
+        int expGained = (int) Math.round(((monster.getAttack() + monster.getDefense()) /
+                2.0 + monster.getOriginalHealth())*20.0);
+
+        int originalExp = player.getExperience();
+        int totalExp = originalExp + expGained;
 
         boolean enoughExp = true;
+        boolean levelUp = false;
         while(enoughExp) {
-
-            int playerExp = player.getExperience();
             int expToLevelUp = experienceToLevelUp(player.getLevel());
-
-            if(playerExp + expToLevelUp <= exp) {
-                exp -= (playerExp + expToLevelUp);
+            if(totalExp >= expToLevelUp) {
+                totalExp -= expToLevelUp;
                 player.levelUp();
+                levelUp = true;
             } else {
-                player.addExp(exp);
+                player.addExp(totalExp);
                 enoughExp = false;
             }
+        }
+        if(levelUp) {
+            player.printLevelUp();
         }
 
     }
@@ -373,7 +399,13 @@ public class Duel {
         }
     }
 
-
+    /**
+     * Prints possible actions in a duel.
+     */
+    public void printPossibleActions(){
+        System.out.println("ACTIONS: attack, attack with anItem, disengage, " +
+                "status, list, playerInfo, exit");
+    }
 
 
 }

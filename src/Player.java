@@ -1,3 +1,5 @@
+import com.sun.xml.internal.bind.v2.runtime.output.SAXOutput;
+
 import java.util.ArrayList;
 
 /**
@@ -117,12 +119,15 @@ public class Player {
         }
         System.out.print("You are carrying ");
         if(items.size() == 0){
-            System.out.println("nothing.");
-        } else if(items.size() == 1){
-
+            System.out.print("nothing.");
+        } else if(items.size() == 1) {
+            System.out.print(items.get(0).getName());
+        } else if(items.size() == 2) {
+            System.out.print(items.get(0).getName() + " and " + items.get(1).getName());
+        } else {
             for (int i = 0; i < items.size(); i++) {
                 if(i == items.size() - 1){
-                    System.out.println("and " + items.get(i).getName());
+                    System.out.print("and " + items.get(i).getName());
                 } else {
                     System.out.print(items.get(i).getName() + ", ");
                 }
@@ -135,13 +140,19 @@ public class Player {
      * @param damage
      */
     public void takeDamage(double damage){
-        if(originalHealth == 0) {
-            originalHealth = health;
-        }
         if(damage < 0) {
             damage = 0;
         }
         health -= damage;
+    }
+
+    /**
+     * Sets originalHealth
+     */
+    public void setOriginalHealth(){
+        if(originalHealth == 0) {
+            originalHealth = health;
+        }
     }
 
     /**
@@ -167,13 +178,22 @@ public class Player {
      */
     public void levelUp(){
         level++;
-        attack *= 1.5;
-        defense *= 1.5;
-        health = originalHealth;
-        health *= 1.3;
+        attack = Math.round(attack*1.5);
+        defense = Math.round(defense*1.5);
+        health = Math.round(originalHealth*1.3);
+        health = Math.round(health*1.3);
         originalHealth = health;
     }
 
+    /**
+     * Prints level up message
+     */
+    public void printLevelUp(){
+        System.out.println("Level up!");
+        System.out.println("You are now level " + level);
+        System.out.println("Health: " + originalHealth + " Attack: " + attack +  " Defense: " + defense);
+        System.out.println();
+    }
     /**
      * Adds experience if experience is not sufficient to level up.
      * @param exp the exp to be added
@@ -183,7 +203,7 @@ public class Player {
         if(exp < 0) {
             throw new IllegalArgumentException(ErrorConstants.NEGATIVE_EXP);
         }
-        experience += exp;
+        experience = exp;
     }
 
 }
