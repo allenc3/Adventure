@@ -34,17 +34,17 @@ public class ReadDataFromFilePathTest {
 
     @Test
     public void readAbsolutePathSuccess(){
-        assertEquals(siebelStringContents.replaceAll("\n", ""),
+        assertEquals(test.getOldSiebel().replaceAll("\n", ""),
                 ReadDataFromFilePath.readFileWithAbsolutePath("C:\\Users\\user\\Desktop" +
-                        "\\siebel.json")
+                        "\\siebel (4).json")
                         .replaceAll("\n", "")
                         .replaceAll("\r", ""));
     }
 
     @Test
     public void readFilePathSuccess(){
-        assertEquals(siebelStringContents.replaceAll("\n", ""),
-                ReadDataFromFilePath.readFilePath("C:\\Users\\user\\Desktop\\siebel.json")
+        assertEquals(test.getOldSiebel().replaceAll("\n", ""),
+                ReadDataFromFilePath.readFilePath("C:\\Users\\user\\Desktop\\siebel (4).json")
                         .replaceAll("\n", "")
                         .replaceAll("\r", ""));
     }

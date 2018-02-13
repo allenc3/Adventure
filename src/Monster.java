@@ -13,7 +13,7 @@ public class Monster {
     private double defense;
     private double health;
     private transient double originalHealth;
-    
+
     /**
      * @return the name of the monster
      */

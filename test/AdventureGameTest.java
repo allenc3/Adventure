@@ -471,57 +471,6 @@ public class AdventureGameTest {
         }
     }
 
-
-//    @Test
-//    public void printOneItemsList(){
-//        ArrayList<Item> tempInventory = new ArrayList<>();
-//        Item Allen = new Item("Allen", 30.0);
-//        tempInventory.add(Allen);
-//        adventure.getPlayer().addItem(Allen);
-//        assertEquals("You are carrying Allen" + System.getProperty("line.separator"),
-//                outContent.toString());
-//
-//    }
-//
-//    @Test
-//    public void printEmptyList(){
-//        ArrayList<Item> tempInventory = new ArrayList<>();
-//        adventure.getPlayer().printList();
-//        assertEquals("You are carrying nothing." + System.getProperty("line.separator"),
-//                outContent.toString());
-//
-//    }
-//
-//    @Test
-//    public void printTwoItemsList(){
-//        ArrayList<Item> tempInventory = new ArrayList<>();
-//        Item Allen = new Item("Allen", 30.0);
-//        tempInventory.add(Allen);
-//        Item Eric = new Item("Eric", 1.0);
-//        tempInventory.add(Allen);
-//        tempInventory.add(Eric);
-//        adventure.getPlayer().addItem(Allen);
-//        adventure.getPlayer().addItem(Eric);
-//        adventure.getPlayer().printList();
-//        assertEquals("You are carrying Allen and Eric" +
-//                        System.getProperty("line.separator"), outContent.toString());
-//
-//    }
-//
-//    @Test
-//    public void printThreeItemsList(){
-//        Item Allen = new Item("Allen", 30.0);
-//        Item Eric = new Item("Eric", 1.0);
-//        Item Paul = new Item("Paul", 0.5);
-//        adventure.getPlayer().addItem(Allen);
-//        adventure.getPlayer().addItem(Eric);
-//        adventure.getPlayer().printList();
-//        adventure.getPlayer().addItem(Paul);
-//        assertEquals("You are carrying Allen, Eric, and Paul" +
-//                        System.getProperty("line.separator"), outContent.toString());
-//
-//    }
-
     @Test
     public void responseToInvalidInput(){
         game.responseToInvalidInput("CS126 is so fun!");
