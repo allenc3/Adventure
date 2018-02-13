@@ -67,13 +67,6 @@ public class Room {
     }
 
     /**
-     * Sets a directions array since it might not be initialized.
-     */
-    public void setDirections() {
-        this.monstersInRoom= new ArrayList<>();
-    }
-
-    /**
      * Removes an item from the items arraylist
      * @throws IllegalArgumentException if items is null
      */

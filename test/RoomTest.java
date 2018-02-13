@@ -48,8 +48,19 @@ public class RoomTest {
     }
 
     @Test
+    public void getMonsters(){
+        assertEquals("Hollow man", adventure.getRooms()[1].getMonstersInRoom().get(0));
+    }
+
+    @Test
+    public void setMonsters(){
+        adventure.getRooms()[0].setMonsters();
+        assertEquals(0, adventure.getRooms()[0].getMonstersInRoom().size());
+    }
+
+    @Test
     public void roomItems(){
-        assertEquals(roomArrForTest[0].getItems().get(0), "coin");
+        assertEquals(roomArrForTest[0].getItems().get(0).getName(), "Sword");
     }
 
     @Test
@@ -171,7 +182,7 @@ public class RoomTest {
 
     @Test
     public void findItemIndexSuccess(){
-        int test = roomArrForTest[0].findItemIndex("coin");
+        int test = roomArrForTest[0].findItemIndex("Sword");
         assertEquals(0, test);
     }
 
@@ -194,16 +205,16 @@ public class RoomTest {
     @Test
     public void printOneItem(){
         roomArrForTest[0].printItemsInRoom();
-        assertEquals("This room contains: coin" + System.getProperty("line.separator"),
+        assertEquals("This room contains: Sword" + System.getProperty("line.separator"),
                 outContent.toString());
     }
 
     @Test
     public void printMoreItems(){
+        Item gun = new Item("gun", 20);
+        roomArrForTest[1].addItems(gun);
         roomArrForTest[1].printItemsInRoom();
-        assertEquals("This room contains: sweatshirt and key" +
-                        System.getProperty("line.separator"),
-                outContent.toString());
+        assertEquals("This room contains: Spear and gun\r\n", outContent.toString());
     }
 
     @Test
@@ -228,5 +239,64 @@ public class RoomTest {
                         System.getProperty("line.separator"),
                 outContent.toString());
     }
+
+    @Test
+    public void printMonsterEmpty(){
+        adventure.getRooms()[0].printMonstersInRoom();
+        assertEquals("There are no monsters in the room!\r\n", outContent.toString());
+    }
+
+    @Test
+    public void printMonsterOne(){
+        adventure.getRooms()[2].printMonstersInRoom();
+        assertEquals("Monsters in this room: Wolf\r\n", outContent.toString());
+    }
+
+    @Test
+    public void printMonsterTwo(){
+        adventure.getRooms()[1].printMonstersInRoom();
+        assertEquals("Monsters in this room: Hollow man and Skeleton\r\n",
+                outContent.toString());
+    }
+
+    @Test
+    public void findMonster() {
+        assertTrue(adventure.getRooms()[1].findMonster("Hollow man"));
+    }
+
+    @Test
+    public void findMonsterNull() {
+        try {
+            assertTrue(adventure.getRooms()[1].findMonster(null));
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+    @Test
+    public void removeMonster(){
+        adventure.getRooms()[1].removeMonster("Hollow man");
+        assertEquals(1, adventure.getRooms()[1].getMonstersInRoom().size());
+    }
+
+    @Test
+    public void removeMonsterNull(){
+        try {
+            adventure.getRooms()[1].removeMonster(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+    }
+
+    @Test
+    public void initializeForNull(){
+        adventure.getRooms()[0].initializeForNull();
+        assertEquals(0, adventure.getRooms()[0].getMonstersInRoom().size());
+    }
+
+
+
 
 }
