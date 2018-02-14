@@ -16,6 +16,8 @@ public class AdventureGame {
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
 
+        initializeForNullValues(adventure);
+
         String startingRoom = adventure.getStartingRoom();
         String endingRoom = adventure.getEndingRoom();
         Room currentRoom = adventure.findRoomByRoomName(startingRoom);
@@ -444,6 +446,19 @@ public class AdventureGame {
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
         System.out.print("I don't understand '" + userInput + "'");
+    }
+
+    /**
+     * In order to prevent null pointer exceptions, initialize for null values.
+     * @param adventure the layout object
+     */
+    public void initializeForNullValues(Layout adventure){
+        if (adventure == null) {
+            throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
+        }
+        for(Room room: adventure.getRooms()){
+            room.initializeForNull();
+        }
     }
 
 }

@@ -493,6 +493,22 @@ public class AdventureGameTest {
         }
     }
 
+    @Test
+    public void initializeForNull(){
+        game.initializeForNullValues(adventure);
+        assertEquals(0, adventure.getRooms()[0].getMonstersInRoom().size());
+    }
+
+    @Test
+    public void initializeForNullError(){
+        try {
+            game.initializeForNullValues(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals(ErrorConstants.NULL_INPUT, e.getMessage());
+        }
+
+    }
 
 
 
