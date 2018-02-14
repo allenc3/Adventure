@@ -399,8 +399,9 @@ public class AdventureGame {
         }
 
         currentRoom.addItems(player.getItems().get(indexOfItem));
+        System.out.print(player.getItems().get(indexOfItem).getName() + " dropped. ");
         player.removeItem(indexOfItem);
-        System.out.print(item + " dropped. ");
+
     }
 
     /**

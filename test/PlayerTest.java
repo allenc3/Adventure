@@ -35,23 +35,23 @@ public class PlayerTest {
 
     @Test
     public void getAttack(){
-        assertEquals(5, adventure.getPlayer().getAttack(), 0.1);
+        assertEquals(1, adventure.getPlayer().getAttack(), 0.1);
     }
 
     @Test
     public void getDefense(){
-        assertEquals(5, adventure.getPlayer().getDefense(), 0.1);
+        assertEquals(1, adventure.getPlayer().getDefense(), 0.1);
     }
 
     @Test
     public void getHealth(){
-        assertEquals(15, adventure.getPlayer().getHealth(), 0.1);
+        assertEquals(5, adventure.getPlayer().getHealth(), 0.1);
     }
 
     @Test
     public void getAndSetOriginalHealth(){
         adventure.getPlayer().setOriginalHealth();
-        assertEquals(15, adventure.getPlayer().getOriginalHealth(), 0.1);
+        assertEquals(5, adventure.getPlayer().getOriginalHealth(), 0.1);
     }
 
     @Test
@@ -67,7 +67,7 @@ public class PlayerTest {
     @Test
     public void takeDmage(){
         adventure.getPlayer().takeDamage(5);
-        assertEquals(10, adventure.getPlayer().getHealth(), 0.1);
+        assertEquals(0, adventure.getPlayer().getHealth(), 0.1);
     }
 
     @Test
@@ -107,10 +107,11 @@ public class PlayerTest {
 
     @Test
     public void printLevelUp() {
+        adventure.getPlayer().levelUp();
         adventure.getPlayer().printLevelUp();
         assertEquals("Level up!\r\n" +
-                "You are now level 1\r\n" +
-                "Health: 0.0 Attack: 5.0 Defense: 5.0\r\n\r\n", outContent.toString());
+                "You are now level 2\r\n" +
+                "Health: 7.0 Attack: 2.0 Defense: 2.0\r\n\r\n", outContent.toString());
     }
 
     @Test
@@ -135,9 +136,9 @@ public class PlayerTest {
         adventure.getPlayer().printPlayerInfo();
         assertEquals("You are Allen\r\n" +
                 "Level: 1\r\n" +
-                "Health: 15.0\r\n" +
-                "Attack: 5.0\r\n" +
-                "Defense: 5.0\r\n", outContent.toString());
+                "Health: 5.0\r\n" +
+                "Attack: 1.0\r\n" +
+                "Defense: 1.0\r\n", outContent.toString());
     }
 
     @Test

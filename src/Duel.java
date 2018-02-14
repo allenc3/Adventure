@@ -216,6 +216,7 @@ public class Duel {
      * @param monster the monster
      * @throws IllegalArgumentException if inputs are null
      */
+    @SuppressWarnings("Duplicates")
     public void attackWithItem(Player player, Monster monster, String userInput) {
         if(player == null || monster == null || userInput == null) {
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
@@ -232,6 +233,9 @@ public class Duel {
 
         double damageToMonster = player.getAttack() + itemObj.getDamage() - monster.getDefense();
         monster.takeDamage(damageToMonster);
+        if(damageToMonster < 0){
+            damageToMonster = 0;
+        }
 
         System.out.println(player.getName() + " attacks " + monster.getName() + " with " +
                 itemObj.getName() + " for " + damageToMonster + " damage!");
@@ -239,6 +243,9 @@ public class Duel {
         if(monster.getHealth() > 0) {
             double damageToPlayer = monster.getAttack() - player.getDefense();
             player.takeDamage(damageToPlayer);
+            if(damageToPlayer < 0){
+                damageToPlayer = 0;
+            }
 
             System.out.println(monster.getName() + " attacks " + player.getName() + " for "
                     + damageToPlayer + " damage!");

@@ -31,7 +31,7 @@ public class MonsterTest {
 
     @Test
     public void getAttack(){
-        assertEquals(5.0, adventure.getMonsters().get(0).getAttack(), 0.1);
+        assertEquals(2.0, adventure.getMonsters().get(0).getAttack(), 0.1);
     }
 
     @Test
@@ -41,25 +41,25 @@ public class MonsterTest {
 
     @Test
     public void getHealth(){
-        assertEquals(10.0, adventure.getMonsters().get(0).getHealth(), 0.1);
+        assertEquals(5.0, adventure.getMonsters().get(0).getHealth(), 0.1);
     }
 
     @Test
     public void getOriginalHealth(){
         adventure.getMonsters().get(0).takeDamage(0);
-        assertEquals(10.0, adventure.getMonsters().get(0).getOriginalHealth(), 0.1);
+        assertEquals(5.0, adventure.getMonsters().get(0).getOriginalHealth(), 0.1);
     }
 
     @Test
     public void takeDamage(){
         adventure.getMonsters().get(0).takeDamage(1);
-        assertEquals(9.0, adventure.getMonsters().get(0).getHealth(), 0.1);
+        assertEquals(4.0, adventure.getMonsters().get(0).getHealth(), 0.1);
     }
 
     @Test
     public void takeNegativeDamage(){
             adventure.getMonsters().get(0).takeDamage(-1);
-            assertEquals(10.0, adventure.getMonsters().get(0).getHealth(), 0.1);
+            assertEquals(5.0, adventure.getMonsters().get(0).getHealth(), 0.1);
     }
 
     @Test

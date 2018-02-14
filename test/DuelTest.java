@@ -193,7 +193,7 @@ public class DuelTest {
     public void attackMonster(){
         duel.attackMonster(adventure.getPlayer(), adventure.getMonsters().get(3));
         assertEquals("Allen attacks Dark Spirit for 0.0 damage!\r\n" +
-                "Dark Spirit attacks Allen for 10.0 damage!\r\n", outContent.toString());
+                "Dark Spirit attacks Allen for 14.0 damage!\r\n", outContent.toString());
     }
 
     @Test
@@ -210,8 +210,8 @@ public class DuelTest {
     public void attackWithItem(){
         duel.attackWithItem(adventure.getPlayer(), adventure.getMonsters().get(3),
                 "attack with fist");
-        assertEquals("Allen attacks Dark Spirit with fist for 1.0 damage!\r\n" +
-                "Dark Spirit attacks Allen for 10.0 damage!\r\n", outContent.toString());
+        assertEquals("Allen attacks Dark Spirit with fist for -3.0 damage!\r\n" +
+                "Dark Spirit attacks Allen for 14.0 damage!\r\n", outContent.toString());
     }
 
     @Test
@@ -227,8 +227,8 @@ public class DuelTest {
     @Test
     public void printStatus(){
         duel.printStatus(adventure.getPlayer(), adventure.getMonsters().get(0));
-        assertEquals("Player's Health: ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛ 15.0/15.0\r\n" +
-                "Monster's Health: ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛ 10.0/10.0\r\n",
+        assertEquals("Player's Health: ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛ 5.0/5.0\r\n" +
+                "Monster's Health: ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛ 5.0/5.0\r\n",
                 outContent.toString());
     }
 
@@ -261,7 +261,7 @@ public class DuelTest {
     @Test
     public void printPlayerHealthBar(){
         duel.printPlayerHealthBar(adventure.getPlayer());
-        assertEquals("Player's Health: ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛ 15.0/15.0\r\n",
+        assertEquals("Player's Health: ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛ 5.0/5.0\r\n",
                 outContent.toString());
     }
 
@@ -278,7 +278,7 @@ public class DuelTest {
     @Test
     public void printMonsterHealthBar(){
         duel.printMonsterHealthBar(adventure.getMonsters().get(0));
-        assertEquals("Monster's Health: ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛ 10.0/10.0\r\n",
+        assertEquals("Monster's Health: ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛ 5.0/5.0\r\n",
                 outContent.toString());
     }
 
@@ -314,7 +314,7 @@ public class DuelTest {
     @Test
     public void levelUp(){
         duel.levelUp(adventure.getPlayer(), adventure.getMonsters().get(0));
-        assertEquals(2, adventure.getPlayer().getLevel());
+        assertEquals(1, adventure.getPlayer().getLevel());
     }
 
     @Test

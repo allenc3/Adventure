@@ -143,6 +143,9 @@ public class Player {
         level++;
         attack = Math.round(attack*1.5);
         defense = Math.round(defense*1.5);
+        if(originalHealth == 0) {
+            originalHealth = health;
+        }
         health = Math.round(originalHealth*1.3);
         originalHealth = health;
     }

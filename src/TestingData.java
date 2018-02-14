@@ -59,8 +59,8 @@ public class TestingData {
             "    },\n" +
             "    {\n" +
             "      \"name\": \"AcmOffice\",\n" +
-            "      \"description\": \"You are in the ACM office.  " +
-            "There are lots of friendly ACM people.\",\n" +
+            "      \"description\": \"You are in the ACM office. " +
+            " There are lots of friendly ACM people.\",\n" +
             "      \"items\": [\n" +
             "        {\n" +
             "          \"name\": \"Halberd\",\n" +
@@ -79,8 +79,8 @@ public class TestingData {
             "    },\n" +
             "    {\n" +
             "      \"name\": \"SiebelNorthHallway\",\n" +
-            "      \"description\": \"You are in the north hallway.  Y" +
-            "ou can see Siebel 1112 and the door toward NCSA.\",\n" +
+            "      \"description\": \"You are in the north hallway.  " +
+            "You can see Siebel 1112 and the door toward NCSA.\",\n" +
             "      \"directions\": [\n" +
             "        {\n" +
             "          \"directionName\": \"South\",\n" +
@@ -117,8 +117,8 @@ public class TestingData {
             "    },\n" +
             "    {\n" +
             "      \"name\": \"SiebelEastHallway\",\n" +
-            "      \"description\": \"You are in the east hallway.  " +
-            "You can see Einstein Bros' Bagels and a stairway.\",\n" +
+            "      \"description\": \"You are in the east hallway.  You " +
+            "can see Einstein Bros' Bagels and a stairway.\",\n" +
             "      \"items\": [\n" +
             "        {\n" +
             "          \"name\": \"Rock\",\n" +
@@ -146,8 +146,8 @@ public class TestingData {
             "    },\n" +
             "    {\n" +
             "      \"name\": \"Siebel1314\",\n" +
-            "      \"description\": \"You are in Siebel 1314.  " +
-            "There are happy CS 126 students doing a code review.\",\n" +
+            "      \"description\": \"You are in Siebel 1314.  There are happy" +
+            " CS 126 students doing a code review.\",\n" +
             "      \"directions\": [\n" +
             "        {\n" +
             "          \"directionName\": \"North\",\n" +
@@ -157,8 +157,7 @@ public class TestingData {
             "    },\n" +
             "    {\n" +
             "      \"name\": \"SiebelBasement\",\n" +
-            "      \"description\": \"You are in the basement of Siebel.  " +
-            "You see tables with students working and door to computer labs.\",\n" +
+            "      \"description\": \"You are in the basement of Siebel.  You see tables with students working and door to computer labs.\",\n" +
             "      \"items\": [\n" +
             "        {\n" +
             "          \"name\": \"Greatsword\",\n" +
@@ -185,17 +184,17 @@ public class TestingData {
             "        \"damage\": 1\n" +
             "      }\n" +
             "    ],\n" +
-            "    \"attack\": 5,\n" +
-            "    \"defense\": 5,\n" +
-            "    \"health\": 15,\n" +
+            "    \"attack\": 1,\n" +
+            "    \"defense\": 1,\n" +
+            "    \"health\": 5,\n" +
             "    \"level\": 1\n" +
             "  },\n" +
             "  \"monsters\": [\n" +
             "    {\n" +
             "      \"name\": \"Hollow Man\",\n" +
-            "      \"attack\": 5,\n" +
+            "      \"attack\": 2,\n" +
             "      \"defense\": 0,\n" +
-            "      \"health\": 10\n" +
+            "      \"health\": 5\n" +
             "    },\n" +
             "    {\n" +
             "      \"name\": \"Crystal Lizard\",\n" +
@@ -217,9 +216,9 @@ public class TestingData {
             "    },\n" +
             "    {\n" +
             "      \"name\": \"Skeleton\",\n" +
-            "      \"attack\": 2,\n" +
-            "      \"defense\": 0,\n" +
-            "      \"health\": 5\n" +
+            "      \"attack\": 5,\n" +
+            "      \"defense\": 2,\n" +
+            "      \"health\": 10\n" +
             "    },\n" +
             "    {\n" +
             "      \"name\": \"Sword Master\",\n" +
