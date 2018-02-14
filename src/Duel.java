@@ -33,7 +33,7 @@ public class Duel {
                 System.out.println("Disengaged.");
                 return;
             } else if(statusCommand(userInput)) {
-                printPlayerStatus(player, monster);
+                printStatus(player, monster);
             } else if(listCommand(userInput)){
                 player.printList();
                 System.out.println();
@@ -45,7 +45,11 @@ public class Duel {
                 responseToInvalidInput(userInput);
             }
 
-            checkIfPlayerLost(player, monster);
+            boolean isAlive = playerIsAlive(player, monster);
+            if(!isAlive){
+                System.exit(1);
+            }
+
             boolean duelWon = removeMonster(adventure, currentRoom, monster);
             if(duelWon){
                 System.out.println(monster.getName() + " defeated!");
@@ -188,12 +192,19 @@ public class Duel {
         double damageToMonster = player.getAttack() - monster.getDefense();
         monster.takeDamage(damageToMonster);
 
+        if(damageToMonster < 0) {
+            damageToMonster = 0;
+        }
+
         System.out.println(player.getName() + " attacks " + monster.getName() + " for "
                 + damageToMonster + " damage!");
 
         if(monster.getHealth() > 0) {
             double damageToPlayer = monster.getAttack() - player.getDefense();
             player.takeDamage(damageToPlayer);
+            if(damageToPlayer < 0) {
+                damageToPlayer = 0;
+            }
             System.out.println(monster.getName() + " attacks " + player.getName() + " for "
                     + damageToPlayer + " damage!");
         }
@@ -240,7 +251,7 @@ public class Duel {
      * @param monster the monster
      * @throws IllegalArgumentException if inputs are null
      */
-    public void printPlayerStatus(Player player, Monster monster){
+    public void printStatus(Player player, Monster monster){
         if(player == null || monster == null) {
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
@@ -402,15 +413,17 @@ public class Duel {
      * Checks if players health is or below 0
      * @param player the player
      * @param monster the monster
+     * @return true if player died, false if survived
      * @throws IllegalArgumentException if player or monster is null
      */
-    public void checkIfPlayerLost(Player player, Monster monster){
+    public boolean playerIsAlive(Player player, Monster monster){
         if(player == null) {
             throw new IllegalArgumentException(ErrorConstants.NULL_INPUT);
         }
         if(player.getHealth() <= 0) {
             System.out.println("You were slain by " + monster.getName() + ". You died.");
-            System.exit(1);
+            return false;
         }
+        return true;
     }
 }

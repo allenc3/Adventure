@@ -144,7 +144,6 @@ public class Player {
         attack = Math.round(attack*1.5);
         defense = Math.round(defense*1.5);
         health = Math.round(originalHealth*1.3);
-        health = Math.round(health*1.3);
         originalHealth = health;
     }
 

@@ -120,6 +120,17 @@ public class PlayerTest {
     }
 
     @Test
+    public void addExpError(){
+        try {
+            adventure.getPlayer().addExp(-1);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals(ErrorConstants.NEGATIVE_EXP, e.getMessage());
+        }
+
+    }
+
+    @Test
     public void printPlayerInfo(){
         adventure.getPlayer().printPlayerInfo();
         assertEquals("You are Allen\r\n" +

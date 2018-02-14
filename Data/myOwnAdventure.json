@@ -1,48 +1,47 @@
 {
-  "startingRoom": "MatthewsStreet",
-  "endingRoom": "Siebel1314",
+  "startingRoom": "Cemetary Of Ash",
+  "endingRoom": "Kiln of the First Flame",
   "rooms": [
     {
-      "name": "MatthewsStreet",
-      "description": "You are on Matthews, outside the Siebel Center",
+      "name": "Cemetary Of Ash",
+      "description": "You are revived as an unkindled.",
       "items": [
         {
           "name": "Sword",
-          "damage": 3
-        }
-      ],
-      "directions": [
-        {
-          "directionName": "East",
-          "room": "SiebelEntry"
-        }
-      ]
-    },
-    {
-      "name": "SiebelEntry",
-      "description": "You are in the west entry of Siebel Center.  You can see the elevator, the ACM office, and hallways to the north and east.",
-      "items": [
-        {
-          "name": "Spear",
-          "damage": 5
+          "damage": 2
         }
       ],
       "directions": [
         {
           "directionName": "West",
-          "room": "MatthewsStreet"
-        },
+          "room": "Firelink Shrine"
+        }
+      ],
+      "monstersInRoom": [
+        "Hollow man",
+        "Crystal Lizard",
+        "Iudex Gundyr"
+      ]
+    },
+    {
+      "name": "Firelink Shrine",
+      "description": "You arrive at the Firelink Shrine. You light the bonfire.",
+      "directions": [
         {
-          "directionName": "Northeast",
-          "room": "AcmOffice"
-        },
-        {
-          "directionName": "North",
-          "room": "SiebelNorthHallway"
+          "directionName": "West",
+          "room": "High Wall Of Lothric"
         },
         {
           "directionName": "East",
-          "room": "SiebelEastHallway"
+          "room": "Undead Settlement"
+        },
+        {
+          "directionName": "North",
+          "room": "Cathedral of the Deep"
+        },
+        {
+          "directionName": "South",
+          "room": "Farron Keep"
         }
       ],
       "monstersInRoom": [
@@ -51,12 +50,12 @@
       ]
     },
     {
-      "name": "AcmOffice",
-      "description": "You are in the ACM office.  There are lots of friendly ACM people.",
+      "name": "High Wall Of Lothric",
+      "description": "You materialize in the High Wall of Lothric.",
       "items": [
         {
-          "name": "Halberd",
-          "damage": 6
+          "name": "Claymore",
+          "damage": 4
         }
       ],
       "directions": [
@@ -66,7 +65,8 @@
         }
       ],
       "monstersInRoom": [
-        "Wolf"
+        "Wolf",
+        "Mimic"
       ]
     },
     {
@@ -168,27 +168,39 @@
     "name": "Allen",
     "items": [
       {
-        "name": "fist",
+        "name": "Fist",
         "damage": 1
       }
     ],
-    "attack": 1,
-    "defense": 1,
-    "health": 5,
+    "attack": 2,
+    "defense": 2,
+    "health": 10,
     "level": 1
   },
   "monsters": [
     {
       "name": "Hollow Man",
-      "attack": 2,
+      "attack": 4,
       "defense": 0,
-      "health": 5
+      "health": 10
     },
     {
       "name": "Crystal Lizard",
-      "attack": 10,
-      "defense": 10,
-      "health": 20
+      "attack": 6,
+      "defense": 3,
+      "health": 15
+    },
+    {
+      "name": "Iudex Gundyr",
+      "attack": 5,
+      "defense": 5,
+      "health": 15
+    },
+    {
+      "name": "Mimic",
+      "attack": 15,
+      "defense": 5,
+      "health": 30
     },
     {
       "name": "Abyss Monster",
@@ -204,9 +216,9 @@
     },
     {
       "name": "Skeleton",
-      "attack": 5,
-      "defense": 2,
-      "health": 10
+      "attack": 2,
+      "defense": 0,
+      "health": 5
     },
     {
       "name": "Sword Master",
