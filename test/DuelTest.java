@@ -210,7 +210,7 @@ public class DuelTest {
     public void attackWithItem(){
         duel.attackWithItem(adventure.getPlayer(), adventure.getMonsters().get(3),
                 "attack with fist");
-        assertEquals("Allen attacks Dark Spirit with fist for -3.0 damage!\r\n" +
+        assertEquals("Allen attacks Dark Spirit with fist for 0.0 damage!\r\n" +
                 "Dark Spirit attacks Allen for 14.0 damage!\r\n", outContent.toString());
     }
 
